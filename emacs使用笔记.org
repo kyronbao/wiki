@@ -1,0 +1,200 @@
+** 资源收藏
+- http://emacs-bootstrap.com/ 可以生成各种版本语言的.emacs.d config
+- https://emacsclub.github.io/html/org_tutorial.html Org教程
+
+** 快捷键
+#+BEGIN_SRC
+上下页               C-v  M-v
+方向键               C-b  C-n  C-p  C-f
+单词间移动           M-b  M-f
+光标文字显示         C-l
+
+行首行尾            C-a  C-e
+
+上一段下一段         M-a  M-e
+全文首尾             M-<  M->
+
+Forward 4 word       C-u 4 M-f
+Repeat 9 *           C-u 9 *
+Page down 9 lines    C-u 9 C-v
+This line to top     C-u 3 C-l 		     
+
+Disabled commond     C-x C-l n
+Remain 1 window      C-h k C-f
+                     C-x 1
+Delete current win   C-x 0		     
+Delete world         M-b M-d <DEL>
+Replace world        M-b M-d really
+Delete line end      C-k
+Delete <p> end       M-k
+
+Delete line          C-k C-k
+                     C-u 4 C-k
+
+Select all 	     C-x h
+Cut    		     C-w
+Copy		     M-w
+paste		     C-y
+
+Cut line             C-k C-k <move> C-y
+                     C-u 4 C-k <move> C-y
+					 Copy line            C-k C-k C-y <move> C-y
+                     C-u 4 C-k C-y <move> C-y
+
+Recover data         C-k C-k <move> C-k C-k C-y
+                             <backmove> C-k M-y
+Undo                 C-/
+
+open/new file        C-x C-f
+save file            C-x C-s
+list buffer          C-x  C-b  C-x 1
+switch buffer        C-x  b  bbbb.txt
+save all files       C-x  s
+
+Replace string       M-x repl s <return> bbbb
+                                <return> cccc
+								
+auto save file       #bbbb.c#
+recover file         C-x  C-f  bbbb.c
+                          M-x  recover-file <return> yes
+major mode switch    M-x  text-mode  <return>
+major model help     C-h  m
+
+auto return in .txt  M-x  auto-fill-mode <return>
+change return char   C-u  70  C-x  f
+                     put  cursor on line then M-q
+
+Search               C-s  C-s  <del>
+Search backward      C-r  C-s  <del>
+
+Mutple window        C-x  2
+  scroll other       C-M-v  C-M-S-v
+  switch cursor      C-x  o
+Open in anoter win   C-x  4  C-f  bbbb.c
+                     C-x  o
+
+Help                 C-h  ?
+ key info            C-h  k  C-p
+ function info	     
+ current func info   C-h  f  previous-line
+ key word info	     C-h  a  file
+ variable info       C-h  v  variable
+
+	info	     C-h  i  <return>
+
+
+copy-file	     M-x  copy-file  <return>
+
+
+开启行号	     M-x  linum-mode
+当前行上移            C-x C-t
+
+切换回原来的buffer    C-x <right>
+删除缓冲	     M-x kill-some-bufferx
+
+管理包		     M-x package-list-packages
+刷新包		     M-x package-refresh-content
+
+swiper
+    to first         M-<
+    to last	     M->
+
+myinit.org编辑
+  #+BEGIN_SRC 快捷   <s <tab> emacs-lisp
+  块内缩进等编辑     C-c '
+  缩进		    <down> <tab>
+  退出编辑模式	    C-c '
+
+macro编辑
+  开始              F3
+  结束		    F4
+  重复上一宏	    C-x e
+  
+全文缩进         C-M-\
+
+注释/反注释          M-;
+增加矩形注释         C-x r t
+取消矩形注释         C-x r k
+跳转到行内非空白    M-m
+上移一行           C-x C-t
+移动整体代码块      选中代码块后： 
+                   向左移动2个字符：C-u -2 C-x TAB
+                   向右移动4个字符：C-u 4 C-x TAB
+显示图片
+    格式 [[file:image.png]]
+    显示C-c C-x C-v 
+
+插入代码块快捷操作 <s+<Tab>
+
+全文查找 M-x find-grep
+
+显示关闭子标题内容
+  Tab 当前子标题内容显示和关闭
+  C-u Tab 全局显示和关闭
+#+END_SRC
+
+** DIRectory EDitor (dired) 快捷键
+#+BEGIN_SRC conf
+C-x d start up dired
+C (large C) copy 
+d mark for erase
+D delete right away
+e or f open file or directory
+g reread directory structure from file
+G change group permissions (chgrp)
+k delete line from listing on screen (don\'t actually delete)
+m mark with *
+n move to next line
+o open file in other window and go there
+C-o open file in other window but don\'t change there
+P print file
+q quit dired
+Q do query-replace in marked files
+R rename file
+u remove mark
+v view file content
+x delete files marked with D
+z compress file
+M-Del remove all marks (whatever kind)
+~ mark backup files (name~ files) for deletion
+# mark auto-save files (#name#) for deletion
+*/ mark directory with * (C-u * removes that mark again)
+= compare this file with marked file
+M-= compare this file with it's backup file
+! apply shell command to this file
+M-} change to the next file marked with * od D
+M-{ " previous "
+% d mark files described through regular expression for deletion
+% m " (with *)
++ create directory
+> changed to next dir
+< change to previous dir
+s toggle between sorting by name or date
+
+Maybe into this category also fits this command:
+M-x speedbar starts up a separate window with a directory view
+#+END_SRC
+
+** emacs can't use Chinese any more
+uninstall and install again
+After use bleachbit clean some stuff on my computer,My Emacs can't write Chinese any more.Then I checked the bleachbit,maybe because I deleted some files about font
+Someone said uninstall and install fcitx can work,then I opearte like this
+: sudo apt-get --purge remove fcitx-pinyin
+: sudo apt-get install fcitx-modules fcitx-bin fcitx-data fcitx-googlepinyin
+: sudo apt install im-config  # switch fcitx
+and then,still no't work
+
+Because of can't fix it now,for the time being the solution is =M-\= ,to use Emacs own font switch.
+
+** Solution to no answer to write Chinese in Emacs
+
+spend one morning and half afternoon on emacs spell Chinese toggle proplem,
+Yes,spend one day on this proplem,finally no answer to it.So my solution is as following:
+these days omit this problem,just collect stuff on my ubuntu laptop;
+Till 2018-01-08,think out the company name and registe my first componey on Tencent zhongchuang space.
+
+https://segmentfault.com/a/1190000008063732
+** 通过init.el myinit.org可以完成配置加载, 出错时重启
+** C-c C-c 失败时, rm -rf .emacs/elpa/org* 可解决
+** 导出HTML时默认只导出修改过的文件的处理
+导出HTML时默认只导出修改过的文件，如果想全部重新刷新导出一遍，可以修改配置init.el的导出配置，比如修改引入css文件名。这样，执行 =C-c C-e x p= 后，会全部导出HTML。

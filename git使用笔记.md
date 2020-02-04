@@ -146,6 +146,7 @@ https://segmentfault.com/l/1500000009978736
   
   
 ## git多账户管理
+### github多帐户
 	因为多了一个kyronbao@github账户,所以在同一台电脑下push到这个账户时会收到  
 		ERROR: Permission to kyronbao/hello.git denied to kyronbao.  
 		的错误提示,所以为此账户添加ssh  
@@ -186,6 +187,28 @@ https://segmentfault.com/l/1500000009978736
 			[remote "origin"]  
 				url = git@kyronbao.github.com:kyronbao/hello.git  
   
+### 为某一个ip设置ssh
+将私钥保存在.ssh目录下，命名为例如id_rsa_sfabric
+
+在文件口添加
+```
+Host the-real-ip
+    Hostname the-real-ip
+    IdentityFile ~/.ssh/id_rsa_sfabric
+    IdentitiesOnly yes
+```
+注意：私钥文件的权限需要检查正确：
+```
+ls -la .ssh/
+total 32
+drwx------  2 kyron kyron 4096 Feb  4 12:38 .
+drwx------ 58 kyron kyron 4096 Feb  4 13:29 ..
+-rw-r--r--  1 kyron kyron  110 Sep  7 09:36 config
+-rw-------  1 kyron kyron 3243 Jun  4  2019 id_rsa
+-rw-r--r--  1 kyron kyron  744 Jun  4  2019 id_rsa.pub
+-rw-------  1 kyron kyron 1675 Feb  4 12:38 id_rsa_sfabric
+-rw-r--r--  1 kyron kyron 5680 Nov 10 17:09 known_hosts``
+```
 ## git下载基于其中一个分支开发
 	克隆 实际上是克隆了所以远程的分支  
 		git clone git@github.com:kyronbao/cccc.git  
@@ -341,7 +364,7 @@ chmod 600 .ssh/authorized_keys
 cat ~/path/to/id_rsa.bob.pub >> /home/gituser/.ssh/authorized_keys
 ```
   
-# echo `which git-shell` >> /etc/shells  
+echo `which git-shell` >> /etc/shells  
 ```
 usermod -s git-shell gituser
 ```
@@ -351,16 +374,16 @@ usermod -a -G gituser kyronbao
 ```
   
 以 root 身份创建一个空的仓库  
-# git init --bare /opt/jupiter.git  
-# chown -R gituser:gituser /opt/jupiter.git  
-# chmod -R 770 /opt/jupiter.git  
+git init --bare /opt/jupiter.git  
+chown -R gituser:gituser /opt/jupiter.git  
+chmod -R 770 /opt/jupiter.git  
   
 测试  
 ```
 git clone ssh://192.168.0.107:/opt/kyronbao.git
 ```
 或者  
-# git remote add origin ssh://192.168.0.107:/opt/kyronbao.git  
+git remote add origin ssh://192.168.0.107:/opt/kyronbao.git  
 ```
 cd kyronbao.git
 ```
