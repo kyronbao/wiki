@@ -7,6 +7,52 @@ mysqldump -uroot -p laravel users > laravel.sql
 导出数据库的表  
 mysqldump -uroot -p laravel users > laravel_users.sql  
   
+## 源码安装mysql5.7(archlinux)  
+经验总结：  
+- 搜索报错信息
+- 查看本地的安装文档
+- 查看mysql官方文档
+
+首先是花了半个小时来下载了aur源码，  
+然后是花了一个小时来安装  
+
+参考安装文件目录下的mysql.install文件
+```
+ echo ":: You need to initialize the MySQL data directory prior to starting"
+  echo "   the service. This can be done with mysqld --initialize command, e.g.:"
+  echo "   mysqld --initialize --user=mysql --basedir=/usr --datadir=/var/lib/mysql"
+  echo ":: Additionally you should secure your MySQL installation using"
+  echo "   mysql_secure_installation command after starting the mysqld service"
+```
+
+
+怎么初始化得到密码?  
+首先删掉原来的 /var/lib/mysql/下文件  
+运行下面命令后可以看到提示的初始化root密码  
+```
+sudo mysqld --initialize --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+```
+
+怎么修改root密码？  
+参考网上的经验，先删除 /etc/mysql 下的文件  
+参考官方文档https://dev.mysql.com/doc/refman/5.7/en/starting-server.html ，运行  
+```
+sudo mysqld_safe --user=mysql
+```
+这样mysqld在后台运行起来了，现在可以通过如下命令来修改原始密码  
+```
+mysql_secure_installation
+```
+
+配置通过systemd管理mysqld  
+可以发现，安装目录里有mysqld.service文件，直接复制粘贴
+```
+sudo cp mysqld.service /usr/lib/systemd/system/
+
+```
+现在就可以通过systemctl来管理mysqld了
+
+
 ## debian9/deepin15.11安装percona-server5.7
 参考 https://www.percona.com/doc/percona-server/5.7/installation/apt_repo.html#standalone-deb  
   
@@ -48,7 +94,7 @@ sudo apt-get install percona-server-server-5.7
 ```
   
 ## 如何在Ubuntu 18.04上重置MySQL或MariaDB Root密码
- https://cloud.tencent.com/developer/article/1359782v  
+ https://cloud.tencent.com/developer/article/1359782  
 ## archlinux安装
 pacman -S mariadb  
   
@@ -57,9 +103,10 @@ pacman -S mariadb
 ```
 sudo systemctl start mariadb
 ```
-  
-# mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql  
-  
+
+```
+mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql  
+```  
   
 ```
 Installing MariaDB/MySQL system tables in '/var/lib/mysql' ...

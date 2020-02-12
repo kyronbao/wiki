@@ -1,4 +1,5 @@
-  
+
+
 vim的配置文件位置： .vimrc, /etc/vimrc  
   
 移动光标：  
@@ -7,7 +8,6 @@ vim的配置文件位置： .vimrc, /etc/vimrc
 基于单词移动        b e w  
 批量移动光标        8j 8k  
 光标移到居中        zz  
-http://sfabric.sm/  
 全文首尾行          gg G  
 某行首              :22  
   
@@ -22,7 +22,7 @@ http://sfabric.sm/
   
 查找                /hello 向后查找 ?hello 向前查找  
                    * 向后查找光标所在单词 # 向前查找光标所在单  
-                         n 继续查找 N 反向查找  
+                   n 继续查找 N 反向查找  
   
   
 批量输入            30i-Esc 4a*Esc  
