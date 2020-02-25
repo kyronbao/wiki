@@ -19,6 +19,15 @@ https://www.tapd.cn/21766161/prong/stories/view/1121766161001007279
 - https://rauchg.com/ 最简单的博客样式了，react搭建
 架构  
 - https://github.com/xingshaocheng/architect-awesome
+分布式ID生成  
+参考文章 [分布式ID生成器 | 架构师之路](https://cloud.tencent.com/developer/article/1049122)
+
+库存的并发加减  
+参考文章 
+  - [库存扣多了，到底怎么整 | 架构师之路](https://cloud.tencent.com/developer/article/1048713)
+  - [库存扣减还有这么多方案？ | 架构师之路](https://cloud.tencent.com/developer/article/1048714)
+  - [CAS下ABA问题及优化方案 | 架构师之路](https://cloud.tencent.com/developer/article/1048710)
+  - [MySQL 乐观锁与悲观锁](https://www.jianshu.com/p/f5ff017db62a)
  负载均衡  
 - [软件负载均衡](https://github.com/xingshaocheng/architect-awesome/blob/master/README.md#%E8%BD%AF%E4%BB%B6%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1)
 - https://www.alibabacloud.com/help/zh/doc-detail/27539.htm
@@ -295,3 +304,68 @@ video.js--很赞的H5视频播放库
   
 http状态吗  
 304 - https://www.cnblogs.com/ziyunfei/archive/2012/11/16/2772729.htm  
+
+
+以下待整理
+-------------
+## c++
+
+https://zh.cppreference.com/w/%E9%A6%96%E9%A1%B5 
+
+学习c++的书和资源 
+	Accelerated C++ by Andrew Koenig and Barbara E. Moo
+	Effective C++ by Scott Meyers
+		- https://www.quora.com/What-are-the-best-C++-books
+		
+## 书
+All programming languages books
+  https://github.com/KeKe-Li/book 
+
+## 软件源
+腾讯源
+  https://mirrors.cloud.tencent.com 
+
+## win10
+xampp
+	How to install Laravel 5 with Xampp (Windows)
+	  https://www.codementor.io/magarrent/how-to-install-laravel-5-xampp-windows-du107u9ji 
+	Windows Frequently Asked Questions
+	  https://www.apachefriends.org/faq_windows.html   
+## api文档工具
+
+http://apidocjs.com/#examples
+
+## 小程序资源
+小程序开发指南
+  https://developers.weixin.qq.com/ebook?action=get_post_info&docid=0008aeea9a8978ab0086a685851c0a
+  https://developers.weixin.qq.com/miniprogram/dev/framework/
+  https://developers.weixin.qq.com/miniprogram/dev/
+
+  
+  https://mp.weixin.qq.com/
+WeUI 是一套同微信原生视觉体验一致的基础样式库  
+  https://weui.io/
+WeUI for 小程序 为微信小程序量身设计  
+  https://github.com/Tencent/weui-wxss
+
+### 小程序实践
+微信小程序（八）实战——加载图片images
+  https://blog.csdn.net/qq_38191191/article/details/80916346
+微信小程序把玩（九）scroll-view组件
+  https://blog.csdn.net/u014360817/article/details/52658760
+微信小程序多张图片上传  
+  https://www.cnblogs.com/xjwy/p/6956120.html
+PHP使用imagecopyresampled拼接图片  
+  https://blog.csdn.net/LCYong_/article/details/80274506
+微信小程序上传图片(附后端代码)
+  https://www.jianshu.com/p/c4a2ecb050e9
+小程序实现多图上传、预览  
+  http://www.mamicode.com/info-detail-2514142.html
+微信小程序图片压缩  
+  https://www.jianshu.com/p/1b8a1e96a6d5
+  
+## 接口api
+腾讯ai滤镜
+  https://ai.qq.com/console/capability/detail/27
+    本人在小程序试用过
+

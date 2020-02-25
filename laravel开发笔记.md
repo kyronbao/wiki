@@ -123,6 +123,22 @@ https://stackoverflow.com/questions/44789114/laravel-trait-method-guard-has-not-
 ## bug 新建插入字段不成功
   fix 检查Model 的fill  
   
+## composer安装laravel5.5时carbon提示 You can run ".\vendor\bin\upgrade-carbon" to get help
+参考https://stackoverflow.com/questions/57408621/cannot-upgrade-carbon-1-to-carbon-2
+add the following dependencies to your composer.json**:
+
+{
+  ...
+  "require": {
+    ...
+    "kylekatarnls/laravel-carbon-2": "^1.0.0",
+    "nesbot/carbon": "2.0.0-beta.2 as 1.25.0"
+  }
+  ...
+}
+then run:
+
+composer update
 ## 报错 =Call to undefined method Illuminate\View\Factory::getFirstLoop()= 处理
 ```
 FatalThrowableError in 2154f392745gf102547be138a945a11b58e5649203.php line 2:
@@ -133,6 +149,9 @@ Call to undefined method Illuminate\View\Factory::getFirstLoop()
 php artisan view:clear
 ```
   
+## laravel跨域处理 使用https://github.com/barryvdh/laravel-cors
+这个组件基于https://github.com/asm89/stack-cors 使用
+安装组件后，支持前端首先option请求，返回可用method, 然后前端再次发出请求的模式
 ## route路由访问不到排查
   
 检查路由顺序是否正确  

@@ -1,4 +1,13 @@
-  
+
+
+## mysql like模糊匹配无法匹配_0的问题
+如果like模糊匹配 0_0_0  、_001、0 、PRD190820002 等时，搜索 0_0_0时也会匹配出PRD190820002等值，不精确。
+参考 https://dev.mysql.com/doc/refman/5.7/en/string-comparison-functions.html
+
+转义掉_
+```
+$v = str_replace(['_', '%'], ['\_', '\%'], $v);
+```
 ## mysql "Plugin '******' is not loaded"解决方法
 原文链接：https://blog.csdn.net/baidu_35085676/article/details/72180391  
 遇到问题  

@@ -1,3 +1,17 @@
+
+
+## go 连接数据库实践
+
+- https://golang.google.cn/pkg/database/sql/
+- http://go-database-sql.org
+
+### 阅读go-database-sql.org笔记
+反直觉的是，sql.Open()并没有建立连接到数据库，而是准备了一个数据库的抽象供后面使用
+
+sql.DB 对象是被设计来做长链接的，不要频繁的使用Open() 和Close() 。代替方案是，为需要的数据库创建一个 sql.DB 对象，直到连接数据库的程序结束。
+这个对象可以用来传递，或者作为一个全局变量，在Open的状态下。
+
+
 ## arch 从国内镜像安装Go
 https://studygolang.com/dl  
 下载后参考 doc/install.html  
