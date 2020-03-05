@@ -1,3 +1,4 @@
+
 ## mysql导入导出
 导入  
 mysql -uroot -p laravel < laravel.sql  
@@ -7,6 +8,14 @@ mysqldump -uroot -p laravel users > laravel.sql
 导出数据库的表  
 mysqldump -uroot -p laravel users > laravel_users.sql  
   
+## debian9/deepin15.11安装mysql-workbench
+sudo apt install mysql-workbench
+## debian9/deepin15.11的mysql-workbench报错
+### Could not store password: 于 gnome-keyring-daemon 联系时出错
+sudo gedit /usr/bin/mysql-workbench  
+将# WB_NO_GNOME_KEYRING=1改成export WB_NO_GNOME_KEYRING=1，  
+
+
 ## 源码安装mysql5.7(archlinux)  
 经验总结：  
 - 搜索报错信息
