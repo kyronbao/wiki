@@ -646,60 +646,11 @@ grep [] "搜索内容"  在文件中搜索显示搜索内容
 	查看：set  
 	删除：unset name  
 ## 查找
+查文件名  
 locate winebus.sys  
 find / -name winebus.sys  
-  
-## 复制粘贴
-  
-```
-vim 有些版本不支持系统剪贴板
-```
-通过下面命令查看  
-```
-vim --version | grep clipboard
-```
-如果显示 -clipboard代表不支持 +clipboard代表支持  
-  
-ubuntu下推荐安装：  
-```
-sudo apt-get install vim-gnome
-```
-archlinux推荐安装：  
-```
-sudo pacman -S gvim
-```
-  
-vim复制一行到系统剪贴板  
-"+yy  
-在不同的vim，或terminal中粘贴  
-Ctrl+Shift+v  
-  
-在vim中可以查看寄存器中的内容  
-:reg "*+  
- " 默认的unamed寄存器  
- * 系统剪贴板，鼠标选中的内容  
- + 系统剪贴板，使用"+y的内容  
-  
-注意：使用:q :wq等退出后不能使用  
-- https://www.zhihu.com/question/19863631
-具体操作  
-鼠标从 terminal 复制到 terminal  
-  
-  鼠标选取复制到 "* ，然后鼠标中键粘贴  
-  
-  鼠标选取，Ctrl+Shift+c 复制，Ctrl+Shift+v 粘贴  
-鼠标从vim 复制到 ”*  
-  复制：Shift 鼠标选择  
-  
-从 vim 复制到其他地方  
-设置  
-:set clipboard=unnamedplus  
-经在archlinux测试，设置后，鼠标中键复制无效  
-参考vim wiki  
-Vim commands such as :yank or :paste operate with the unnamed register, which by default corresponds to the "* register. If the +clipboard feature is available, the "* register is reflected to the PRIMARY buffer in X.  
-  
-To change the default register, you can :set clipboard=unnamedplus to use the "+ register instead. The "+ register corresponds to the CLIPBOARD buffer in X.  
-  
+查文件内容  
+grep -r "word" /etc/mysql
 ## 如何为sudo命令定义PATH环境变量
 添加所需要的路径(如 /usr/local/bin）到"secure_path"下，在开篇所遇见的问题就将迎刃而解。  
 Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin  

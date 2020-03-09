@@ -95,10 +95,7 @@ p粘贴在行下 P粘贴在行上
   
           ab mymail kyronbao@gmail.com  
 		  ab myWeb www.kyronbao.com  
-  
-复制粘贴  
-  参考Linux笔记  
-  
+
   
 粘贴缩进混乱  
   已配置vimrc, 按F12  
@@ -110,3 +107,56 @@ p粘贴在行下 P粘贴在行上
   输入下面的命令：  
   : r !date  
   或从输入模式返回到命令模式后，直接输入下面的命令  
+  
+  
+## 复制粘贴
+  
+```
+vim 有些版本不支持系统剪贴板
+```
+通过下面命令查看  
+```
+vim --version | grep clipboard
+```
+如果显示 -clipboard代表不支持 +clipboard代表支持  
+  
+ubuntu下推荐安装：  
+```
+sudo apt-get install vim-gnome
+```
+archlinux推荐安装：  
+```
+sudo pacman -S gvim
+```
+  
+vim复制一行到系统剪贴板  
+"+yy  
+在不同的vim，或terminal中粘贴  
+Ctrl+Shift+v  
+  
+在vim中可以查看寄存器中的内容  
+:reg "*+  
+ " 默认的unamed寄存器  
+ * 系统剪贴板，鼠标选中的内容  
+ + 系统剪贴板，使用"+y的内容  
+  
+注意：使用:q :wq等退出后不能使用  
+- https://www.zhihu.com/question/19863631
+具体操作  
+鼠标从 terminal 复制到 terminal  
+  
+  鼠标选取复制到 "* ，然后鼠标中键粘贴  
+  
+  鼠标选取，Ctrl+Shift+c 复制，Ctrl+Shift+v 粘贴  
+鼠标从vim 复制到 ”*  
+  复制：Shift 鼠标选择  
+  
+从 vim 复制到其他地方  
+设置  
+:set clipboard=unnamedplus  
+经在archlinux测试，设置后，鼠标中键复制无效  
+参考vim wiki  
+Vim commands such as :yank or :paste operate with the unnamed register, which by default corresponds to the "* register. If the +clipboard feature is available, the "* register is reflected to the PRIMARY buffer in X.  
+  
+To change the default register, you can :set clipboard=unnamedplus to use the "+ register instead. The "+ register corresponds to the CLIPBOARD buffer in X.  
+
