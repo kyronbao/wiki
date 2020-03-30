@@ -4,6 +4,9 @@
 
 ** 快捷键
 #+BEGIN_SRC
+打开terminal M-x term
+切换buffer C-x C-b
+
 上下页               C-v  M-v
 方向键               C-b  C-n  C-p  C-f
 单词间移动           M-b  M-f

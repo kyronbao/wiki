@@ -533,12 +533,12 @@ fi     # $String is null.
 ```
 - https://unix.stackexchange.com/questions/109625/shell-scripting-z-and-n-options-with-if
   
-  
+```  
 目录文件  cat /etc/shells  
 切换sh exit  
-```
+
 echo [][内容] 输出命令 -e支持\ (-表-)
-```
+
 		\a警告 \b退格 \c取消换行 \e取消  
 		\f换页 \n换行 \r回车 \t制表符 \v垂直指标符  
 		\0nnn 八进制 \xhh 16进制  
@@ -561,9 +561,9 @@ history [] [历史命令保存文件]
 正确错误同时保存 命令 &> 文件  覆盖  
 				 命令 &>> 文件  追加  
 				 命令>>文件一 2>>文件二  
-```
+
 ls &>/dev/null  执行后输出丢到垃圾箱
-```
+
 输入重定向   命令 < 文件 把文件作为命令输入 例：wc < install.log  
 			wc [] [文件名] 统计行号 单词数 字符数  
   
@@ -574,9 +574,9 @@ dd if=输入文件 of=输出文件 bs=字节数 count=个数   复制磁盘等
 管道符  命令1 | 命令2    命令1的正确输出作为命令2的操作对象(1必须正确)  
 		ll -a /etc/ | more 分屏显示  
 		netstat -an | grep "ESTABLISHED" 显示所有的连接  
-```
+
 grep [] "搜索内容"  在文件中搜索显示搜索内容
-```
+
 	     -i忽略大小写 -n行号 -v反向查找 --color=auto  
 通配符  匹配文件名  
 		?任意一个字符 *零或多个字符 []里面任意一个字符  
@@ -645,6 +645,7 @@ grep [] "搜索内容"  在文件中搜索显示搜索内容
 			-n -s屏幕隐藏信息  
 	查看：set  
 	删除：unset name  
+```
 ## 查找
 查文件名  
 locate winebus.sys  
@@ -770,9 +771,9 @@ userdel -r mongo       # -r参数删除用户mongo的同时，将其宿主目录
 ## non-root用户sudo权限配置
 ```
 sudo visudo
-# 找到
+找到
 root    ALL=(ALL:ALL) ALL
-# 添加
+添加
 <username> ALL=(ALL:ALL) ALL
 ```
   
@@ -837,9 +838,10 @@ https://superuser.com/questions/513159/how-to-remove-systemd-services
 ## apt安装的包查询
 dpkg -l gitlab-ce  
 ## apt dpkg软件管理
+```
 apt-cache search # ------(package 搜索包)  
 apt-cache show #------(package 获取包的相关信息，如说明、大小、版本等)  
-```
+
 apt-get install # ------(package 安装包)
 apt-get install # -----(package --reinstall 重新安装包)
 apt-get -f install # -----(强制安装, "-f = --fix-missing"当是修复安装吧...)
@@ -850,15 +852,15 @@ apt-get update #------更新源
 apt-get upgrade #------更新已安装的包
 apt-get dist-upgrade # ---------升级系统
 apt-get dselect-upgrade #------使用 dselect 升级
-```
+
 apt-cache depends #-------(package 了解使用依赖)  
 apt-cache rdepends # ------(package 了解某个具体的依赖,当是查看该包被哪些包依赖吧...)  
-```
+
 apt-get build-dep # ------(package 安装相关的编译环境)
 apt-get source #------(package 下载该包的源代码)
 apt-get clean && apt-get autoclean # --------清理下载文件的存档 && 只清理过时的包
 apt-get check #-------检查是否有损坏的依赖
-```
+
 dpkg -S filename -----查找filename属于哪个软件包  
 apt-file search filename -----查找filename属于哪个软件包  
 apt-file list packagename -----列出软件包的内容  
@@ -875,7 +877,7 @@ dpkg -i 手动安装软件包(这个命令并不能解决软件包之前的依�
 dpkg -r 卸载软件包.不是完全的卸载,它的配置文件还存在.  
 dpkg -P 全部卸载(但是还是不能解决软件包的依赖性的问题)  
 dpkg -reconfigure 重新配置  
-  
+```  
 摘自 http://qiuye.iteye.com/blog/461394  
   
 ## ubuntu安装deb,rpm安装包方法
@@ -1337,7 +1339,7 @@ Categories=Development
 https://blog.csdn.net/walker0411/article/details/51555821  
 ## 设置普通用户no-root和ssh登录
 ```
-# useradd <username>
+useradd <username>
 ```
 编辑主机名不然会报错 =sudo: unable to resolve host vultr.guest=  
 ```
@@ -1351,7 +1353,7 @@ sudo visudo
 ```
 找到  
 ```
-# User privilege specification
+ # User privilege specification
 root    ALL=(ALL:ALL) ALL
 ```
 添加  
@@ -1551,3 +1553,17 @@ GPG允许省略decrypt参数。
 - [Linux: HowTo Encrypt And Decrypt Files With A Password](https://www.cyberciti.biz/tips/linux-how-to-encrypt-and-decrypt-files-with-a-password.html)
 - [GnuPG (简体中文)](https://wiki.archlinux.org/index.php/GnuPG_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E6.96.B0.E7.94.A8.E6.88.B7.E7.9A.84.E9.BB.98.E8.AE.A4.E9.80.89.E9.A1.B9) 来自 https://wiki.archlinux.org/
   
+## terminal终端ssh登录自动退出的解决
+编辑 $HOME/.ssh/config （如果不存在的话创建）
+Host *
+    ServerAliveInterval 240
+	
+如果是对特定的ip
+Host remotehost
+    HostName remotehost.com
+    ServerAliveInterval 240
+	
+这样每4分钟会请求一次，保证不断连接
+
+https://stackoverflow.com/questions/25084288/keep-ssh-session-alive
+

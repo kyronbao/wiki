@@ -8,25 +8,8 @@
 ```
 $v = str_replace(['_', '%'], ['\_', '\%'], $v);
 ```
-## mysql "Plugin '******' is not loaded"解决方法
-原文链接：https://blog.csdn.net/baidu_35085676/article/details/72180391  
-遇到问题  
-登录非匿名账户提示’Plugin ‘******’ is not loaded’.  
-  
-解决办法  
-1.开启无密码登录  
-修改mysql.cnf 在 [mysqld]下添加skip-grant-tables  
-  
-2 .sudo service mysqld restart 重启mysql服务.  
-3. 现在就可以登录了。登录root账户执行以下语句.  
-  
-use mysql;  
-update user set authentication_string=PASSWORD("") where User='root';  
-update user set plugin="mysql_native_password";  
-flush privileges;  
-quit;  
-  
-## replace into语法,插入时覆盖旧数据											  :mysql 5.7:
+## replace into语法,插入时覆盖旧数据
+mysql 5.7:
   
 REPLACE works exactly like INSERT, except that if an old row  
 in the table has the same value as a new row for a PRIMARY KEY or  
@@ -169,16 +152,13 @@ truncate table 表名;     清除表
 ## mysql 紧急停止
 ubuntu下 /etc/init.d/mysql stop  
   
-## 报错 Can't connect to local MySQL server through socket
-ubuntu 下  
-ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)  
-解决 systemctl start mysql  
 ## 导出到sql文件命令
 mysqldump -h 192.168.100.159 -u www.data.c -p www.data.c > lbb.sql  
                                 用户         数据库名  
 然后输入密码  
 ## 批量插入测试数据
-### 复制 一个存储过程生成1000万条数据的方法 http://www.bcty365.com/content-35-4815-1.html
+### 复制 一个存储过程生成1000万条数据的方法
+http://www.bcty365.com/content-35-4815-1.html
 -- 创建测试的test表
 DROP TABLE IF EXISTS test;  
 CREATE TABLE test(  
@@ -207,8 +187,7 @@ DELIMITER ;
 -- 执行存储过程生成测试数据
 CALL pre_test();  
   
-### 测试
-#### 插入30天播放量数据
+### 插入30天播放量数据
 DROP PROCEDURE IF EXISTS pre_test;  
   
 DELIMITER //  
@@ -245,7 +224,7 @@ DELIMITER ;
 -- 执行存储过程生成测试数据
 CALL pre_test();  
   
-#### 插入30用户数据,每日增加100个
+### 插入30用户数据,每日增加100个
 DROP PROCEDURE IF EXISTS pre_test;  
   
 DELIMITER //  
@@ -295,3 +274,32 @@ datetime类型取值范围：1000-01-01 00:00:00 到 9999-12-31 23:59:59
   
 timestamp类型取值范围：1970-01-01 00:00:00 到 2037-12-31 23:59:59  
   
+
+
+## 报错 Integrity constraint violation: 1048 Column 'updated_at' cannot be null
+修改配置 
+debian9.0 percona5.7版本：
+/etc/mysql/percona-server.conf.d/mysqld.cnf
+explicit_defaults_for_timestamp = false
+## 报错 mysql "Plugin '******' is not loaded"
+原文链接：https://blog.csdn.net/baidu_35085676/article/details/72180391  
+遇到问题  
+登录非匿名账户提示’Plugin ‘******’ is not loaded’.  
+  
+解决办法  
+1.开启无密码登录  
+修改mysql.cnf 在 [mysqld]下添加skip-grant-tables  
+  
+2 .sudo service mysqld restart 重启mysql服务.  
+3. 现在就可以登录了。登录root账户执行以下语句.  
+  
+use mysql;  
+update user set authentication_string=PASSWORD("") where User='root';  
+update user set plugin="mysql_native_password";  
+flush privileges;  
+quit;  
+  
+## 报错 Can't connect to local MySQL server through socket
+ubuntu 下  
+ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)  
+解决 systemctl start mysql  
