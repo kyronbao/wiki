@@ -1,0 +1,18 @@
+phpstorm设置svn
+环境
+深度 deepin
+
+安装svn
+sudo apt-get install subversion
+
+phpstorm vcs-->checkout from version control-->subversion
+
+按提示操作是报错
+Cannot check out from SVN: No appropriate protocol
+解决：File-->setting-->version control-->subversion->勾选enabel interactive mode
+
+参考
+https://www.jianshu.com/p/fd8680f1d0c1 Debian 上安装SVN 过程
+https://intellij-support.jetbrains.com/hc/en-us/community/posts/360000403700-Cannot-check-out-from-SVN-No-appropriate-protocol-HELP-
+https://www.jianshu.com/p/39c6d345a521 phpstorm配置SVN版本控制器
+
