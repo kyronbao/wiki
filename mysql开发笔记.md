@@ -1,5 +1,29 @@
 
+## mysql 紧急停止
+ubuntu下 /etc/init.d/mysql stop  
+## 设置Character Set and Collation  
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_general_ci
 
+systemctl restart mysql.service
+## mysql导入导出
+导入  
+mysql -uroot -p laravel < laravel.sql  
+导出  
+导出数据库  
+mysqldump -uroot -p laravel users > laravel.sql  
+导出数据库的表  
+mysqldump -uroot -p laravel users > laravel_users.sql  
+
+## 创建|删除数据库
+CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
+CREATE DATABASE mydatabase;
+
+DROP DATABASE mydatabase;
+## 清除表命令
+truncate table 表名;     清除表  
+ 
 ## mysql like模糊匹配无法匹配_0的问题
 如果like模糊匹配 0_0_0  、_001、0 、PRD190820002 等时，搜索 0_0_0时也会匹配出PRD190820002等值，不精确。
 参考 https://dev.mysql.com/doc/refman/5.7/en/string-comparison-functions.html
@@ -122,8 +146,6 @@ MODIFY COLUMN `business_flag`  varchar(100) CHARACTER SET latin1 COLLATE latin1_
 MODIFY COLUMN `business_type`  varchar(100) NOT NULL COMMENT '业务种类(会员费支付,会员费退款,平台出款,支付回款,代扣回款,现金提现)' AFTER `business_flag`;  
   
   
-## 创建数据库
-CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
 ## 查询2天内的数据
 查询时间戳格式  
 SELECT * from trade WHERE created_time > UNIX_TIMESTAMP(DATE_SUB(CURDATE(),INTERVAL 2 DAY));  
@@ -147,15 +169,6 @@ select S.syctime_day,
 ：https://www.jianshu.com/p/c19c99a60bb7  
   
 - http://jackyrong.iteye.com/blog/2384030 MySQL统计一个列中不同值的数量
-## 清除表命令
-truncate table 表名;     清除表  
-## mysql 紧急停止
-ubuntu下 /etc/init.d/mysql stop  
-  
-## 导出到sql文件命令
-mysqldump -h 192.168.100.159 -u www.data.c -p www.data.c > lbb.sql  
-                                用户         数据库名  
-然后输入密码  
 ## 批量插入测试数据
 ### 复制 一个存储过程生成1000万条数据的方法
 http://www.bcty365.com/content-35-4815-1.html

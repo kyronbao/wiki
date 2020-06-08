@@ -1,13 +1,4 @@
 
-## mysql导入导出
-导入  
-mysql -uroot -p laravel < laravel.sql  
-导出  
-导出数据库  
-mysqldump -uroot -p laravel users > laravel.sql  
-导出数据库的表  
-mysqldump -uroot -p laravel users > laravel_users.sql  
-
 ## 源码安装mysql5.7(archlinux)  
 经验总结：  
 - 搜索报错信息
