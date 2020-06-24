@@ -667,16 +667,16 @@ scp -r project.git/ root@hostname:/opt/git/
 ## 查看linux版本
 - https://www.cyberciti.biz/faq/find-linux-distribution-name-version-number/
 ```
-cat /etc/*-release
-```
-  
-```
-cat /proc/version
-```
-  
-uname -a  
-  
+uname -a    
+hostnamectl  
+
+cat /proc/version  
+cat /etc/issue  
+cat /etc/os-release  
+
+cat /etc/*-release  
 lsb_release -a  
+```
 ## 远程复制
 ```
 scp -r user@your.server.example.com:/path/to/foo /home/user/Desktop/

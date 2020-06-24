@@ -21,11 +21,13 @@ mysqldump -uroot -p laravel > laravel.sql
 导出数据库的表  
 mysqldump -uroot -p laravel users > laravel_users.sql  
 
-## 创建|删除数据库
+## 创建|删除数据库|修改编码utf8
 CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
 CREATE DATABASE mydatabase;
 
 DROP DATABASE mydatabase;
+
+ALTER DATABASE DBNAME CHARACTER SET utf8 COLLATE utf8_general_ci;
 ## 清除表命令
 truncate table 表名;     清除表  
  
