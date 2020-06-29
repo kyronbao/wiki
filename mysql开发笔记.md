@@ -7,6 +7,10 @@ character-set-server=utf8mb4
 collation-server=utf8mb4_general_ci
 
 systemctl restart mysql.service
+
+查看
+SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME
+FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'db_name';
 ## mysql导入导出(当sql中不含CREATE DATABASE and USE statements 时)
 导入  
 mysql -uroot -p laravel < laravel.sql  

@@ -27,7 +27,8 @@ export PATH=$PATH:/usr/local/go/bin
   
 ## Go包管理
 https://github.com/golang/go/wiki/PackageManagementTools  
-### modules
+
+### modules实例
 Go 在最新 1.11 版本，正式启用了真官方开发的包管理工具 module，已经集成到 go 命令中，它以前的名字叫 vgo。  
   
 使用  
@@ -35,14 +36,15 @@ Go 在最新 1.11 版本，正式启用了真官方开发的包管理工具 modu
 ```
 mkdir -p /tmp/scratchpad/hello
 cd /tmp/scratchpad/hello
-```
+
   
 go mod init github.com/kyronbao/hello  
+
 Write your code:  
   
-```
+
 cat <<EOF > hello.go
-```
+
 package main  
   
 import (  
@@ -54,15 +56,16 @@ func main() {
     fmt.Println(quote.Hello())  
 }  
 EOF  
+
 Build and run:  
-  
-```
+
+
 go build
 ./hello
-```
-  
+
+ 
 Hello, world.  
-  
+```  
 注意：go mod init 后面必须要添加包名  
   
 构建的依赖安装在$GOPATH/pkg/mod目录下  
@@ -75,6 +78,51 @@ GoLand设置
 https://github.com/golang/go/wiki/Modules  
 https://farer.org/2018/11/11/go-modules-notes/  
   
+### modeles管理go依赖
+查看依赖  
+```
+go list -m all  # 查看所有的
+go list -m rsc.io/q...  # 查看rsc.io/q开头的
+go list -m -u -json all # -u提示可升级的依赖
+```
+查看依赖的所有版本
+```
+go list -m -versions rsc.io/sampler
+
+rsc.io/sampler v1.0.0 v1.2.0 v1.2.1 v1.3.0 v1.3.1 v1.99.9
+```
+更新依赖
+```
+在目录中执行
+go get rsc.io/sampler  # 更新依赖到最新版本
+go get rsc.io/sampler@v1.3.1  # 当依赖不兼容时，更新到确定的版本
+```
+删除不需要的依赖
+```
+go list -m all # 查看所有的
+go mod tidy # 删除
+go list -m all # 查看结果
+```
+示例代码
+```
+package hello
+
+import (
+        "rsc.io/quote"
+        quoteV3 "rsc.io/quote/v3"
+)
+
+
+func Hello() string {
+    return quote.Hello()
+}
+
+func Proverb() string {
+    return quoteV3.Concurrency()
+}
+```
+如例子中所示，可以重命名来同时依赖两个主版本
+v3
 ### govendor
 gin的默认依赖管理  
   
