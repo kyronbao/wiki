@@ -1,4 +1,22 @@
 
+## text/template
+```
+{{if .Attended}}
+It was a pleasure to see you at the wedding.
+{{- else}}
+It is a shame you couldn't make it to the wedding.
+{{- end}}
+{{ with .Gift -}}
+Thank you for the lovely {{.}}.
+{{end}}
+```
+- https://golang.org/pkg/text/template/#example_Template
+
+Text and spaces  
+为了控制空格的显示，例如，{{- else}}里面的"-"会在显示时删除紧靠{{- else}}左边的空格，换行符等会被去掉  
+Actions  
+如上例，with指Gift参数有值时，会显示“Thank you for the lovely.”,和if,with类似的还有range，template,block这些  
+
 
 ## go 连接数据库实践
 
@@ -12,19 +30,7 @@ sql.DB 对象是被设计来做长链接的，不要频繁的使用Open() 和Clo
 这个对象可以用来传递，或者作为一个全局变量，在Open的状态下。
 
 
-## arch 从国内镜像安装Go
-https://studygolang.com/dl  
-下载后参考 doc/install.html  
-  
-```
-tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
-```
-  
-```
-vim /etc/bash.mine
-export PATH=$PATH:/usr/local/go/bin
-```
-  
+
 ## Go包管理
 https://github.com/golang/go/wiki/PackageManagementTools  
 
@@ -178,7 +184,8 @@ beego version: 1.4.0
   
 跟多配置参考 https://github.com/gpmgo/docs/blob/master/zh-CN/Quickstart.md  
   
-## Ubuntu安装Go
+## go安装
+### Ubuntu安装Go
 原因  
 安装go get github.com/Go-zh/tour/gotour时发现报错  
   
@@ -245,3 +252,16 @@ go install github/kyronbao/hello
 can't load package: package github/kyronbao/hello: cannot find package "github/kyronbao/hello" in any of:  
 	/usr/local/go/src/github/kyronbao/hello (from $GOROOT)  
 	/home/kyronbao/go/src/github/kyronbao/hello (from $GOPATH)  
+### arch 从国内镜像安装Go
+https://studygolang.com/dl  
+下载后参考 doc/install.html  
+  
+```
+tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+```
+  
+```
+vim /etc/bash.mine
+export PATH=$PATH:/usr/local/go/bin
+```
+  

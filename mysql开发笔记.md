@@ -1,17 +1,43 @@
 
 ## mysql 紧急停止
 ubuntu下 /etc/init.d/mysql stop  
-## 设置Character Set and Collation  
+## 创建数据库，导入导出，设置Character Set and Collation  
+### 配置
 [mysqld]
 character-set-server=utf8mb4
-collation-server=utf8mb4_general_ci
-
+collation-server=utf8mb4_unicode_ci
+ 
 systemctl restart mysql.service
 
-查看
+### 查看编码
+查看数据库
 SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME
 FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'db_name';
-## mysql导入导出(当sql中不含CREATE DATABASE and USE statements 时)
+
+数据库　For Schemas (or Databases - they are synonyms):
+
+SELECT default_character_set_name FROM information_schema.SCHEMATA 
+WHERE schema_name = "schemaname";
+
+表For Tables:
+
+SELECT CCSA.character_set_name FROM information_schema.`TABLES` T,
+       information_schema.`COLLATION_CHARACTER_SET_APPLICABILITY` CCSA
+WHERE CCSA.collation_name = T.table_collation
+  AND T.table_schema = "schemaname" AND T.table_name = "tablename";
+
+列For Columns:
+
+SELECT character_set_name FROM information_schema.`COLUMNS` 
+WHERE table_schema = "schemaname"　AND table_name = "tablename"　AND column_name = "columnname";
+### 创建数据库和修改编码utf8mb4
+CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
+CREATE DATABASE mydatabase;
+
+DROP DATABASE mydatabase;
+
+ALTER DATABASE DBNAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+### 导入导出
 导入  
 mysql -uroot -p laravel < laravel.sql  
 
@@ -25,13 +51,7 @@ mysqldump -uroot -p laravel > laravel.sql
 导出数据库的表  
 mysqldump -uroot -p laravel users > laravel_users.sql  
 
-## 创建|删除数据库|修改编码utf8
-CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
-CREATE DATABASE mydatabase;
 
-DROP DATABASE mydatabase;
-
-ALTER DATABASE DBNAME CHARACTER SET utf8 COLLATE utf8_general_ci;
 ## 清除表命令
 truncate table 表名;     清除表  
  
