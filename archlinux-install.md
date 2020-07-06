@@ -326,8 +326,9 @@ systemctl disable gdm
 sudo pacman -S os-prober
 ```
 查看设备UUID (其中启动分区文件格式为vfat)  
+```
 lsblk -f  
-  
+```
 挂载win10  
 ```
 sudo mkdir -p /win10/boot
@@ -336,7 +337,7 @@ sudo mount /dev/sda2 /win10/boot
   
 ```
 vim /boot/grub/grub.cfg
-```
+
   
 if [ "${grub_platform}" == "efi" ]; then  
 	menuentry "Microsoft Windows Vista/7/8/8.1 UEFI/GPT" {  
@@ -347,7 +348,7 @@ if [ "${grub_platform}" == "efi" ]; then
 		chainloader /EFI/Microsoft/Boot/bootmgfw.efi  
 	}  
 fi  
-  
+```  
 其中  
 $fs_uuid取值方法  
 ```
@@ -457,13 +458,13 @@ Include = /etc/pacman.d/mirrorlist
   
 添加到文件 /etc/pacman.d/mirrorlist  
   
-## China  
+### China  
 Server = http://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch  
 Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch  
 Server = http://mirrors.zju.edu.cn/archlinux/$repo/os/$arch  
-## Japan  
+### Japan  
 Server = https://mirrors.cat.net/archlinux/$repo/os/$arch  
-## Worldwide  
+### Worldwide  
 Server = http://mirrors.evowise.com/archlinux/$repo/os/$arch  
   
 更新源  
@@ -471,6 +472,7 @@ Server = http://mirrors.evowise.com/archlinux/$repo/os/$arch
 sudo pacman -Syu
 ```
   
+## 百度搜索　archlinux 中文输入
 ## 安装shadowsocks
 ```
 sudo pacman -S shadowsocks-qt5
