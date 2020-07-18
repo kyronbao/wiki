@@ -102,6 +102,10 @@ rsc.io/sampler v1.0.0 v1.2.0 v1.2.1 v1.3.0 v1.3.1 v1.99.9
 在目录中执行
 go get rsc.io/sampler  # 更新依赖到最新版本
 go get rsc.io/sampler@v1.3.1  # 当依赖不兼容时，更新到确定的版本
+
+go get	拉取依赖，会进行指定性拉取（更新），并不会更新所依赖的其它模块。
+go get -u	更新现有的依赖，会强制更新它所依赖的其它全部模块，不包括自身。
+go get -u -t ./...	更新所有直接依赖和间接依赖的模块版本，包括单元测试中用到的。
 ```
 删除不需要的依赖
 ```
@@ -128,7 +132,9 @@ func Proverb() string {
 }
 ```
 如例子中所示，可以重命名来同时依赖两个主版本
-v3
+	v3
+	
+- https://blog.csdn.net/RA681t58CJxsgCkJ31/article/details/104568182/
 ### govendor
 gin的默认依赖管理  
   

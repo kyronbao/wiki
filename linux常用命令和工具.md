@@ -15,7 +15,6 @@ Ctrl+Y 粘贴最近剪切的文本
   
 查看主机名 临时改名hostname  
   
-  
 netstat -lunt 通过查看端口知道开了哪些服务  
   
 挂载  
