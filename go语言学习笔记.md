@@ -190,6 +190,19 @@ beego version: 1.4.0
   
 跟多配置参考 https://github.com/gpmgo/docs/blob/master/zh-CN/Quickstart.md  
   
+### How do I debug a dependency package? If I have its source code
+
+First fetch all the dependency packages into the vendor folder.
+
+go mod vendor
+Then, change the source code in that and build your project by specifying to look into vendor folder.
+
+go build -mod=vendor
+or
+
+go run -mod=vendor myapp.go
+
+- https://stackoverflow.com/questions/56818094/how-do-i-debug-a-dependency-package-if-i-have-its-source-code
 ## go安装
 ### Ubuntu安装Go
 原因  
