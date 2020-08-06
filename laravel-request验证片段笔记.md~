@@ -20,8 +20,7 @@ class ShrinkageRequest extends Request
      */
     public function rules(Request $request)
     {
-        $id = $request->route('id', 0);
-		//$id = $request->route('shrinkage',0);//当路由使用Route::resources(['shrinkage' => 'ShrinkageController',]时
+        $id = $request->get('id', 0);
 
         return [
             'name' => ['required',Rule::unique('db_database.bd_shrinkage')->where(function ($query) use ($id)
