@@ -90,6 +90,23 @@ npmMirror --- https://skimdb.npmjs.com/registry/
 deunpm --- http://registry.enpmjs.org/
 
 ```
+## deepin深度npm安装问题 node-sass 下载不下来
+过程：试过npm换淘宝源，cnpm等。。。都不能解决
+解决：深度换 阿里的源
+
+vim /etc/apt/sources.list
+deb [by-hash=force] http://mirrors.aliyun.com/deepin lion main contrib non-free
+#deb [by-hash=force] https://mirrors.tuna.tsinghua.edu.cn/deepin panda main contrib non-free
+#deb-src http://mirrors.aliyun.com/deepin lion main contrib non-free
+
+然后
+npm install 
+
+npm install cnpm -g --registry=https://registry.npm.taobao.org
+cnpm install 
+
+等等操作,竟然好了
+
 ## 调试 Unexpected end of JSON input while parsing near '...e","version":"0.1.5",'
 ```
 解决
