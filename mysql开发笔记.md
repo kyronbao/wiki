@@ -47,7 +47,7 @@ mysql> USE db1;
 mysql> source dump.sql
 导出  
 导出数据库  
-mysqldump -uroot -p laravel > laravel.sql  
+mysqldump -h127.0.0.1 -uroot -P3306 -p laravel > laravel.sql  
 导出数据库的表  
 mysqldump -uroot -p laravel users > laravel_users.sql  
 
