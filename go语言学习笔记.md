@@ -203,6 +203,16 @@ or
 go run -mod=vendor myapp.go
 
 - https://stackoverflow.com/questions/56818094/how-do-i-debug-a-dependency-package-if-i-have-its-source-code
+
+备注：
+在Goland中，需要这样调试
+例如调试live-reload项目
+首先创建文件夹 live-reload,然后在里面创建main.js,写入作者给的示例
+package main
+
+...
+
+然后在Goland的setting->Go modules->勾选Enable... ,这样，再次打开main.js会自动引入相关包
 ## go安装
 ### Ubuntu安装Go
 原因  
