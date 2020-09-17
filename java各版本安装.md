@@ -70,3 +70,37 @@ $ echo $JAVA_HOME
 https://spring.io/quickstart
 https://mirrors.tuna.tsinghua.edu.cn/help/adoptopenjdk/
 https://installvirtual.com/install-java-8-on-debian-10-buster/
+## maven安装
+在 https://maven.apache.org/download.cgi
+wget https://mirrors.gigenet.com/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+
+解压到 /opt 目录
+
+vim .bashrc
+
+export M2_HOME=/opt/apache-maven-3.6.3
+export M2=$M2_HOME/bin
+export MAVEN_OPTS=-Xmx512m
+export PATH=$M2:$PATH
+
+source .bashrc
+## idea配置maven国内源
+  第一步：找到idea中maven中的“settings.xml”位置
+  一般在idea安装目录下的
+  “D:\IntelliJ IDEA 2017.2.5\plugins\maven\lib\maven3\conf”（参照左面地址）
+  本地是
+sudo vim /opt/idea-IU-193.7288.26/plugins/maven/lib/maven3/conf/settings.xml
+  第二步：找到“<mirrors>”标签
+  在“<mirrors>”标签下加下面语句：
+  
+<mirror>
+<id>nexus-aliyun</id>
+<mirrorOf>central</mirrorOf>
+<name>Nexus aliyun</name>
+<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+</mirror>
+
+测试
+mvn -version
+
+然后点击maven工具那边的刷新按钮，就可以安装依赖到 ~/.m2/ 目录下了
