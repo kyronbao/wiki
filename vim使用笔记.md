@@ -32,7 +32,7 @@ vim的配置文件位置： .vimrc, /etc/vimrc
               :s/bad/good/g   替换行内全部单词  
               :s/bad/good/gc   c 提示确认  
               :%s/bad/good/gc  % 全部替换  
-              :s/bad/good/gi   i 大小写敏感  
+              :s/bad/good/gi   i 大小写不敏感  
               :3,7s/bad/good/gc  3-7行替换  
 插入一行            o O  
 删除                x X  
