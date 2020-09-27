@@ -792,7 +792,7 @@ sudo chmod 755 `sudo find -type d`
 ```
 ## 查看进程 进程树 端口
 查看开启的进程 ps aft | grep tcp.php  
-查看子进程  pstree -p 24451  
+查看子进程  pstree -aup 24451  
 查看开启的端口 sudo netstat -anp | grep 8888  
   
 查看进程数目  
@@ -1322,6 +1322,21 @@ https://code.juhe.cn/docs/203
   
 ## 怎么自动启动程序
 - https://developer.toradex.com/knowledge-base/how-to-autorun-application-at-the-start-up-in-linux
+在/etc/profile.d/ 添加脚步,可以在登录前运行
+
+登录后需要自动运行的程序可以在.config/autostart/配置
+sudo vim .config/autostart/teamviewer.desktop
+sudo vim /etc/profile.d/autostart_teamviewer.sh
+
+[Desktop Entry]
+Name=Teamviewer
+Comment=...
+Icon=teamviewer
+Exec=teamviewer
+Terminal=false
+Type=Application
+X-GNOME-Autostart-Delay=15
+
 ## 添加自启动快捷方式
 ```
 sudo vim /usr/share/applications/pstorm.desktop

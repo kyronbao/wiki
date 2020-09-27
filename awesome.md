@@ -19,6 +19,7 @@ https://www.tapd.cn/21766161/prong/stories/view/1121766161001007279
 - https://rauchg.com/ 最简单的博客样式了，react搭建
 架构  
 - https://github.com/xingshaocheng/architect-awesome
+- https://www.cnblogs.com/edisonchou/p/java_spring_cloud_foundation_sample_list.html Spring Cloud 微服务架构学习笔记与示例
 分布式ID生成  
 参考文章 [分布式ID生成器 | 架构师之路](https://cloud.tencent.com/developer/article/1049122)
 
