@@ -1,6 +1,11 @@
+## 第一次检出checkout
+要从trunk分支检出 
+如
+svn co https://subvs.szhibu.com:1443/svn/FabTradERP/04Code/BMP/product/server/trunk/ productcatalog
+
 ## phpstorm清除授权密码缓存
-setting->Version Control->Subversion->clear Auth Cache
-这样清除了之后在项目中svn up时会重新提示输入密码
+1 setting->Version Control->Subversion->clear Auth Cache
+2 这样清除了之后在项目中svn up时会重新提示输入密码
 ## phpstorm设置svn
 环境
 深度 deepin
