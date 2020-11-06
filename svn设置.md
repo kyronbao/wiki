@@ -3,7 +3,7 @@
 如
 svn co https://subvs.szhibu.com:1443/svn/FabTradERP/04Code/BMP/product/server/trunk/ productcatalog
 
-## phpstorm清除授权密码缓存
+## composer update后无法更新代码？ phpstorm清除授权密码缓存
 1 setting->Version Control->Subversion->clear Auth Cache
 2 这样清除了之后在项目中svn up时会重新提示输入密码
 ## phpstorm设置svn
