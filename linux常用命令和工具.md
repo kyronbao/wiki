@@ -1,4 +1,3 @@
-  
 ## terminal常用快捷键
   
 查找历史命令 Ctrl+R  

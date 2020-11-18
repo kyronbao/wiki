@@ -1,4 +1,4 @@
-* debian9/deepin15.11安装源  
+## debian9/deepin15.11安装源  
 配置源  
   
 ```
@@ -13,7 +13,8 @@ sudo apt install php7.1 （重要,不然安装不了php7.1-gd）
 ```
   
 其他参考Ubuntu16.04安装  
-* Archlinux  
+
+Archlinux  
 ## 卸载PHP7.3
 查看已安装PHP和扩展  
 ```
@@ -218,3 +219,6 @@ sudo update-alternatives --set php-config /usr/bin/php-config7.2
   
   
   
+
+
+

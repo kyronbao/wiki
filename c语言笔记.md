@@ -1,3 +1,4 @@
+## awesome
 - 手册
   - https://zh.cppreference.com/w/c/program
   - http://www.shouce.ren/api/c/index.htm
@@ -21,3 +22,15 @@
   - [有用的C语言工具（Ubuntu Linux版本）](https://blog.csdn.net/jubincn/article/details/7284164)
   - https://askubuntu.com/questions/753635/lint-command-not-found
   - [how to i download and install lint](https://stackoverflow.com/questions/6881269/how-do-i-download-and-install-lint)
+
+# 调试记录
+  
+## Segmentation fault (core dumped)
+最后发现，错误原因为未输入输入参数，如下  
+```
+int main(int argc, char *argv[])
+{
+  int i, n = atoi(argv[1]);
+...
+```
+运行程序时需要：=a.out 11= 格式，输入参数，不然会报如上错误。  

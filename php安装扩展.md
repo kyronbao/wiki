@@ -1,4 +1,53 @@
-* archlinux  
+  * archlinux  
+
+## 安装sqlserver驱动 deepin15.11/debian9
+提示：执行下面命令时 如果提示依赖冲突，用sudo aptitude install unixodbc-dev,然后根据提示解决（备注操作经历：
+按提示删除相应依赖 如： 输入1 2  然后 a 1    a2  然后 y 
+）
+    sudo apt-get install unixodbc-dev
+	
+步骤
+
+sudo pecl install sqlsrv
+
+sudo pecl install pdo_sqlsrv
+
+安装odbc
+https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-2017#debian17
+```
+sudo su
+curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
+#Download appropriate package for the OS version
+#Choose only ONE of the following, corresponding to your OS version
+
+#Debian 8
+curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+#Debian 9(deepin15.11对应版本)
+curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+#Debian 10
+curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+exit
+sudo apt-get update
+sudo ACCEPT_EULA=Y apt-get install msodbcsql17
+# optional: for bcp and sqlcmd
+sudo ACCEPT_EULA=Y apt-get install mssql-tools
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
+# optional: for unixODBC development headers
+sudo apt-get install unixodbc-dev
+# optional: kerberos library for debian-slim distributions
+sudo apt-get install libgssapi-krb5-2
+```
+记得重启
+sudo systemctl restart php7.3-fpm
+sudo systemctl restart nginx
+
+
 ## 安装grpc扩展(pacman安装)
 搜索 sudo pacman -Ss php-grpc  
 安装 sudo pacman -S php-grpc  
