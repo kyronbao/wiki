@@ -1,8 +1,8 @@
-Debug  
+## Debug  
 刷新不出页面  
 1检查和html列和datatable js的列对应关系  
 2 如果以上对应关系正确，清除缓存  
-  
+## 组件备注  
 DOM / jQuery events 获取一行的数据  
 DataTables events  点击搜索，分页等事件  
 Column rendering 可以渲染链接的列，自定义列，按钮等  

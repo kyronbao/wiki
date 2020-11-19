@@ -1,4 +1,3 @@
-npm和yarn  
 ## nvm
 安装nvm  
 参考 - https://github.com/nvm-sh/nvm#git-install  

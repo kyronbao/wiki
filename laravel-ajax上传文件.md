@@ -1,4 +1,3 @@
-  
 ## 直接上传到服务器交互
          $.ajaxSetup({  
             headers: {  

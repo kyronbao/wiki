@@ -1,4 +1,3 @@
-  
 ## 常用快捷键
 		    状态    git status  
 工作区添加到暂存    git add readme.txt  
@@ -241,7 +240,7 @@ vim .gitconfig
 在Ubuntu下.bashrc文件包含.bash_aliases，所以可以：  
 ```
 cd
-vim .bash_aliases
+	vim .bash_aliases
 # 加入以下内容
 alias gitps="git add . && git commit -m '...' && git push"
 
@@ -279,6 +278,7 @@ export LESSCHARSET=utf-8
 ## 更新本地gitignore
 修改.gitignore  
 简单实例  
+
 ```
 # 此为注释 – 将被 Git 忽略
 # 忽略所有 .a 结尾的文件

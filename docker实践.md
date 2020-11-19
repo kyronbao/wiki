@@ -1,5 +1,4 @@
-  
-参考  
+## 参考  
 - https://docs.docker.com/ 官方文档
 - https://hub.docker.com/ docker源 搜索mysql nginx php分别有官方维护的包
 - https://docs.docker.com/compose/compose-file/ Dockerfile的命令

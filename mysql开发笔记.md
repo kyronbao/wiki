@@ -1,4 +1,3 @@
-
 ## mysql 紧急停止
 ubuntu下 /etc/init.d/mysql stop  
 ## 创建数据库，导入导出，设置Character Set and Collation  

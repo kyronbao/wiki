@@ -1,4 +1,3 @@
-  
 Lumen是Laravel的轻量级框架，那么开发Api使用Laravel还是Lumen呢？  
   
 最近做个项目，打算提供前端页面和后台管理的API，后台使用Cookie管理状态，使用Lumen了搭建了一波。说一下遇到的问题，Lumen测试组件不支持Cookie测试，于是使用了 [lumen-testing](https://github.com/albertcht/lumen-testing) 代替了，然后使用sqlite内存测试时，需要创建Migration表来支持测试，然后呢，使用不了 =Use DatabaseMigrations= ...，折腾...  

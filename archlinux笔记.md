@@ -1,6 +1,3 @@
-  
-  
-  
 ## 滚动更新
 ```
 sudo pacman -Syu

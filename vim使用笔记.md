@@ -1,5 +1,3 @@
-
-
 vim的配置文件位置： .vimrc, /etc/vimrc  
   
 移动光标：  

@@ -1,5 +1,4 @@
-  
-archlinux官方源中由于协议原因移除了mongodb  
+ archlinux官方源中由于协议原因移除了mongodb  
   
 所以通过aur安装，感觉半个小时还没安装完，太慢了（编译的文件夹有4G多），所以暂停从aur安装  
   

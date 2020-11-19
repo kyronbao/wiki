@@ -1,4 +1,3 @@
-  
 单例模式  
 ```
 class Singleton {

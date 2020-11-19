@@ -1,5 +1,3 @@
-  * archlinux  
-
 ## 安装sqlserver驱动 deepin15.11/debian9
 提示：执行下面命令时 如果提示依赖冲突，用sudo aptitude install unixodbc-dev,然后根据提示解决（备注操作经历：
 按提示删除相应依赖 如： 输入1 2  然后 a 1    a2  然后 y 

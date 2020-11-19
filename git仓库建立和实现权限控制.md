@@ -1,5 +1,5 @@
   
-限制git用户只执行git的权限通过git-shell  
+## 限制git用户只执行git的权限通过git-shell  
   
 其中权限管理有不同仓库的读权限和不同分支的相关权限设置  
 ## 方法一 无安装软件解决方案  [[https://git-scm.com/book/zh/v1/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%83%A8%E7%BD%B2-Git][在服务器上部署 Git]] 小型安装  [Setting Up the Server](https://git-scm.com/book/en/v2/Git-on-the-Server-Setting-Up-the-Server) <2018-01-16 二>

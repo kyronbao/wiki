@@ -1,4 +1,4 @@
-https://www.tapd.cn/21766161/prong/stories/view/1121766161001007279  
+## awesome
 - https://github.com/sindresorhus/awesome#readme
 翻译  
 - https://github.com/LCTT/TranslateProject linux中国

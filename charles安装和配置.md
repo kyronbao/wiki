@@ -1,5 +1,4 @@
-  
-```
+ ```
 sudo vim /usr/share/applications/charles.desktop
 ```
 https://www.tapd.cn/21766161/prong/stories/view/1121766161001007279  

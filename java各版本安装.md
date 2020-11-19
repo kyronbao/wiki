@@ -1,4 +1,3 @@
-
 ## debian9/deepin15.11 安装默认java版本
 
 在本机测试
