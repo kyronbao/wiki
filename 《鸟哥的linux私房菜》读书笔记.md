@@ -1,6 +1,4 @@
-* linux 鸟哥  
-* 基础篇  
-* 5	首次登入与在线求助 man page  
+## 5	首次登入与在线求助 man page  
 重启X Window    C-M-<del>  
 X Window 与 terminal 切换         C-M-[F1]~[F6] C-M-[F7]  
 注销            exit  
@@ -15,7 +13,7 @@ man
 日历            cal 5 2017  
 计算器          bc  
   
-* 6 Linux 的档案权限与目录配置  
+## 6 Linux 的档案权限与目录配置  
   
 目录的 w 权限代表目录下的文件名可以变动(移动、删除等)  
 目录的 x 权限代表目录下文件的读取、修改、执行  
@@ -34,7 +32,7 @@ drwx------ /home/arpher/demo/ 下的所有文件其他人不能读取
 查看核心版本 uname -r  
 查看distribution信息 lsb_release -a  
   
-* 7 Linux 档案与目录管理  
+## 7 Linux 档案与目录管理  
   
 ```
 cd - 回到上一个目录
@@ -120,22 +118,27 @@ sudo find /var -name '*Car*'
 examle 假设系统中有两个账号,分别是 Jim 与 Tom ,这两个人除了自己群组外还共同支持  
 一个名为 project 的群组。假设这两个用户需要共同拥有 /srv/ahome/ 目录的开发权,该目录限制  
 其他人进入查阅  
-  
+```  
 groupadd project  
-```
+
 useradd -G project Jim
 useradd -G project Tom
-```
+
   
-```
+
 mkdir /srv/ahome
-```
+
 chgrp project /srv/ahome  
-```
+
 chmod 2770 /srv/ahome     0->其他人不能查看 77->同组内可以新建 2->SGID 新建的文件的组属于文件组
 ```
   
-* 8 Linux 磁盘与文件系统管理  
+```
+sudo groupadd www 
+sudo usermod -a -G www www-data
+sudo usermod -a -G www qianyong
+```
+## 8 Linux 磁盘与文件系统管理  
   
 查看文件系统的大小  
 df -h /usr  查看对应的设备  

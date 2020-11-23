@@ -1,8 +1,23 @@
-## 经验
+## 安装后怎么设置权限
+- https://stackoverflow.com/questions/30639174/how-to-set-up-file-permissions-for-laravel
+
+cd ./laravel
+
+sudo chown -R www-data:www-data 
+
+sudo find ./ -type f -exec chmod 664 {} \;    
+sudo find ./ -type d -exec chmod 775 {} \;
+
+sudo usermod -a -G www-data qianyong
+
+
+这两行感觉可以不运行
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
 ## 内存超出
 Fatal Error: Allowed Memory Size of 134217728 Bytes Exhausted  
 在使用docker-compose时，如果.env的密码错误也会报这个错  
-## 本地开发时不用php artisan serve
+## 本地开发时建议不用php artisan serve
 在用5.8自带的Auth组件开发login时，遇到一个问题，访问api/user路由，当加上'auth:api'中间件后，总是提示NotFound的问题，一直找不到原因。  
   
 通过搜索，有人提示可能serve有bug，于是用PHP原生命令行启动服务后，发现登录后又再次访问了'/home'路由，原因找到了，这就是报错Notfound的原因。PHP原生启动命令会记录访问地址，所以方便排查。  
