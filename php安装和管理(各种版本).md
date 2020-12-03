@@ -15,6 +15,7 @@ sudo apt install php7.1 （重要,不然安装不了php7.1-gd）
 其他参考Ubuntu16.04安装  
 
 Archlinux  
+# archlinux
 ## 卸载PHP7.3
 查看已安装PHP和扩展  
 ```
@@ -94,7 +95,7 @@ sudo ln -s /usr/bin/php-fpm71 /usr/bin/php-fpm
 fastcgi_pass unix:/var/run/php71-fpm/php-fpm.sock;
 ```
   
-* Ubuntu 16.04  
+# Ubuntu 16.04  
 ## PHP各版本安装
 ```
 # 查看库中版本号

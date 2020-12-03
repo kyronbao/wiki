@@ -138,6 +138,16 @@ vim .bash_profile
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ```
 参考 https://wiki.swoole.com/wiki/page/p-redis.html 评论  
+## ubuntu/debian的phpenmod,phpdismod工具
+```
+Enable module for specific SAPI
+phpenmod -s cli mbstring
+phpenmod -s fpm mbstring
+phpenmod -s apache2 mbstring
+
+phpdismod -v 7.3 mbstring
+```
+- https://tecadmin.net/enable-disable-php-modules-ubuntu/
 ## 安装xdebug
 下载  
   

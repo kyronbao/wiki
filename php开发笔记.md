@@ -1,4 +1,5 @@
 ## awesome
+
 -书籍
 - [《深入理解PHP内核》](http://www.php-internals.com/)
 - http://www.cunmou.com/phpbook/preface.md 《PHP扩展开发及内核应用》
@@ -13,7 +14,10 @@
 - https://laravel-china.org/topics/17232 网友整理
 - https://github.com/ziadoz/awesome-php
 - [PHP并发IO编程之路](http://rango.swoole.com/archives/508)
-  
+
+SAPI，特意去查了一下，它是 Server Application Programming Interface
+- https://www.php.cn/php-weizijiaocheng-410435.html
+
 缓存  
 - [Opcode是啥以及如何使用好Opcache](https://www.zybuluo.com/phper/note/1016714)
   
@@ -244,3 +248,7 @@ Converting an array/stdClass -> array
 $array = json_decode(json_encode($booking), true);  
 stdClass -> array  一维  
 $array = (array)$stdClass;  
+## 前段传值isPage为0时怎么验证？
+        if (isset($params['isPage']) && in_array($params['isPage'],['1','0'])) {
+            $query = $query->where('isPage',(int)$params['isPage']);
+        }
