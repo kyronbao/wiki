@@ -102,7 +102,7 @@ sudo systemctl reload nginx
   
 参考  
 - [How To Install Linux, Nginx, MySQL, PHP (LEMP stack) in Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04)
-- https://www.cnblogs.com/buffer/archive/2011/07/24/2115552.html 介绍了作者的一些nginx方面的实践
+  - https://www.cnblogs.com/buffer/archive/2011/07/24/2115552.html 介绍了作者的一些nginx方面的实践
 ## 配置虚拟主机
 命令  
 使用  

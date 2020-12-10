@@ -69,6 +69,14 @@ $ echo $JAVA_HOME
 https://spring.io/quickstart
 https://mirrors.tuna.tsinghua.edu.cn/help/adoptopenjdk/
 https://installvirtual.com/install-java-8-on-debian-10-buster/
+## debian9/deepin15.11 安装java version "1.8.0_271"
+配置.bashrc
+
+export JAVA_HOME=/opt/jdk1.8.0_271  
+export JRE_HOME=${JAVA_HOME}/jre  
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
+export PATH=${JAVA_HOME}/bin:$PATH
+
 ## maven安装
 在 https://maven.apache.org/download.cgi
 wget https://mirrors.gigenet.com/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz

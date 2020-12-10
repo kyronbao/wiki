@@ -1,4 +1,9 @@
-## 安装后怎么设置权限
+# 文档
+Laravel 速查表　https://learnku.com/docs/laravel-cheatsheet/7.x
+
+# 安装后设置
+
+## 安装后设置权限
 - https://stackoverflow.com/questions/30639174/how-to-set-up-file-permissions-for-laravel
 
 cd ./laravel
@@ -14,18 +19,7 @@ sudo usermod -a -G www-data qianyong
 这两行感觉可以不运行
 sudo chgrp -R www-data storage bootstrap/cache
 sudo chmod -R ug+rwx storage bootstrap/cache
-## 内存超出
-Fatal Error: Allowed Memory Size of 134217728 Bytes Exhausted  
-在使用docker-compose时，如果.env的密码错误也会报这个错  
-## 本地开发时建议不用php artisan serve
-在用5.8自带的Auth组件开发login时，遇到一个问题，访问api/user路由，当加上'auth:api'中间件后，总是提示NotFound的问题，一直找不到原因。  
-  
-通过搜索，有人提示可能serve有bug，于是用PHP原生命令行启动服务后，发现登录后又再次访问了'/home'路由，原因找到了，这就是报错Notfound的原因。PHP原生启动命令会记录访问地址，所以方便排查。  
-为什么会访问'/home'路由呢，原来是在 =LoginController= 里加了guest中间间，登录后会自动跳转到'/home'.  
-  
-所以建议使用 php -S localhost -t public  
-laravel自带的serve命令启动后terminal没有url记录访问记录，不方便调试。  
-  
+
 ## 安装类后找不到
 当在项目中新建命名空间和类时  
 执行  
@@ -38,11 +32,83 @@ composer dump-autoload
 如果在测试环境开发  
 需要确保版本代码一致  
   
-## 500 无日志 lumen
+## route路由访问不到排查
+  
+检查路由顺序是否正确  
+=$router->get('adminuser/changeSelf',...=  
+必须在 =$router->resource('adminuser', 'AdminUserController');= 前面  
+  
+## /welcome路由可以访问，其他路由Not Found
+可能是没有启用伪静态规则  
+  
+apache  
+开启apache2的rewrite模块  
+```
+sudo a2enmod rewrite
+
+sudo vim /etc/apache2/apache2.conf
+将其中的AllowOverride None 全部替换为 AllowOverride All：
+```
+  
+nginx  
+```
+location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+```
+## 显示不了视图
+控制器可以显示已有的视图，但是无法显示新建的视图，报500服务器错误。  
+  
+给storage目录增加权限  
+```
+sudo chown -R www-data:www-data storage/
+```  
+## 500 无日志
 ```
 chown -R 777 storage/
 ```
+ 
+
+## composer安装laravel5.5时carbon提示 You can run ".\vendor\bin\upgrade-carbon" to get help
+参考https://stackoverflow.com/questions/57408621/cannot-upgrade-carbon-1-to-carbon-2
+add the following dependencies to your composer.json**:
+
+{
+  ...
+  "require": {
+    ...
+    "kylekatarnls/laravel-carbon-2": "^1.0.0",
+    "nesbot/carbon": "2.0.0-beta.2 as 1.25.0"
+  }
+  ...
+}
+then run:
+
+composer update
+
+
+# 组件
+## laravel组件跨域处理 使用https://github.com/barryvdh/laravel-cors
+这个组件基于https://github.com/asm89/stack-cors 使用
+安装组件后，支持前端首先option请求，返回可用method, 然后前端再次发出请求的模式
+
+# bug记录
+
+## docker-compose .env配置错误:  Fatal Error: Allowed Memory Size of 134217728 Bytes Exhausted  
+在使用docker-compose时，如果.env的密码错误也会报这个错  
+## artisan文件bug: 访问api/user路由，当加上'auth:api'中间件后，总是提示NotFound
+5.8自带的Auth组件开发login时，遇到一个问题，访问api/user路由，当加上'auth:api'中间件后，总是提示NotFound
+在用5.8自带的Auth组件开发login时，遇到一个问题，访问api/user路由，当加上'auth:api'中间件后，总是提示NotFound的问题，一直找不到原因。  
   
+通过搜索，有人提示可能serve有bug，于是用PHP原生命令行启动服务后，发现登录后又再次访问了'/home'路由，原因找到了，这就是报错Notfound的原因。PHP原生启动命令会记录访问地址，所以方便排查。  
+为什么会访问'/home'路由呢，原来是在 =LoginController= 里加了guest中间间，登录后会自动跳转到'/home'.  
+  
+所以建议使用 php -S localhost -t public  
+laravel自带的serve命令启动后terminal没有url记录访问记录，不方便调试。  
+  
+本地开发时建议不用php artisan serve
+
+ 
 ## lumen写文件时使用file_put_contents()函数不起作用
   
 估计是lumen中做了限制  
@@ -135,26 +201,8 @@ Declaration of App\Providers\RouteServiceProvider::boot(Illuminate\Routing\Route
 https://stackoverflow.com/questions/44788861/laravel-trait-illuminate-foundation-auth-authenticatesandregistersusers-not-f  
 https://stackoverflow.com/questions/44789114/laravel-trait-method-guard-has-not-been-applied-because-there-are-collisions-w  
   
-## bug 新建插入字段不成功
-  fix 检查Model 的fill  
-  
-## composer安装laravel5.5时carbon提示 You can run ".\vendor\bin\upgrade-carbon" to get help
-参考https://stackoverflow.com/questions/57408621/cannot-upgrade-carbon-1-to-carbon-2
-add the following dependencies to your composer.json**:
 
-{
-  ...
-  "require": {
-    ...
-    "kylekatarnls/laravel-carbon-2": "^1.0.0",
-    "nesbot/carbon": "2.0.0-beta.2 as 1.25.0"
-  }
-  ...
-}
-then run:
-
-composer update
-## 报错 =Call to undefined method Illuminate\View\Factory::getFirstLoop()= 处理
+## 缓存未清理：Call to undefined method Illuminate\View\Factory::getFirstLoop()
 ```
 FatalThrowableError in 2154f392745gf102547be138a945a11b58e5649203.php line 2:
 Call to undefined method Illuminate\View\Factory::getFirstLoop()
@@ -164,41 +212,10 @@ Call to undefined method Illuminate\View\Factory::getFirstLoop()
 php artisan view:clear
 ```
   
-## laravel跨域处理 使用https://github.com/barryvdh/laravel-cors
-这个组件基于https://github.com/asm89/stack-cors 使用
-安装组件后，支持前端首先option请求，返回可用method, 然后前端再次发出请求的模式
-## route路由访问不到排查
-  
-检查路由顺序是否正确  
-=$router->get('adminuser/changeSelf',...=  
-必须在 =$router->resource('adminuser', 'AdminUserController');= 前面  
-  
-## /welcome路由可以访问，其他路由Not Found
-可能是没有启用伪静态规则  
-  
-apache  
-开启apache2的rewrite模块  
-```
-sudo a2enmod rewrite
 
-sudo vim /etc/apache2/apache2.conf
-# 将其中的AllowOverride None 全部替换为 AllowOverride All：
-```
-  
-nginx  
-```
-location / {
-    try_files $uri $uri/ /index.php?$query_string;
-}
-```
-## 显示不了视图
-控制器可以显示已有的视图，但是无法显示新建的视图，报500服务器错误。  
-  
-给storage目录增加权限  
-```
-sudo chown -R www-data:www-data storage/
-```
-## .env连接redis配置后，改为file,关闭redis-server，测试时仍然每次提示redis连接失败
+
+
+## 缓存未清理：.env连接redis配置后，改为file,关闭redis-server，测试时仍然每次提示redis连接失败
 原因解析：  
 配置文件缓存  
   
@@ -206,372 +223,8 @@ sudo chown -R www-data:www-data storage/
 ```
 php artisan config:clear
 ```
-## 5.6版修改User Model位置为App/Models后使用不了原有的登录套件
-在 =Auth\LoginController= 中添加方法  
-```
-    public function login(Request $request)
-    {
-        $this->validateLogin($request);
 
-        if ($this->attemptLogin($request)) {
-            $user = $this->guard()->user();
-            $user->generateToken();
-
-            return response()->json([
-                'data' => $user->toArray(),
-            ]);
-        }
-
-        return $this->sendFailedLoginResponse($request);
-    }
-```
-curl访问接口  
-```
-curl -X POST http://apidemo.test/api/login \
-    -H "Accept: application/json" \
-    -H "Content-type: application/json" \
-    -d "{\"email\": \"admin@laravelacademy.org\", \"password\": \"test123\" }"
-```
-报错  
-```
-
-{
-    "message": "Class '\\App\\User' not found",
-    "exception": "Symfony\\Component\\Debug\\Exception\\FatalThrowableError",
-    "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Auth/EloquentUserProvider.php",
-    "line": 154,
-    "trace": [
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Auth/EloquentUserProvider.php",
-            "line": 114,
-            "function": "createModel",
-            "class": "Illuminate\\Auth\\EloquentUserProvider",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Auth/SessionGuard.php",
-            "line": 352,
-            "function": "retrieveByCredentials",
-            "class": "Illuminate\\Auth\\EloquentUserProvider",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesUsers.php",
-            "line": 79,
-            "function": "attempt",
-            "class": "Illuminate\\Auth\\SessionGuard",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/app/Http/Controllers/Auth/LoginController.php",
-            "line": 47,
-            "function": "attemptLogin",
-            "class": "App\\Http\\Controllers\\Auth\\LoginController",
-            "type": "->"
-        },
-        {
-            "function": "login",
-            "class": "App\\Http\\Controllers\\Auth\\LoginController",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
-            "line": 54,
-            "function": "call_user_func_array"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
-            "line": 45,
-            "function": "callAction",
-            "class": "Illuminate\\Routing\\Controller",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
-            "line": 212,
-            "function": "dispatch",
-            "class": "Illuminate\\Routing\\ControllerDispatcher",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
-            "line": 169,
-            "function": "runController",
-            "class": "Illuminate\\Routing\\Route",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-            "line": 665,
-            "function": "run",
-            "class": "Illuminate\\Routing\\Route",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 30,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Router",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/app/Http/Middleware/RedirectIfAuthenticated.php",
-            "line": 24,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "App\\Http\\Middleware\\RedirectIfAuthenticated",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
-            "line": 41,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
-            "line": 57,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 104,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-            "line": 667,
-            "function": "then",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-            "line": 642,
-            "function": "runRouteWithinStack",
-            "class": "Illuminate\\Routing\\Router",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-            "line": 608,
-            "function": "runRoute",
-            "class": "Illuminate\\Routing\\Router",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
-            "line": 597,
-            "function": "dispatchToRoute",
-            "class": "Illuminate\\Routing\\Router",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-            "line": 176,
-            "function": "dispatch",
-            "class": "Illuminate\\Routing\\Router",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 30,
-            "function": "Illuminate\\Foundation\\Http\\{closure}",
-            "class": "Illuminate\\Foundation\\Http\\Kernel",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/fideloper/proxy/src/TrustProxies.php",
-            "line": 57,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "Fideloper\\Proxy\\TrustProxies",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-            "line": 31,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
-            "line": 31,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
-            "line": 27,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php",
-            "line": 51,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 151,
-            "function": "handle",
-            "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Routing/Pipeline.php",
-            "line": 53,
-            "function": "Illuminate\\Pipeline\\{closure}",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
-            "line": 104,
-            "function": "Illuminate\\Routing\\{closure}",
-            "class": "Illuminate\\Routing\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-            "line": 151,
-            "function": "then",
-            "class": "Illuminate\\Pipeline\\Pipeline",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
-            "line": 116,
-            "function": "sendRequestThroughRouter",
-            "class": "Illuminate\\Foundation\\Http\\Kernel",
-            "type": "->"
-        },
-        {
-            "file": "/var/www/laratice/public/index.php",
-            "line": 55,
-            "function": "handle",
-            "class": "Illuminate\\Foundation\\Http\\Kernel",
-            "type": "->"
-        }
-    ]
-}
-```
-  
-修改会原来的位置 =App\User= 解决。  
-## 5.5版Curl api/register...时报 “Function not exist”
-解决：  
-```
-Route::post('register', ['as'=>'register', 'use'=>'Auth\RegisterController@register']);
-
-# use改为uses
-```
-## node install时报错
+## npm install时报错
 按最前面提示执行  
 ```
 npm rebuild node-sass --force
@@ -590,16 +243,13 @@ Module not found: Error: Can't resolve 'vue-loader' in '/var/www/laratice'
 npm install
 ```
   
-## 执行php artisan jwt:generate时报错
-Go to JWTGenerateCommand.php file located in vendor/tymon/src/Commands and paste this part of code  
-public function handle() { $this->fire(); }  
-- https://github.com/tymondesigns/jwt-auth/issues/1298
-## 日志大量快速生成  Class 'Predis\Client' not found
+
+## supervsor未关闭: 日志大量快速生成  Class 'Predis\Client' not found
 解决思路：想想哪里启动了redis服务  
 原因：supervsor未关闭，启动了redis服务  
 执行：sudo supervisorctl stop laravel-worker:*  
   
-## jwt登录后测试resfulapi laravel的认证报错
+## jwt组件User的trait未配置：jwt登录后测试resfulapi laravel的认证报错
 ```
 "message": "Type error: Argument 1 passed to Illuminate\\Auth\\SessionGuard::login() must be an instance of Illuminate\\Contracts\\Auth\\Authenticatable, string given, called in /var/www/laratice/vendor/laravel/framework/src/Illuminate/Foundation/Auth/RegistersUsers.php on line 35",
 ```
@@ -615,7 +265,7 @@ class User extends \Eloquent implements Authenticatable
 use AuthenticableTrait;
 ```
 - https://github.com/jenssegers/laravel-mongodb/issues/702
-## Postman测试/api/register跳转不返回数据
+## postman未加请求报文：postman测试/api/register跳转不返回数据
 用curl命令执行成功返回json格式  
 ```
 curl -X POST http://laratice.cc/api/register     -H "Accept: application/json"     -H "Content-Type: application/json"     -d '{"name": "学院君", "email": "admin@laravelacademy.org", "password": "test123", "password_confirmation": "test123"}'
@@ -629,7 +279,7 @@ Postman加请求头
 "Accept: application/json"
 "Content-Type: application/json"
 ```
-## 查看源码时，不小心动了wender中的文件，报错
+## 误操作修改了源码：Builder::getRelaztion does not exist. 
 BadMethodCallException  
 Method Illuminate\Database\Query\Builder::getRelaztion does not exist.  
   
@@ -687,8 +337,8 @@ $paginator->getCollection()->transform(function ($value) {
 Arr::wrap()  包裹给定的值字符串或空值为 数组  
   
 Str::is('test*', 'test11') 验证字符串相等或匹配字符串  
-  如  
-  
+
+
   
 ## 数据库join连接
   
@@ -697,3 +347,5 @@ Str::is('test*', 'test11') 验证字符串相等或匹配字符串
         $query->select(  
             'trade_platform', 'business_type', 'trade_result_time', 'amount', 'trade_no',  
             'bank_card_account', 'bank_card_no', 'trade_desc','trade.created_time'  
+
+
