@@ -1,4 +1,4 @@
-  
+## sublime安装和配置  
   
 下载地址 https://www.sublimetext.com/3  
 解压  
@@ -50,7 +50,7 @@ Exec=/opt/sublime_text/sublime_start_cn
     "translate_tabs_to_spaces": true  
 }  
   
-## Sublime代码格式化
+### Sublime代码格式化
 ```
 1、打开设置快捷键的界面（分左右两块区域，左边为编辑器默认，通常为了保证不影响正常功能，左边的默认设置不作修改，而修改右边的User区域）：
 
@@ -63,7 +63,7 @@ Preferences → Key Bindings – User
 ```
 - https://my.oschina.net/u/171860/blog/754867
   
-## Sublime Text 3 Build 3176 Windows、MacOS、Linux破解方法
+### Sublime Text 3 Build 3176 Windows、MacOS、Linux破解方法
 - https://blog.csdn.net/qq_35357588/article/details/81120101
 修改电脑的hosts文件添加屏蔽记录  
   
@@ -99,7 +99,7 @@ F913BE58 42FEA319 F954EFDD AE881E0B
 设置 Preferences -> Settings-User  
   
 添加 "update_check": false  
-## 执行sudo apt update时提示
+### 执行sudo apt update时提示
 The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C2518248EEA14886  
   
 移除该源  
@@ -107,7 +107,7 @@ The following signatures couldn't be verified because the public key is not avai
 sudo mv /etc/apt/sources.list.d/webupd8team-ubuntu-sublime-text-3-xenial.list /tmp
 ```
 再次sudo apt update 无提示  
-## 默认的Sublime 3中没有Package Control
+### 默认的Sublime 3中没有Package Control
 - https://blog.csdn.net/zbx931197485/article/details/79873721
 原来Subl3安装Package Control很麻烦，现在简单的方法来了  
   
@@ -134,4 +134,4 @@ import urllib2,os; pf='Package Control.sublime-package'; ipp = sublime.installed
 3.下载Package Control.sublime-package并复制到Installed Packages/目录  
   
 4.重启Sublime Text。  
-## 支持react语法
+### 支持react语法

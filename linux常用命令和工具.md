@@ -516,6 +516,9 @@ CPU  dmesg | grep CPU
 	配置文件 /etc/logrotate.conf  
   
   
+## 查看文件大小
+cd ./laravel
+du -h -d 1 --exclude=./.svn --exclude=./vendor ./
 ## shell学习笔记
 脚本条件判断中-z什么意思  
 string is null, that is, has zero length  
