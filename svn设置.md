@@ -1,3 +1,13 @@
+## 拉代码时不更新，子目录对应的版本不一致，有Switched Files
+检查发现，子目录里有些版本对应的是上次开发的版本
+参考　https://stackoverflow.com/questions/7854001/what-are-switched-files-with-regard-to-svn-intellij
+svn st 发现　含有
+    S  file1.txt
+    S  file2.txt
+在根目录执行
+　svn switch URL
+可以递归切换子目录的对应分支
+再次执行　svn st 发现ok
 ## 第一次检出checkout
 要从trunk分支检出 
 如
