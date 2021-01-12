@@ -8,6 +8,10 @@ bin/zkServer.sh start
 
 https://www.digitalocean.com/community/tutorials/how-to-install-apache-kafka-on-ubuntu-18-04
 
+启动
+sudo bin/kafka-server-start.sh config/server.properties
+
+
 First, create a topic named TutorialTopic by typing:
 
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic TutorialTopic
@@ -25,5 +29,3 @@ The following command consumes messages from TutorialTopic. Note the use of the 
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic TutorialTopic --from-beginning
 
 
-启动
-sudo bin/kafka-server-start.sh config/server.properties

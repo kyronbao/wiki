@@ -1,3 +1,4 @@
+#+TAGS: @work @home @tennisclus
 ## 滚动更新
 ```
 sudo pacman -Syu

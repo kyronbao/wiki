@@ -1,3 +1,11 @@
+
+## No appropriate protocol (protocol is disabled or cipher suites are inappropriate)
+1、打开终端，输入 svn ls https://(这里是自己对应项目的地址)
+2、输入p，随意输入密码
+3、根据要求输入svn的账号密码
+4、刷新
+
+参考　https://www.jianshu.com/p/1d8669bcd347
 ## 拉代码时不更新，子目录对应的版本不一致，有Switched Files
 检查发现，子目录里有些版本对应的是上次开发的版本
 参考　https://stackoverflow.com/questions/7854001/what-are-switched-files-with-regard-to-svn-intellij
