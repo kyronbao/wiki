@@ -167,6 +167,99 @@ RBAC实现
 - http://www.shiguopeng.cn/archives/317
 博客项目  
 
+## 列表搜索优化例子
+```
+Trait CommonSearcher
+{
+    /**
+    // 参数示例
+    public $searchParams = [
+        'code' => 'like',
+        'bdYarnCountId' => '=',//key为数据库字段驼峰格式, value可以为'=', '>', '<', '>=', '<=', 'like'
+        'createdTime' => [
+            //type 必填，标识区间类型,参数: either|both，either表示前端可传区间的一个参数即可搜索，both表示前端需要传两个参数才生效
+            'type' => 'either',
+            'params' => [
+                //createdBegin 为搜索字段的前端传值
+                'createdBegin' =>'>=',
+                'createdEnd' =>'<=',
+            ],
+        ],
+    ];
+    */
+
+    /**
+     * 驼峰转化大写
+     *
+     * @param $key
+     * @return string
+     */
+    public function snakeUpper($key)
+    {
+        $key = Str::snake($key);
+        return Str::upper($key);
+    }
+
+
+    /**
+     * 普通的键值对搜索
+     *
+     * @param $params
+     */
+    public function searchNormal($params)
+    {
+
+        $data = array_filter($this->searchParams, function ($v,$k) {
+            if (in_array($v, ['=', '>', '<', '>=', '<=', 'like'])) {
+                return true;
+            }
+        }, ARRAY_FILTER_USE_BOTH);
+        foreach ($data as $paramName => $operator) {
+            if(isset($params[$paramName]) && $params[$paramName] != '') {
+                $upperName = $this->snakeUpper($paramName);
+                $value = $operator !== 'like' ? $params[$paramName] : '%'.$params[$paramName].'%';
+                $this->query = $this->query->where($upperName, $operator, $value);
+            }
+        }
+    }
+
+
+    /**
+     * 区间字段的搜索
+     *
+     * @param $params
+     */
+    public function searchInterval($params)
+    {
+        $data = array_filter($this->searchParams, function ($v,$k) {
+            if(isset($v['type']) && in_array($v['type'],['both','either'])) {
+                return true;
+            }
+        }, ARRAY_FILTER_USE_BOTH);
+        foreach($data as $key => $item) {
+            $key = $this->snakeUpper($key);
+            switch ($item['type']) {
+                case 'either':
+                    foreach($item['params'] as $paramName => $operator) {
+                        if (isset($params[$paramName])) {
+                            $this->query = $this->query->where($key, $operator, $params[$paramName]);
+                        }
+                    }
+                    break;
+
+                case 'both':
+                    $paramNames = array_keys($item['paramStrings']);
+                    if (isset($params[$paramNames[0]]) && isset($params[$paramNames[1]])) {
+                        foreach($params['params'] as $paramName => $operator) {
+                            $this->query = $this->query->where($key, $operator, $params[$paramName]);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+}
+```
 ## "guzzlehttp/guzzle": "^6.3" 访问外部接口例子
 ```
         $client = new Client();
