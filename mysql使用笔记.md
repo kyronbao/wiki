@@ -1,3 +1,25 @@
+## mysql中set autocommit=0与start transaction区别
+set autocommit=0,
+当前session禁用自动提交事物，自此句执行以后，每个SQL语句或者语句块所在的事务都需要显示"commit"才能提交事务。
+
+start transaction
+
+指的是启动一个新事务。
+
+ 
+
+     在默认的情况下，MySQL从自动提交（autocommit）模式运行，这种模式会在每条语句执行完毕后把它作出的修改立刻提交给数据库并使之永久化。事实上，这相当于把每一条语句都隐含地当做一个事务来执行。如果你想明确地执行事务，需要禁用自动提交模式并告诉MySQL你想让它在何时提交或回滚有关的修改。
+执行事务的常用办法是发出一条START TRANSACTION（或BEGIN）语句挂起自动提交模式，然后执行构成本次事务的各条语句，最后用一条 COMMIT语句结束事务并把它们作出的修改永久性地记入数据库。万一在事务过程中发生错误，用一条ROLLBACK语句撤销事务并把数据库恢复到事务开 始之前的状态。
+https://www.cnblogs.com/langtianya/p/4777662.html
+## 彻底搞懂 MySQL 事务的隔离级别
+ https://developer.aliyun.com/article/743691
+## 事务隔离级别中的可重复读能防幻读吗?
+ https://cloud.tencent.com/developer/article/1506516
+
+## explain索引优化
+　https://segmentfault.com/a/1190000008131735
+同一个SQL语句，为啥性能差异咋就这么大呢？（1分钟系列）
+Original 58沈剑  架构师之路 https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&mid=2651962514&idx=1&sn=550c48c9395b52b7ec561741e86e5ce0&chksm=bd2d094e8a5a80589117a653a30d062b5760ec20f8ab9e2154a63ab782d3353d1b1da50b9bc2&scene=21#wechat_redirect
 ## mysql 紧急停止
 ubuntu下 /etc/init.d/mysql stop  
 ## 创建数据库，导入导出，设置Character Set and Collation  
