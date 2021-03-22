@@ -296,7 +296,22 @@ Trait CommonSearcher
 ## PHP使用preg_split函数分割含换行和分号字符串
 $result = preg_split('/[;\r\n]+/s', $value);   // 返回数据保存在$result数组中  
 ## 二位数组的排序
+### 按多维数组的嵌套值排序
+        $arr = [
+            ['aa'=>11, 'bb'=>['cc'=>11,'dd'=>2]],
+            ['aa'=>33, 'bb'=>['cc'=>33,'dd'=>1]],
+            ['aa'=>22, 'bb'=>['cc'=>22,'dd'=>3]],
+        ];
+		https://stackoverflow.com/questions/22247844/array-multisort-array-sizes-are-inconsistent
 
+        foreach($arr as $key=>$val) {
+            $new[$key] = $val['bb']['dd'];
+        }
+
+        array_multisort($new,SORT_DESC, $arr);
+        return $arr;
+
+### 
 如果按两个字段排序，可以这样
 
         array_multisort(array_column($params, 'seq'),SORT_ASC,

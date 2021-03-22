@@ -1,8 +1,8 @@
 ## kafka　使用
 zookeeper 
-https://zhuanlan.zhihu.com/p/69114539 为什么需要 Zookeeper
+ https://zhuanlan.zhihu.com/p/69114539 为什么需要 Zookeeper
 
-https://blog.csdn.net/u010889616/article/details/80641922 ubuntu18.04下Kafka安装与部署
+https://blog.csdn.net/u010889616/article/details/80641922 ubuntu18.04下Kafka安装与部署(后面有些命令不准确，参考下面的链接的内容实践)
 
 bin/zkServer.sh start
 
@@ -27,5 +27,3 @@ Next, you can create a Kafka consumer using the kafka-console-consumer.sh script
 The following command consumes messages from TutorialTopic. Note the use of the  --from-beginning flag, which allows the consumption of messages that were published before the consumer was started:
 
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic TutorialTopic --from-beginning
-
-

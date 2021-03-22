@@ -119,17 +119,14 @@ sudo apt-get install php5.6   # for PHP 5.6
 sudo apt-get install php5.5   # for PHP 5.5
 
 
-sudo apt-get install php7.1 php7.1-dev \
-php7.1-fpm \
-php7.1-mysql \
-php7.1-pdo
+sudo apt-get install php7.1 php7.1-dev php7.1-fpm php7.1-mysql php7.1-pdo
 
 备注:phpize依赖php7.1-dev
 debian9中安装依赖
 
 laravel/lumen 需要的扩展
 即composer install的时候按提示所安装的扩展
-sudo apt install php7.1-dom php7.1-mbstring php7.1-curl php7.
+sudo apt install php7.1-dom php7.1-mbstring php7.1-curl
 
 (这里备注一下ubuntu环境下安装laravel的php扩展：sudo apt install php-dom php-mbstring php-curl php-zip php-gd)
 (debian9/deepin15.11需要的扩展：sudo apt install php7.1-cli php7.1-common php7.1-gd

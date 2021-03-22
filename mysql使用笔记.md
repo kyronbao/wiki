@@ -1,3 +1,9 @@
+## 查询每种状态的数量
+SELECT 
+SUM(case when is_erp = 1 then 1 else 0 end) as is_erp_1,
+SUM(case when is_erp = 0 then 1 else 0 end) as is_erp_0
+ FROM company_accounts;
+ https://stackoverflow.com/questions/10356293/count-different-status-in-my-sql-table
 ## mysql中set autocommit=0与start transaction区别
 set autocommit=0,
 当前session禁用自动提交事物，自此句执行以后，每个SQL语句或者语句块所在的事务都需要显示"commit"才能提交事务。
@@ -22,56 +28,6 @@ https://www.cnblogs.com/langtianya/p/4777662.html
 Original 58沈剑  架构师之路 https://mp.weixin.qq.com/s?__biz=MjM5ODYxMDA5OQ==&mid=2651962514&idx=1&sn=550c48c9395b52b7ec561741e86e5ce0&chksm=bd2d094e8a5a80589117a653a30d062b5760ec20f8ab9e2154a63ab782d3353d1b1da50b9bc2&scene=21#wechat_redirect
 ## mysql 紧急停止
 ubuntu下 /etc/init.d/mysql stop  
-## 创建数据库，导入导出，设置Character Set and Collation  
-### 配置
-[mysqld]
-character-set-server=utf8mb4
-collation-server=utf8mb4_unicode_ci
- 
-systemctl restart mysql.service
-
-### 查看编码
-查看数据库
-SELECT DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME
-FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'db_name';
-
-数据库　For Schemas (or Databases - they are synonyms):
-
-SELECT default_character_set_name FROM information_schema.SCHEMATA 
-WHERE schema_name = "schemaname";
-
-表For Tables:
-
-SELECT CCSA.character_set_name FROM information_schema.`TABLES` T,
-       information_schema.`COLLATION_CHARACTER_SET_APPLICABILITY` CCSA
-WHERE CCSA.collation_name = T.table_collation
-  AND T.table_schema = "schemaname" AND T.table_name = "tablename";
-
-列For Columns:
-
-SELECT character_set_name FROM information_schema.`COLUMNS` 
-WHERE table_schema = "schemaname"　AND table_name = "tablename"　AND column_name = "columnname";
-### 创建数据库和修改编码utf8mb4
-CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
-CREATE DATABASE mydatabase;
-
-DROP DATABASE mydatabase;
-
-ALTER DATABASE DBNAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-### 导入导出
-导入  
-mysql -uroot -p laravel < laravel.sql  
-
-
-mysql> CREATE DATABASE IF NOT EXISTS db1;
-mysql> USE db1;
-mysql> source dump.sql
-导出  
-导出数据库  
-mysqldump -h127.0.0.1 -uroot -P3306 -p laravel > laravel.sql  
-导出数据库的表  
-mysqldump -uroot -p laravel users > laravel_users.sql  
-
 
 ## 清除表命令
 truncate table 表名;     清除表  
@@ -183,20 +139,19 @@ UPDATE trade_statistics set platform='yeepay';
   
 - http://www.10tiao.com/html/283/201704/2650862624/1.html
   
-## 修改列
+## 修改列｜删除列｜新增列
+
+https://stackoverflow.com/questions/14767174/modify-column-vs-change-column
+修改列名用CHANGE
+ALTER TABLE MyTable CHANGE COLUMN foo bar VARCHAR(32) NOT NULL FIRST;
+除了修改列名，修改限制大小等用MODIFY
+ALTER TABLE MyTable MODIFY COLUMN foo VARCHAR(32) NOT NULL AFTER baz;
+
 删除列  
-ALTER TABLE `trade_log`  
-DROP COLUMN `business_type`;  
-  
-ALTER TABLE `trade_log`  
-DROP COLUMN `business_type`,  
-CHANGE COLUMN `business_flag` `business_type`  varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL COMMENT '业务类型(合同打款,邀请提现,会员购买,还款计划还款,还款计划退款)' AFTER `master_business_no`;  
-  
-  
-ALTER TABLE `trade_log`  
-MODIFY COLUMN `business_flag`  varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL COMMENT '业务标识(合同打款,邀请提现,会员购买,还款计划还款,还款计划退款)' AFTER `master_business_no`,  
-MODIFY COLUMN `business_type`  varchar(100) NOT NULL COMMENT '业务种类(会员费支付,会员费退款,平台出款,支付回款,代扣回款,现金提现)' AFTER `business_flag`;  
-  
+ALTER TABLE `trade_log` DROP COLUMN `business_type`;  
+
+添加列
+ALTER TABLE vendors　ADD COLUMN phone VARCHAR(15) AFTER name;
   
 ## 查询2天内的数据
 查询时间戳格式  

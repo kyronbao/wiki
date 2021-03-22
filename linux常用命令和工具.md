@@ -1,3 +1,6 @@
+## 局域网传输文件
+sudo apt-get install openssh-client 
+sudo apt-get install openssh-server 
 ## terminal常用快捷键
   
 查找历史命令 Ctrl+R  
@@ -1023,6 +1026,7 @@ https://jingyan.baidu.com/article/5225f26b662c3ce6fa090824.html
 [root@TS-DEV ~]# screen -r 12865  
 一切都在。  
 ## 截图，截屏
+flameshot 可以截屏到桌面显示
 gnome-screenshot 可以通过如下快捷键来进行截图:  
   
 shift+printscreen(Prt scr) 该快捷键可以对指定的区域进行截图  
