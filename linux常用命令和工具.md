@@ -1326,13 +1326,15 @@ kill -9 pid
 https://ehlxr.me/2017/01/18/Linux-%E7%9A%84-nohup-%E5%91%BD%E4%BB%A4%E7%9A%84%E7%94%A8%E6%B3%95/  
 https://code.juhe.cn/docs/203  
   
-## 怎么自动启动程序
+## 怎么登录后自动启动,自动执行程序
+### 登录前执行
 - https://developer.toradex.com/knowledge-base/how-to-autorun-application-at-the-start-up-in-linux
 在/etc/profile.d/ 添加脚步,可以在登录前运行
+sudo vim /etc/profile.d/autostart_teamviewer.sh
 
+### 登录后执行
 登录后需要自动运行的程序可以在.config/autostart/配置
 sudo vim .config/autostart/teamviewer.desktop
-sudo vim /etc/profile.d/autostart_teamviewer.sh
 
 [Desktop Entry]
 Name=Teamviewer
@@ -1343,6 +1345,55 @@ Terminal=false
 Type=Application
 X-GNOME-Autostart-Delay=15
 
+主要设置Name,Comment,Exec就好了
+
+### 联网后执行
+https://stackoverflow.com/questions/29513880/linux-execute-a-command-when-network-connection-is-restored
+将脚本放在这里
+/etc/network/if-up.d/
+注意确保脚本是可执行的 chmod +x autostart_after_net.sh
+
+### 常规启动
+将脚本放到这里
+/etc/init.d/autostart.sh
+注意确保脚本可执行
+链接到
+sudo ln -s /etc/init.d/autostart.sh /etc/rc3.d/S05autostart
+备注
+S代表启动的意思，
+rc3代表runlevel为3,
+05代表排在03network等后面执行
+参考
+https://blog.csdn.net/easy_monky/article/details/38688573
+
+### 通过systemctl控制
+sudo vim /etc/systemd/system/autossh.service :
+
+[Unit]
+# By default 'simple' is used, see also https://www.freedesktop.org/software/systemd/man/systemd.service.html#Type=
+# Type=simple|forking|oneshot|dbus|notify|idle
+Description=Autossh keepalive daemon
+## make sure we only start the service after network is up
+Wants=network-online.target
+After=network.target
+
+[Service]
+## here we can set custom environment variables
+Environment=AUTOSSH_GATETIME=0
+Environment=AUTOSSH_PORT=0
+ExecStart=/usr/local/bin/ssh-keep-alive.sh
+ExecStop=pkill -9 autossh
+# don't use 'nobody' if your script needs to access user files
+# (if User is not set the service will run as root)
+#User=nobody
+
+# Useful during debugging; remove it once the service is working
+StandardOutput=console
+
+[Install]
+WantedBy=multi-user.target
+
+https://unix.stackexchange.com/questions/166473/debian-how-to-run-a-script-on-startup-as-soon-as-there-is-an-internet-connecti
 ## 添加自启动快捷方式
 ```
 sudo vim /usr/share/applications/pstorm.desktop
