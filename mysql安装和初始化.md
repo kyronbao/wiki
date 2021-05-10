@@ -298,6 +298,7 @@ DROP DATABASE mydatabase;
 
 ALTER DATABASE DBNAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ### 导入导出
+
 导入  
 mysql -uroot -p laravel < laravel.sql  
 
@@ -311,3 +312,6 @@ mysqldump -h127.0.0.1 -uroot -P3306 -p laravel > laravel.sql
 导出数据库的表  
 mysqldump -uroot -p laravel users > laravel_users.sql  
 
+### 执行sql文件
+进入mysql控制台
+source script.sql

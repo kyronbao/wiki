@@ -1,3 +1,4 @@
+
 ## 查询每种状态的数量
 SELECT 
 SUM(case when is_erp = 1 then 1 else 0 end) as is_erp_1,
@@ -145,7 +146,7 @@ https://stackoverflow.com/questions/14767174/modify-column-vs-change-column
 修改列名用CHANGE
 ALTER TABLE MyTable CHANGE COLUMN foo bar VARCHAR(32) NOT NULL FIRST;
 除了修改列名，修改限制大小等用MODIFY
-ALTER TABLE MyTable MODIFY COLUMN foo VARCHAR(32) NOT NULL AFTER baz;
+ALTER TABLE MyTable MODIFY COLUMN foo VARCHAR(32) NOT NULL AFTER baz comment "修改后的字段注释";
 
 删除列  
 ALTER TABLE `trade_log` DROP COLUMN `business_type`;  

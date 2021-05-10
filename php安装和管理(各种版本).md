@@ -192,11 +192,11 @@ sudo systemctl restart apache2.service
 ## 切换命令行默认为其他PHP版本
 Command Line:-  
 ```
-sudo update-alternatives --set php /usr/bin/php7.1
-sudo update-alternatives --set phar /usr/bin/phar7.1
-sudo update-alternatives --set phar.phar /usr/bin/phar.phar7.1
-sudo update-alternatives --set phpize /usr/bin/phpize7.1
-sudo update-alternatives --set php-config /usr/bin/php-config7.1
+sudo update-alternatives --set php /usr/bin/php7.3
+sudo update-alternatives --set phar /usr/bin/phar7.3
+sudo update-alternatives --set phar.phar /usr/bin/phar.phar7.3
+sudo update-alternatives --set phpize /usr/bin/phpize7.3
+sudo update-alternatives --set php-config /usr/bin/php-config7.3
 ```
   
 参考 https://tecadmin.net/switch-between-multiple-php-version-on-ubuntu/  

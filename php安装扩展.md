@@ -252,7 +252,7 @@ sudo apt install php5.6-dev  #  安装phpize5.6等
 ./configure --with-sphinx=/opt/sphinx/libsphinxclient/ --with-php-config=/usr/bin/php-config5.6
 make
 sudo make install
-# 成功后显示
+### 成功后显示
 Installing shared extensions:     /usr/lib/php/20131226/
 
 配置php.ini
@@ -320,6 +320,7 @@ flag during linking and do at least one of the following:
   
 See any operating system documentation about shared libraries for  
 more information, such as the ld(1) and ld.so(8) manual pages.  
+
 ----------------------------------------------------------------------
 Installing shared extensions:     /usr/lib/php/20170718/  
   
@@ -412,7 +413,7 @@ sudo make install
 编辑配置  
 ```
 sudo vim /etc/php/7.2/mods-available/swoole.ini
-# 编辑以下内容
+### 编辑以下内容
 ; configuration for php swoole module
 ; priority=20
 extension=swoole.so
@@ -431,3 +432,15 @@ phan/phan 0.12.14 requires ext-ast ^0.1.5
 查询可知 最新版本为1.0  
 - https://pecl.php.net/package/ast
 - https://github.com/nikic/php-ast
+
+## apt install php7.3-bcmatch提示无法定位软件包 php7.3-bcmatch deepin15.11/debian9
+解决尝试：
+sudo apt update
+sudo apt-get update
+重新修改php源，
+或者修改系统的源
+最后解决：
+sudo apt-get install php7.3-bc
+提示找到了，我去：
+下列【新】软件包将被安装：
+  php7.3-bcmath php7.3-bcmath-dbgsym
