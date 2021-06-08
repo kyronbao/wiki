@@ -497,15 +497,14 @@ $result = preg_split('/[;\r\n]+/s', $value);   // 返回数据保存在$result�
         array_multisort($new,SORT_DESC, $arr);
         return $arr;
 
-### 
-如果按两个字段排序，可以这样
+### 如果按两个字段排序，可以这样
 
         array_multisort(array_column($params, 'seq'),SORT_ASC,
             array_column($params,'bdDyestuffAssistName'), SORT_STRING,
             $params
         );
 		
-如果三个字段排序，其中一个字段按规定排序
+### 如果三个字段排序，其中一个字段按规定排序
 
         $colorMap = [
             1	=> "紫色",

@@ -5,7 +5,7 @@
 - https://golang.google.cn/ google国内网站
   
 博客  
-- https://draveness.me/ Go大牛
+- https://draveness.me/ Go大牛　面向信仰编程
   
 框架  
 - https://github.com/gin-gonic/gin
@@ -44,6 +44,8 @@ Go微服务实践
   
 - PHP和Go通信
  - https://www.jianshu.com/p/9f8651834d9b 双向管道
+
+## 信仰编程笔记
 
 ## text/template
 ```
@@ -130,7 +132,7 @@ GoLand设置
 https://github.com/golang/go/wiki/Modules  
 https://farer.org/2018/11/11/go-modules-notes/  
   
-### modeles管理go依赖
+### modules管理go依赖
 查看依赖  
 ```
 go list -m all  # 查看所有的
@@ -180,7 +182,7 @@ func Proverb() string {
 如例子中所示，可以重命名来同时依赖两个主版本
 	v3
 	
-- https://blog.csdn.net/RA681t58CJxsgCkJ31/article/details/104568182/
+	- https://blog.csdn.net/RA681t58CJxsgCkJ31/article/details/104568182/
 ### govendor
 gin的默认依赖管理  
   
@@ -339,4 +341,5 @@ tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
 vim /etc/bash.mine
 export PATH=$PATH:/usr/local/go/bin
 ```
+  
   

@@ -519,9 +519,6 @@ CPU  dmesg | grep CPU
 	配置文件 /etc/logrotate.conf  
   
   
-## 查看文件大小
-cd ./laravel
-du -h -d 1 --exclude=./.svn --exclude=./vendor ./
 ## shell学习笔记
 脚本条件判断中-z什么意思  
 string is null, that is, has zero length  
@@ -650,23 +647,43 @@ grep [] "搜索内容"  在文件中搜索显示搜索内容
 	查看：set  
 	删除：unset name  
 ```
-## 查找
+
+## 查找文件/内容
 查文件名  
 locate winebus.sys  
 find / -name winebus.sys  
 查文件内容  
 grep -r "word" /etc/mysql
-## 如何为sudo命令定义PATH环境变量
-添加所需要的路径(如 /usr/local/bin）到"secure_path"下，在开篇所遇见的问题就将迎刃而解。  
-Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin  
-http://www.linuxidc.com/Linux/2014-09/106076.htm  
-## 关于递归目录相关命令
+## 查看文件大小
+cd ./laravel
+du -h -d 1 --exclude=./.svn --exclude=./vendor ./
+## 查看看文件夹大小
+du -hs file_path  
+du -sm * | sort -n 查看并排序  
+- http://blog.sina.com.cn/s/blog_4af3f0d20100irvz.html
+du -h --max-depth=1 /data/devops/ 查看一级子文件夹大小  
+  
+排除文件夹复制  
+  
+- https://stackoverflow.com/questions/1228466/how-to-filter-files-when-using-scp-to-copy-dir-recursively/1228535
+## 查看进程 进程树 端口
+查看开启的进程 ps aft | grep tcp.php  
+查看子进程  pstree -aup 24451  
+查看开启的端口 sudo netstat -anp | grep 8888  
+  
+查看进程数目  
 ```
-cp -R dir/ ./
-mv dir ./ # 不用选项
-chown -R git:git ./
-scp -r project.git/ root@hostname:/opt/git/
+ps ef|grep php|wc -l
 ```
+杀死进程  
+```
+ps -ef|grep php-fpm|grep -v grep|cut -c 9-15|xargs sudo kill -9
+```
+注意cut -c 9-15为pid在行的字符位置  
+- [Linux下批量杀死进程（根据关键字杀死进程](https://www.sundabao.com/linux%E4%B8%8B%E6%89%B9%E9%87%8F%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B%EF%BC%88%E6%A0%B9%E6%8D%AE%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B%EF%BC%89/)
+  
+  
+  
   
 ## 查看linux版本
 - https://www.cyberciti.biz/faq/find-linux-distribution-name-version-number/
@@ -681,10 +698,6 @@ cat /etc/os-release
 cat /etc/*-release  
 lsb_release -a  
 ```
-## 远程复制
-```
-scp -r user@your.server.example.com:/path/to/foo /home/user/Desktop/
-```
 ## 查看Ip
 ip addr show  
   
@@ -697,10 +710,29 @@ ubuntu测试不对时
 重新连接  
 再运行上面的命令  
   
-## 测试端口是否打开
-telnet 192.168.1.103 80  
 ## 查看服务名servers
 service --status-all  
+## 如何为sudo命令定义PATH环境变量
+添加所需要的路径(如 /usr/local/bin）到"secure_path"下，在开篇所遇见的问题就将迎刃而解。  
+Defaults    secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin  
+http://www.linuxidc.com/Linux/2014-09/106076.htm  
+## 关于递归目录相关命令
+```
+cp -R dir/ ./
+mv dir ./ # 不用选项
+chown -R git:git ./
+scp -r project.git/ root@hostname:/opt/git/
+```
+  
+
+## 远程复制
+```
+scp -r user@your.server.example.com:/path/to/foo /home/user/Desktop/
+```
+
+## 测试端口是否打开
+telnet 192.168.1.103 80  
+
 ## 修改root密码
 ```
 sudo passwd root
@@ -758,15 +790,7 @@ llx@linux:~ convmv  *  -f gbk -t utf8 -r --notest
 ```
 grep words . -r -n
 ```
-## 查看看文件夹大小
-du -hs file_path  
-du -sm * | sort -n 查看并排序  
-- http://blog.sina.com.cn/s/blog_4af3f0d20100irvz.html
-du -h --max-depth=1 /data/devops/ 查看一级子文件夹大小  
-  
-排除文件夹复制  
-  
-- https://stackoverflow.com/questions/1228466/how-to-filter-files-when-using-scp-to-copy-dir-recursively/1228535
+
 ## 删除用户:
 ```
 userdel -r mongo       # -r参数删除用户mongo的同时，将其宿主目录和系统内与其相关的内容删除。
@@ -795,25 +819,7 @@ sudo chmod 644 ./
 ```
 sudo chmod 755 `sudo find -type d`
 ```
-## 查看进程 进程树 端口
-查看开启的进程 ps aft | grep tcp.php  
-查看子进程  pstree -aup 24451  
-查看开启的端口 sudo netstat -anp | grep 8888  
-  
-查看进程数目  
-```
-ps ef|grep php|wc -l
-```
-杀死进程  
-```
-ps -ef|grep php-fpm|grep -v grep|cut -c 9-15|xargs sudo kill -9
-```
-注意cut -c 9-15为pid在行的字符位置  
-- [Linux下批量杀死进程（根据关键字杀死进程](https://www.sundabao.com/linux%E4%B8%8B%E6%89%B9%E9%87%8F%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B%EF%BC%88%E6%A0%B9%E6%8D%AE%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B%EF%BC%89/)
-  
-  
-  
-  
+
 ## apt彻底删除
 彻底删除 sudo apt purge  
 通过man 8 apt查到  
@@ -1368,7 +1374,7 @@ https://blog.csdn.net/easy_monky/article/details/38688573
 
 ### 通过systemctl控制
 sudo vim /etc/systemd/system/autossh.service :
-
+```
 [Unit]
 # By default 'simple' is used, see also https://www.freedesktop.org/software/systemd/man/systemd.service.html#Type=
 # Type=simple|forking|oneshot|dbus|notify|idle
@@ -1387,6 +1393,7 @@ ExecStop=pkill -9 autossh
 # (if User is not set the service will run as root)
 #User=nobody
 
+
 # Useful during debugging; remove it once the service is working
 StandardOutput=console
 
@@ -1394,6 +1401,7 @@ StandardOutput=console
 WantedBy=multi-user.target
 
 https://unix.stackexchange.com/questions/166473/debian-how-to-run-a-script-on-startup-as-soon-as-there-is-an-internet-connecti
+```
 ## 添加自启动快捷方式
 ```
 sudo vim /usr/share/applications/pstorm.desktop

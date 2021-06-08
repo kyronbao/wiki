@@ -1,10 +1,12 @@
+## 使用指定版本php来composer安装
+php7.1 /usr/local/bin/composer install -vvv
 ## composer install时提示svn的权限不足
 使用compoer update 可以，不报错
 ## composer安装laravel及初始化项目  
 下载安装  
 ```
 composer create-project laravel/laravel laravel-my --prefer-dist "5.6.*"
-# 注：有dist和source两种安装方式，dist是强制使用压缩包，而source是使用源代码安装，如果是想从source安装，那么可以改成--prefer--source
+ 注：有dist和source两种安装方式，dist是强制使用压缩包，而source是使用源代码安装，如果是想从source安装，那么可以改成--prefer--source
 composer require "maatwebsite/excel": "~2.1.0"
 ```
   
@@ -15,9 +17,9 @@ https://blog.csdn.net/qq_36428171/article/details/81209475
 ```
 composer dump-autoload
 php artisan key:genarate
-# 调试时无法显示视图，修改storage目录权限
+ 调试时无法显示视图，修改storage目录权限
 sudo chown -R www-data:www-data storage/
-# 日志目录增加写权限
+ 日志目录增加写权限
 sudo chmod -R u+w storage/logs/
 ```
 修改storage权限  

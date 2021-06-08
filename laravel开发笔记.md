@@ -298,6 +298,7 @@ Eloquent/Builer这个文件中查看源码时不小心敲了字母，导致了�
 当使用phpstorm ctrl+点击时发现方法的实现是一个接口，然后怎么找它的具体实现呢？  
 这时可以ctrl点击interface名,然后在实现这个接口的类中在查找就可以了。  
 ## collection分页
+```
     /**  
      * Gera a paginação dos itens de um array ou collection.  
      *  
@@ -314,6 +315,7 @@ Eloquent/Builer这个文件中查看源码时不小心敲了字母，导致了�
         $items = $items instanceof \Illuminate\Support\Collection ? $items : \Illuminate\Support\Collection::make($items);  
         return new \Illuminate\Pagination\LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);  
     }  
+```
 - https://gist.github.com/vluzrmos/3ce756322702331fdf2bf414fea27bcb
 ## collection 过滤
 $paginator = $query->orderBy('updated_time', 'desc')  
@@ -327,7 +329,7 @@ if ($account_dispose_status = array_get($param,'account_dispose_status')) {
 }  
   
 ## 获取的模型怎么处理
-  
+```  
 $query = $this->select(['*'])->where('check_result', '<>','');  
 $paginator = $query->orderBy('updated_time', 'desc')  
     ->paginate(PageSizeHelper::getPageSize());
@@ -336,6 +338,7 @@ $paginator->getCollection()->transform(function ($value) {
 //$value->dispose_status = $this->getAccountDisposeStatusAttribute();  
     return $value;  
 });  
+```
 ## 工具
 Arr::wrap()  包裹给定的值字符串或空值为 数组  
   

@@ -98,10 +98,10 @@ fastcgi_pass unix:/var/run/php71-fpm/php-fpm.sock;
 # Ubuntu 16.04  
 ## PHP各版本安装
 ```
-# 查看库中版本号
+ 查看库中版本号
 sudo apt-cache show php
 sudo apt-cache show php-mysql
-# 默认源为7.0版
+ 默认源为7.0版
 
 
 php -h 帮助
@@ -109,7 +109,7 @@ php -i 查看php信息
 php -m 查看已安装扩展
 php --ini Show configuration file names
 
-# *php各种版本安装*
+ *php各种版本安装*
 
 sudo add-apt-repository ppa:ondrej/php
 sudo apt-get update
@@ -178,14 +178,14 @@ Job for apache2.service failed because the control process exited with error cod
 systemctl status apache2.service
 journalctl -xe
 sudo apache2ctl configtest
-# 提示
+ 提示
 apache2: Syntax error on line 140 of /etc/apache2/apache2.conf: Syntax error on line 3 of /etc/apache2/mods-enabled/php5.6.load: Cannot load /usr/lib/apache2/modules/libphp5.6.so into server: /usr/lib/apache2/modules/libphp5.6.so: cannot open shared object file: No such file or directory
 Action 'configtest' failed.
 The Apache error log may have more information.
 
-# 可能时apache扩展php5.6未安装，测试后成功
+ 可能时apache扩展php5.6未安装，测试后成功
 sudo apt install libapache2-mod-php5.6
-# 再次重启apache2未报错
+ 再次重启apache2未报错
 sudo systemctl restart apache2.service
 ```
   
