@@ -1,5 +1,7 @@
 快捷键  
   
+Alt+Insert 生成getter setter方法  
+  
 Alt+j 批量修改  
   
 find every thing 需要自定义快捷键  

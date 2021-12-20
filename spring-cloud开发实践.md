@@ -51,3 +51,14 @@ nohup java -jar demo-0.0.1-SNAPSHOT.jar &
 
 
 
+
+## 修改idea启动图标
+
+在resources下创建banner.txt
+文字生成方式
+
+sudo apt install figlet
+figlet b a o 7 . f u n
+或使用网站 http://www.kammerl.de/ascii/AsciiSignature.php
+http://patorjk.com/software/taag/
+

@@ -1,3 +1,15 @@
+## 一条语句修改多种条件对应的值 update case when 
+update proforma_invoice_details set transport_goods_tolerance_unit = 
+case
+when transport_goods_tolerance_unit = 'LB' then '磅'
+when transport_goods_tolerance_unit = 'KG' then '千克'
+when transport_goods_tolerance_unit = 'P' then '条'
+when transport_goods_tolerance_unit = 'M' then '米'
+when transport_goods_tolerance_unit = 'Y' then '码'
+when transport_goods_tolerance_unit = 'T' then '吨'
+else transport_goods_tolerance_unit
+ end
+where created_at > '2021-12-01 00:00:00' and id!=0 and transport_goods_tolerance_unit != '';
 
 ## 查询每种状态的数量
 SELECT 

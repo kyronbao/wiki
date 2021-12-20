@@ -1,6 +1,21 @@
 # 文档
 Laravel 速查表　https://learnku.com/docs/laravel-cheatsheet/7.x
 
+# 代码笔记
+## 关联对象的查询格式with
+介绍了with关联查询时的一些写法，怎么只查关联表的字段？怎么只查关联表关联表的字段？
+```
+        $with = [
+            'actualYarn', 'yarn_detail_list.sys_fabric_company:id,name,name_en',
+            'yarn_detail_list.endCustomer',
+			'yarn_detail_list.creator',
+            'yarn_detail_list' => function ($query) {
+                $query->select('id', 'code', 'customer_id', 'end_customer_id', 'created_at');
+            },
+        ];
+		       // 查询分录数据
+        $result = $this->repository->search($inputs, $with);
+	```
 # 安装后设置
 
 ## 安装后设置权限

@@ -31,14 +31,14 @@ curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/source
 exit
 sudo apt-get update
 sudo ACCEPT_EULA=Y apt-get install msodbcsql17
-# optional: for bcp and sqlcmd
+ optional: for bcp and sqlcmd
 sudo ACCEPT_EULA=Y apt-get install mssql-tools
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 source ~/.bashrc
-# optional: for unixODBC development headers
+ optional: for unixODBC development headers
 sudo apt-get install unixodbc-dev
-# optional: kerberos library for debian-slim distributions
+ optional: kerberos library for debian-slim distributions
 sudo apt-get install libgssapi-krb5-2
 ```
 记得重启
@@ -205,7 +205,7 @@ phpenmod -v 7.1 ast
 ## 安装phpize7.2
 ```
 sudo apt install php7.2-dev
-# 显示如下信息
+ 显示如下信息
 The following additional packages will be installed:
   libapache2-mod-php7.2 php7.2-cli php7.2-common php7.2-fpm php7.2-gd
   php7.2-json php7.2-mbstring php7.2-mysql php7.2-opcache php7.2-readline
@@ -225,7 +225,7 @@ NOTICE: To enable PHP 7.2 FPM in Apache2 do:
 NOTICE: a2enmod proxy_fcgi setenvif
 NOTICE: a2enconf php7.2-fpm
 NOTICE: You are seeing this message because you have apache2 package installed.
-# 测试
+ 测试
 phpize7.2 -v
 ```
   
@@ -252,7 +252,7 @@ sudo apt install php5.6-dev  #  安装phpize5.6等
 ./configure --with-sphinx=/opt/sphinx/libsphinxclient/ --with-php-config=/usr/bin/php-config5.6
 make
 sudo make install
-### 成功后显示
+ 成功后显示
 Installing shared extensions:     /usr/lib/php/20131226/
 
 配置php.ini
@@ -266,25 +266,25 @@ extension = sphinx.so
 ```
 
 apt-cache search php- | less
-# or
+ or
 apt-cache pkgnames | grep php-/php7.0
 
-# 查看扩展详细信息
+ 查看扩展详细信息
 apt-cache show php-mysql  # 查得对应php版本为7.0
 
-# 例如
-# php7.0扩展安装mysql
+ 例如
+ php7.0扩展安装mysql
 sudo apt install php7.0-mysql
 sudo systemctl restart apache2.service
-# apache2启动后验证phpinfo()参数
+ apache2启动后验证phpinfo()参数
 
-# 安装5.6版pdo和mysql驱动
+ 安装5.6版pdo和mysql驱动
 sudo apt install php5.6-mysql
 
 sudo vim /etc/php/5.6/apache2/php.ini
-# 去掉下面一行的前面;符号
+ 去掉下面一行的前面;符号
 ;extension=php_pdo_mysql.so
-# 重启apache，验证
+ 重启apache，验证
 ```
   
   
@@ -413,7 +413,7 @@ sudo make install
 编辑配置  
 ```
 sudo vim /etc/php/7.2/mods-available/swoole.ini
-### 编辑以下内容
+ 编辑以下内容
 ; configuration for php swoole module
 ; priority=20
 extension=swoole.so
