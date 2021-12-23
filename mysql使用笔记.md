@@ -1,3 +1,23 @@
+
+## 表字段不同时联合查询 union all  where
+
+SELECT author,book_name FROM book_test where book_name like '%大东%'
+union all
+SELECT author,book_name FROM t_book where book_name like '%大东%';
+
+
+select * from (
+SELECT author,book_name FROM book_test
+union all
+SELECT author,book_name FROM t_book 
+) t
+where t.book_name like '%大东%';
+;
+以上两个sql查询结果相同
+
+参考
+https://segmentfault.com/a/1190000007926959 MySQL必知必会：组合查询Union）union all
+https://blog.csdn.net/u010173095/article/details/78436979 union all  where用法
 ## 一条语句修改多种条件对应的值 update case when 
 update proforma_invoice_details set transport_goods_tolerance_unit = 
 case

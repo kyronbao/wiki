@@ -167,6 +167,8 @@ RBAC实现
 - http://www.shiguopeng.cn/archives/317
 博客项目  
 
+## 组件 "tucker-eric/eloquentfilter": "^2.4"　搜索模型和关联模型的所有字段
+使用示例：在产品目录库中搜索坯布，色布里面的各种字段
 ## excel合并列样例（三维数组，四维数组）
 
 ### 二维数组
