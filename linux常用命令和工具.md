@@ -487,7 +487,8 @@ sudo权限：
 		/dev/sdb6    swap      swap    defaults   0  0  
 		reboot  
 		查看free -m  
-  
+ 
+ Linux 磁盘扩容操作指引 https://www.cnblogs.com/gucb/p/11528507.html 未实践
   
   
 服务  
@@ -659,10 +660,12 @@ cd ./laravel
 du -h -d 1 --exclude=./.svn --exclude=./vendor ./
 ## 查看看文件夹大小
 du -hs file_path  
-du -sm * | sort -n 查看并排序  
+du -sh * | sort -n 查看并排序  
 - http://blog.sina.com.cn/s/blog_4af3f0d20100irvz.html
 du -h --max-depth=1 /data/devops/ 查看一级子文件夹大小  
-  
+好用的命令：
+du -hs /home/qianyong/*
+
 排除文件夹复制  
   
 - https://stackoverflow.com/questions/1228466/how-to-filter-files-when-using-scp-to-copy-dir-recursively/1228535
@@ -1374,27 +1377,28 @@ https://blog.csdn.net/easy_monky/article/details/38688573
 
 ### 通过systemctl控制
 sudo vim /etc/systemd/system/autossh.service :
-```
+
 [Unit]
-# By default 'simple' is used, see also https://www.freedesktop.org/software/systemd/man/systemd.service.html#Type=
-# Type=simple|forking|oneshot|dbus|notify|idle
+```
+ # By default 'simple' is used, see also         https://www.freedesktop.org/software/systemd/man/systemd.service.html#Type=
+ # Type=simple|forking|oneshot|dbus|notify|idle
 Description=Autossh keepalive daemon
-## make sure we only start the service after network is up
+ ## make sure we only start the service after network is up
 Wants=network-online.target
 After=network.target
 
 [Service]
-## here we can set custom environment variables
+ ## here we can set custom environment variables
 Environment=AUTOSSH_GATETIME=0
 Environment=AUTOSSH_PORT=0
 ExecStart=/usr/local/bin/ssh-keep-alive.sh
 ExecStop=pkill -9 autossh
-# don't use 'nobody' if your script needs to access user files
-# (if User is not set the service will run as root)
+ # don't use 'nobody' if your script needs to access user files
+ # (if User is not set the service will run as root)
 #User=nobody
 
 
-# Useful during debugging; remove it once the service is working
+ # Useful during debugging; remove it once the service is working
 StandardOutput=console
 
 [Install]
@@ -1402,6 +1406,7 @@ WantedBy=multi-user.target
 
 https://unix.stackexchange.com/questions/166473/debian-how-to-run-a-script-on-startup-as-soon-as-there-is-an-internet-connecti
 ```
+
 ## 添加自启动快捷方式
 ```
 sudo vim /usr/share/applications/pstorm.desktop

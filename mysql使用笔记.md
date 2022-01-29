@@ -1,4 +1,11 @@
+## 慢查询
+MySQL慢查询日志　https://cloud.tencent.com/developer/article/1702927
 
+## 查看数据库中占用空间多的表
+```
+use information_schema;
+select table_name,table_rows from  tables  where table_schema='db_knit_erp'  order by table_rows desc limit 20;
+```
 ## 表字段不同时联合查询 union all  where
 
 SELECT author,book_name FROM book_test where book_name like '%大东%'

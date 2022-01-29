@@ -308,7 +308,10 @@ mysql> USE db1;
 mysql> source dump.sql
 导出  
 导出数据库  
-mysqldump -h127.0.0.1 -uroot -P3306 -p laravel > laravel.sql  
+mysqldump --set-gtid-purged=OFF -h127.0.0.1 -uroot -P3306 -p laravel >
+laravel.sql  
+导出时排除某些表
+mysqldump --databases mytest --ignore-table=mytest.ti_o_sms --ignore-table=mytest.ti_o_smsbak > mytest02.sql
 导出数据库的表  
 mysqldump -uroot -p laravel users > laravel_users.sql  
 

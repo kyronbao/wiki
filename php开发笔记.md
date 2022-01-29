@@ -167,6 +167,28 @@ RBAC实现
 - http://www.shiguopeng.cn/archives/317
 博客项目  
 
+## json数据比对方法
+开发时有时有些大json数据要比较或者查看
+有效的方法是
+先把json保存到编辑器，
+然后把json保存到1.json这样的文件，再移到浏览器查看
+## z正则替换字符串中第几个值
+```
+$subject = "SELECT uid FROM users WHERE uid = ? or username = ?";
+
+function str_replace_nth($search, $replace, $subject, $nth)
+{
+    $found = preg_match_all('/'.preg_quote($search).'/', $subject, $matches, PREG_OFFSET_CAPTURE);
+    if (false !== $found && $found > $nth) {
+        return substr_replace($subject, $replace, $matches[0][$nth][1], strlen($search));
+    }
+    return $subject;
+}
+
+
+echo str_replace_nth('?', 'username', $subject, 1);
+```
+https://stackoverflow.com/questions/19907155/how-to-replace-a-nth-occurrence-in-a-string
 ## 组件 "tucker-eric/eloquentfilter": "^2.4"　搜索模型和关联模型的所有字段
 使用示例：在产品目录库中搜索坯布，色布里面的各种字段
 ## excel合并列样例（三维数组，四维数组）

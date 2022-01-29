@@ -1,3 +1,5 @@
+## 查看已安装各软件的大小
+sudo dpkg-query -W --showformat='${Installed-Size} ${Package} ${Status}\n'|grep -v deinstall|sort -n|awk '{print $1" "$2}'
 ## 同一wifi下复制文件到Android手机
 手机安装es文件浏览器  
 开启远程管理器功能显示手机地址  
