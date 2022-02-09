@@ -1,3 +1,78 @@
+
+## window安装配置
+nginx开启：
+在解压的nginx目录中git bash执行
+nginx
+nginx结束：
+在任务管理器找应用或后台进程关闭
+配置laravel的server
+```
+	# laravel
+	server {
+		listen 8080;
+		listen [::]:8080;
+		server_name  localhost;
+		root D:\demo\laravel\public;
+
+		add_header X-Frame-Options "SAMEORIGIN";
+		add_header X-Content-Type-Options "nosniff";
+
+		index index.php;
+
+		charset utf-8;
+		
+		location / {
+			try_files $uri $uri/ /index.php?$query_string;
+		}
+
+		location = /favicon.ico { access_log off; log_not_found off; }
+		location = /robots.txt  { access_log off; log_not_found off; }
+
+		error_page 404 /index.php;
+
+		location ~ \.php$ {
+			fastcgi_pass 127.0.0.1:9123;
+			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+			include fastcgi_params;
+		}
+
+		location ~ /\.(?!well-known).* {
+			deny all;
+		}
+
+    }
+```
+ 顺便安装laravel 9测试
+ 
+  composer create-project --prefer-dist laravel/laravel laravel "9.*"
+
+参考　https://stackoverflow.com/questions/35510974/nginx-service-not-starting-on-windows-10-nginx-alert-could-not-open-error-l
+ (Run cmd as administrator)
+```
+cd c:\
+unzip nginx-1.13.8.zip
+cd nginx-1.13.8
+start nginx
+Go to: http://localhost:80 -> test install
+
+Goback to console cmd: "nginx -s stop"
+
+Run for next time:
+
+Config with file: "C:\nginx-1.13.8\conf\nginx.conf"
+Open cmd as administrator
+Run bash: "cd C:\nginx-1.13.8"
+Run nginx with bash: "start nginx" . If you run with bash: "nginx", will get trouble for exit nginx.
+And
+
+nginx -s stop #fast shutdown
+
+nginx -s quit #graceful shutdown
+
+nginx -s reload #changing configuration, starting new worker processes with a new configuration, graceful shutdown of old worker processes
+
+nginx -s reopen #re-opening log files
+```
 ## fcgiwrap是什么  
 所以如果我们需要通过 cgi 程序（shell、perl、c/c++ 等）来编写网站后台的话，就需要 fcgiwrap 这个通用的 fastcgi 进程管理器来帮助 nginx 处理 cgi  
 - https://www.zfl9.com/nginx-fcgi.html
@@ -51,9 +126,9 @@ Server Logs
   
 ## 配置php
 ```
-# 查看默认php-fpm源版本
+　# 查看默认php-fpm源版本
 sudo apt show php-fpm
-# 为了方便，这里安装7.0版本
+　# 为了方便，这里安装7.0版本
 sudo apt-get install php7.0-fpm
 ```
 修改配置文件，防止一个可能的安全漏洞，参考[大牛laruence的分析](http://www.laruence.com/2010/05/20/1495.html)，  
@@ -131,7 +206,7 @@ phpinfo();
 ```
 sudo cp /etc/nginx/sites-available/example.com /etc/nginx/sites-available/test.com
 sudo vim /etc/nginx/sites-available/test.com
-# 参考下面内容修改
+　# 参考下面内容修改
 
         listen 80;
         root /var/www/test;
@@ -285,10 +360,10 @@ sudo vim /etc/nginx/sites-available/default
 添加下面的一行代码，后重启nginx  
 找到server_name _;  
 ```
-# 默认localhost/blog/ 跳转localhost/blog/index.html
+　# 默认localhost/blog/ 跳转localhost/blog/index.html
 rewrite ^/blog/$ /blog/index.html redirect;
 
-# 默认localhost 跳转localhost/blog/index.html
+　# 默认localhost 跳转localhost/blog/index.html
 rewrite ^/$ /blog/index.html redirect;
 ```
   
@@ -296,9 +371,9 @@ rewrite ^/$ /blog/index.html redirect;
 ## 修改用户
 ```
 sudo vim /etc/nginx/nginx.conf
-# 找到www-data修改
+　# 找到www-data修改
 sudo vim /etc/php/7.2/fpm/pool.d/www.conf
-# 找到www-data修改
+　# 找到www-data修改
 user = kyronbao
 group = kyronbao
 

@@ -1,3 +1,65 @@
+## windows安装php7.1 php8.0
+下载地址：
+https://windows.php.net/downloads/releases/archives/
+
+php-cgi开启:
+
+方法一　创建start-php-fcgi.bat然后执行
+@ECHO OFF
+ECHO Starting PHP FastCGI...
+set PATH=C:\php-7.1.33;%PATH%
+C:\php-7.1.33\php-cgi.exe -b 127.0.0.1:9123 -c C:\php-7.1.33\php.ini
+
+方法二　在cmd执行
+C:\php-7.1.33\php-cgi.exe -b 127.0.0.1:9123 -c C:\php-7.1.33\php.ini
+
+方法三 在git bash执行
+ php-cgi -b 127.0.0.1:9123 -c ./php.ini
+
+
+ windows PHP配置
+参考　https://stackoverflow.com/questions/4539670/php-fpm-for-windows
+```
+３　Edit the php.ini file as needed. What I did:
+# nginx security setting
+cgi.fix_pathinfo=0
+
+extension_dir = "C:\php-5.3.10-Win32-VC9-x86\ext"
+或者　extension_dir = "ext"　去取注释
+enable the following modules by uncommenting them:
+
+extension=php_curl.dll
+extension=php_mbstring.dll
+extension=php_mysqli.dll
+４　Create a .bat file somewhere, e.g. start-php-fcgi.bat in webserver directory or in the PHP directory:
+
+@ECHO OFF
+ECHO Starting PHP FastCGI...
+set PATH=C:\php-5.3.10-Win32-VC9-x86;%PATH%
+C:\php-5.3.10-Win32-VC9-x86\php-cgi.exe -b 127.0.0.1:9123 -c C:\php-5.3.10-Win32-VC9-x86\php.ini
+５　Double click the .bat file to start php-fpm. A window will popup and stay open while its running. Its kind of annoying, but just haven't looked into setting it up as service yet.
+
+６　Configure your webserver. If you wish to use it with nginx, here a config sample for 127.0.0.1:9123:
+
+location ~ \.php$ {
+    fastcgi_pass    127.0.0.1:9123;
+    fastcgi_index   index.php;
+    fastcgi_param   SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    include         fastcgi_params;
+}
+
+```
+php8.0配置
+报错　vcruntime140.dll 14.0 not compatible with PHP build
+参考
+https://stackoverflow.com/questions/59414170/vcruntime140-dll-14-0-not-compatible-with-php-build#
+解决：
+12
+
+I had the same problem. After I downloaded the latest version of Microsoft Visual C++,
+ I successfully solved this problem. You can download it here .
+ https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
+ 
 ## debian9/deepin15.11安装源  
 配置源  
   
@@ -128,8 +190,8 @@ laravel/lumen 需要的扩展
 即composer install的时候按提示所安装的扩展
 sudo apt install php7.1-dom php7.1-mbstring php7.1-curl
 
-(这里备注一下ubuntu环境下安装laravel的php扩展：sudo apt install php-dom php-mbstring php-curl php-zip php-gd)
-(debian9/deepin15.11需要的扩展：sudo apt install php7.1-cli php7.1-common php7.1-gd
+(这里备注一下ubuntu环境下安装laravel的php扩展：sudo apt install php-dom php-mbstring php-curl php-zip php-gd php-mysql)
+(debian9/deepin15.11需要的扩展：sudo apt install php7.1-cli php7.1-common php7.1-gd php7.1-redis
 坑：安装php7.1-gd时死活找不到源,最后安装php7.1 php7.1-cli php7.1-common后问题解决，可以找到源了，莫名的原因
 )
 
@@ -157,6 +219,14 @@ listen.group = kyronbao
   
   
   
+## Nginx PHP切换版本需要注意
+nginx php-fpm都要重启
+sudo systemctl restart nginx
+sudo systemctl restart php8.0-fpm
+
+备注：
+假如没有重启fpm
+会出现 cli环境的php8.0有redis但是fpm环境提示没有redis扩展的情况
 ## Apache PHP切换其他版本
 ```
 

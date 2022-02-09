@@ -83,13 +83,21 @@ https://packagist.org/providers/bower-asset/inputmask?query=bower-asset%2Finputm
 ## 管理命令
   
   
-设置国内镜像  
+### 设置国内镜像  
 ```
 composer config -g repos.packagist composer https://mirrors.cloud.tencent.com/composer/
 composer config -g repo.packagist composer https://packagist.phpcomposer.com
 ```
-  
-- 中国镜像地址还原成默认地址
+
+参考
+https://developer.aliyun.com/composer
+
+全局配置（推荐）
+所有项目都会使用该镜像地址：
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+取消配置：
+composer config -g --unset repos.packagist
+### 中国镜像地址还原成默认地址
 ```
 composer config -g repo.packagist composer https://packagist.org
 ```

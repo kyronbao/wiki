@@ -1,3 +1,74 @@
+## win10安装mysql5.7
+下载地址
+https://downloads.mysql.com/archives/installer/
+选５.7 .36
+Microsoft Windows
+下载
+
+
+## 源码安装mysql5.7(ubuntu)
+
+
+wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-boost-5.7.37.tar.gz
+
+wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.37.tar.gz
+
+把以上两个包解压到一个文件夹中
+
+/media/qianyong/_dde_data
+
+cmake \
+     -DCMAKE_INSTALL_PREFIX=/media/qianyong/_dde_data/mysql \
+     -DMYSQL_DATADIR=/media/qianyong/_dde_data/mysql/data \
+     -DMYSQL_UNIX_ADDR=/tmp/mysql.sock \
+     -DDEFAULT_CHARSET=utf8 \
+     -DDEFAULT_COLLATION=utf8_general_ci \
+     -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
+     -DENABLED_LOCAL_INFILE=ON \
+     -DWITH_INNOBASE_STORAGE_ENGINE=1 \
+     -DWITH_FEDERATED_STORAGE_ENGINE=1 \
+     -DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+     -DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \
+     -DWITHOUT_PARTITION_STORAGE_ENGINE=1 \
+     -DWITH_FAST_MUTEXES=1 \
+     -DWITH_ZLIB=bundled \
+     -DENABLED_LOCAL_INFILE=1 \
+     -DWITH_READLINE=1 \
+     -DWITH_EMBEDDED_SERVER=1 \
+     -DWITH_DEBUG=0 \
+	 -DDOWNLOAD_BOOST=1 \
+     -DWITH_BOOST=./boost
+	 
+    注意最后一个选项就是指定的解压的boost文件夹
+
+cmake中按提示安装了
+sudo apt install libncurses5-dev
+
+``` 中途折腾boost的安装，这三条可以忽略，按上面的配置好 -DWITH_BOOST 参数就可以了
+wget https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz/download
+
+./bootstrap.sh
+
+./b2 install
+
+```
+
+下一步
+sudo make install
+
+参考
+- http://blog.itpub.net/30310891/viewspace-2767155/ 基于Linux的MySQL5.7源码编译安装
+- https://blog.csdn.net/weixin_39747630/article/details/113203038  -DWITH_BOOST 选项
+
+
+cd /media/qianyong/_dde_data/mysql
+
+
+sudo ./bin/mysqld --initialize --user=mysql --basedir=/media/qianyong/_dde_data/mysql --datadir=/media/qianyong/_dde_data/mysql/data
+查看初始化随机生成密码
+grep "temporary password" /media/qianyong/_dde_data/mysql/data/myerror.log
+
+
 ## 源码安装mysql5.7(archlinux)  
 经验总结：  
 - 搜索报错信息
@@ -86,7 +157,7 @@ sudo apt-get install percona-server-server-5.7
   
 ## 如何在Ubuntu 18.04上重置MySQL或MariaDB Root密码
  https://cloud.tencent.com/developer/article/1359782  
-## archlinux安装
+## archlinux安装mariadb
 pacman -S mariadb  
   
 首先启动mariadb服务，不然执行下面命令时提示Can't connect to local MySQL server through socket '/run/mysqld/mysqld.sock' (2)  
@@ -140,12 +211,12 @@ https://mariadb.org/get-involved/
 
 ```
   
-## Ubuntu 16.04安装
+## Ubuntu 16.04安装mysql5.7
 ```
 sudo apt-cache show mysql-server
 show
 Source: mysql-5.7
-
+	
 sudo apt install mysql-server
 show
 The following NEW packages will be installed:
