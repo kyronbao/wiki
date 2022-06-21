@@ -1,3 +1,11 @@
+## 设置自增id
+alter table knit_bd_fabrications AUTO_INCREMENT=100000001;
+## group having
+### 查看分组内的数量
+SELECT company_type,count(*) FROM knit_auth_user group by company_type;
+## left join right join
+https://blog.csdn.net/Knight_Key/article/details/106004550
+
 ## 慢查询
 MySQL慢查询日志　https://cloud.tencent.com/developer/article/1702927
 

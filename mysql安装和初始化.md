@@ -372,7 +372,7 @@ ALTER DATABASE DBNAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 导入  
 mysql -uroot -p laravel < laravel.sql  
-
+ 
 
 mysql> CREATE DATABASE IF NOT EXISTS db1;
 mysql> USE db1;

@@ -25,8 +25,13 @@ svn co https://subvs.szhibu.com:1443/svn/FabTradERP/04Code/BMP/product/server/tr
 1 setting->Version Control->Subversion->clear Auth Cache
 2 这样清除了之后在项目中svn up时会重新提示输入密码
 ## phpstorm设置svn
-环境
-深度 deepin
+
+### window10
+https://blog.csdn.net/qiuhuanghe/article/details/109352279
+安装小乌龟时 第二个command选项要开启
+phpstorm setting subvisiton设置 /bin/svn.exe
+拉代码时可以直接检出branch分支
+### 深度 deepin
 
 安装svn
 sudo apt-get install subversion

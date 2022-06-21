@@ -1,3 +1,76 @@
+
+## deepin15.11/debian9.0 编译安装php7.1
+
+sudo apt install libjpeg-dev libpng-dev libwebp-dev libfreetype6-dev  libmcrypt-dev libreadline-dev
+
+
+
+
+./configure \
+--prefix=/usr/local/php7.1 \
+--with-config-file-path=/usr/local/php7.1/etc \
+--with-mcrypt \
+--with-mhash \
+--with-curl \
+--with-freetype-dir \
+--with-fpm-group=www-data \
+--with-fpm-user=www-data \
+--with-gd \
+--with-webp-dir \
+--with-jpeg-dir \
+--with-gettext \
+--with-iconv \
+--with-imap-ssl \
+--with-openssl \
+--with-png-dir \
+--with-mysqli=mysqlnd \
+--with-pdo-mysql=mysqlnd \
+--with-pear \
+--with-readline \
+--with-pcre-regex \
+--with-zlib \
+--with-zlib-dir \
+--enable-bcmath \
+--enable-calendar \
+--enable-fpm \
+--enable-ftp \
+--enable-inline-optimization \
+--enable-mysqlnd \
+--enable-mbregex \
+--enable-mbstring \
+--enable-gd-native-ttf \
+--enable-opcache \
+--enable-pcntl \
+--enable-sockets \
+--enable-soap \
+--enable-sockets \
+--enable-sysvmsg \
+--enable-sysvsem \
+--enable-sysvshm \
+--enable-shmop \
+--enable-session \
+--enable-xml \
+--enable-zip
+
+
+参考文件，参考这里后面的配置
+https://www.cnblogs.com/lalalagq/p/9973716.html
+
+
+php编译过程中报错:  PEAR package PHP_Archive not installed: generated phar will require PHP's phar extension be enabled
+
+解决： 建议直接忽略，在 make install时会自动安装
+
+下面这些会报错，不配置
+--with-xpm-dir \
+--with-jpeg-dir \
+--with-libxml-dir \
+--with-bz2 \
+--with-xmlrpc \
+--disable-rpath 
+--disable-debug 
+--disable-fileinfo 
+
 ## windows安装php7.1 php8.0
 下载地址：
 https://windows.php.net/downloads/releases/archives/

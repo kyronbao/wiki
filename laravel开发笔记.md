@@ -2,6 +2,21 @@
 Laravel 速查表　https://learnku.com/docs/laravel-cheatsheet/7.x
 
 # 代码笔记
+## keyBy() 可以用来获取数组对象的值
+```
+$arr = ['id'=>['order_code'=>'11','name'=>'bb']];
+$code = $arr[$id]['order_code'];
+```
+## 统计表里该纱别的数量 keyBy groupBy
+```
+        $yarnRatio = KnitOrderMaterials::query()
+            ->where('order_id', $knitOrderId)
+            ->groupBy(['yarn_id'])
+            ->select(['yarn_id', DB::raw("SUM(planning_consumption) as qty")])
+            ->get()->keyBy('yarn_id')
+            ->toArray();
+        $yarnRatio[$knitMaterial['yarn_id']]['qty']
+```
 ## 关联对象的查询格式with
 介绍了with关联查询时的一些写法，怎么只查关联表的字段？怎么只查关联表关联表的字段？
 ```
@@ -15,7 +30,22 @@ Laravel 速查表　https://learnku.com/docs/laravel-cheatsheet/7.x
         ];
 		       // 查询分录数据
         $result = $this->repository->search($inputs, $with);
-	```
+```
+```
+        $countrys = BasisCountry::select('id','name','abbr','name_en')
+                    ->with(['children' => function($query)
+                    {
+                        $query->where('status', 'P')->where('level', 0)->with(['children' => function($query1)
+                        {
+                            $query1->where('status', 'P')->with(['children' => function($query2)
+                            {
+                                $query2->where('status', 'P')->select('id','parent_id','name','pinyin');
+                            }])->select('id','parent_id','name','pinyin');
+                        }])->select('id','parent_id','name','pinyin','country_code');
+                    }])
+                    ->orderBy('id','asc')
+                    ->get();	
+```
 # 安装后设置
 
 ## 安装后设置权限
