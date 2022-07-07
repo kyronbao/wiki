@@ -489,7 +489,33 @@ sudo权限：
 		查看free -m  
  
  Linux 磁盘扩容操作指引 https://www.cnblogs.com/gucb/p/11528507.html 未实践
-  
+办公室加硬盘实践
+
+	su - root
+
+	fdisk -l
+
+	fdisk /dev/sdb
+	n
+	1
+
+	partprobe /dev/sdb
+
+	mkfs -t ext4 /dev/sdb1
+
+	ls /mnt
+
+	mount /dev/sdb1 /mnt
+	chmod -R 777 /mnt
+
+
+	vim /etc/fstab
+
+	/dev/sdb1  /mnt  ext4   defaults 0 0
+
+	mount -a
+
+	df -h 
   
 服务  
 	service --status-all 查询所有RPM包服务状态  
@@ -672,7 +698,7 @@ du -hs /home/qianyong/*
 ## 查看进程 进程树 端口
 查看开启的进程 ps aft | grep tcp.php  
 查看子进程  pstree -aup 24451  
-查看开启的端口 sudo netstat -anp | grep 8888  
+查看开启的端口 sudo sudo sudo netstat -anp | grep 8888  
   
 查看进程数目  
 ```

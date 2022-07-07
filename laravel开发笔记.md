@@ -2,6 +2,47 @@
 Laravel 速查表　https://learnku.com/docs/laravel-cheatsheet/7.x
 
 # 代码笔记
+## stdClass是什么？
+```
+json_decode(json_encode($empInfo),true) 返回array()
+json_decode(json_encode($empInfo)) 返回 stdClass() 
+```
+https://blog.51cto.com/tinywan/5359319
+## Request::instance()->request;
+ \request()->request->get('version')
+## ->lockForUpdate() 防并发读库
+select count(*) as aggregate from `knit_stock_inbound` where `knit_factory_id` = '111' and `code` like '111%' for update
+1.for update 仅适用于InnoDB，并且必须开启事务，在begin与commit之间才生效。
+
+2.要测试for update的锁表情况，可以利用MySQL的Command Mode，开启二个视窗来做测试。
+https://blog.csdn.net/xiao__jia__jia/article/details/100901858
+## update save更新时不更新时间 timestamps
+```
+$item->update(['loom_id' => $new_loom_id ,'timestamps' => false]) //待验证
+$ga_info->timestamps = false;
+$ga_info->save();
+```
+##  大表优化-指定索引
+```
+            $knit_erp_barCodes = $knit_erp_barCodes
+                ->from(DB::raw("knit_barcode_stock_details  USE INDEX(knit_barcode_stock_details_barcode_unique)"))
+                //先去掉指定索引，测试一下性能
+                //->from(DB::raw("knit_barcode_stock_details"))
+                ->get();
+```
+##  搜索查询一对多对一的子成分
+```
+        main "id"
+        details "id,main_id,one_id"
+        one     "id"
+
+        return $main->whereIn('id', function ($query) use ($value) {
+            $query->from('details')->whereIn('one_id', $value)
+                ->groupBy('main_id')
+                ->havingRAW("count(one_id) >= " . count($value))
+                ->select('main_id');
+        });
+```
 ## keyBy() 可以用来获取数组对象的值
 ```
 $arr = ['id'=>['order_code'=>'11','name'=>'bb']];

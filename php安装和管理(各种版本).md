@@ -71,6 +71,27 @@ php编译过程中报错:  PEAR package PHP_Archive not installed: generated pha
 --disable-debug 
 --disable-fileinfo 
 
+
+编辑自启动
+sudo vim /lib/systemd/system/php71-fpm.service
+```
+[Unit]
+Description=The PHP 7.1 FastCGI Process Manager
+Documentation=man:php-fpm7.1(8)
+After=network.target
+
+[Service] 
+Type=forking
+ExecStart=/usr/local/php7.1/sbin/php-fpm
+ExecReload=/bin/kill -USR2 $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+```
+sudo systemctl start php71-fpm
+sudo systemctl enable php71-fpm
+
+
 ## windows安装php7.1 php8.0
 下载地址：
 https://windows.php.net/downloads/releases/archives/
