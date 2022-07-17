@@ -425,4 +425,6 @@ https://segmentfault.com/a/1190000008063732
 找到 C:\Users\kyron\AppData\Roaming
 删除 .emacs.d  emacs
 下载 git clone git@gitee.com:kyronbao/emacs.d.git 移动过来
+
+wiki也移到这个目录，就可以通过Esc Esc w定位
 参考 https://www.cnblogs.com/x-police/p/10826138.html

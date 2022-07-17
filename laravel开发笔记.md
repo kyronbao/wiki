@@ -730,3 +730,20 @@ class ShrinkageRequest extends Request
     }
 }
 ```
+## InvalidArgumentException: Malformed UTF-8 characters, possibly incorrectly encoded
+解决途径
+
+首先bing搜 google搜，死活不能解决
+
+最后定位问题
+
+访问 / 根目录，能返回正常数据
+访问 现有接口 api/holiday/list返回以上报错，
+
+去掉所有中间件，可以访问，加上auth:api中间件，返回报错
+
+访问授权接口 /oauth/token 报错 Replicating claims as headers is deprecated and will removed from v4.0 - Laravel Passport Problem in lcobucci/jwt package
+
+搜索后解决方法：composer require lcobucci/jwt=3.3.3
+
+然后ok了，，ok了，，ok了
