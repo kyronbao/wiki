@@ -418,3 +418,11 @@ https://segmentfault.com/a/1190000008063732
 ** 导出HTML时默认只导出修改过的文件的处理
 导出HTML时默认只导出修改过的文件，如果想全部重新刷新导出一遍，可以修改配置init.el的导出配置，比如修改引入css文件名。这样，执行 =C-c C-e x p= 后，会全部导出HTML。
 
+
+##window 配置emacs
+
+下载 官网下载emacs-28.1-installer
+找到 C:\Users\kyron\AppData\Roaming
+删除 .emacs.d  emacs
+下载 git clone git@gitee.com:kyronbao/emacs.d.git 移动过来
+参考 https://www.cnblogs.com/x-police/p/10826138.html
