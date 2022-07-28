@@ -89,6 +89,20 @@ npmMirror --- https://skimdb.npmjs.com/registry/
 deunpm --- http://registry.enpmjs.org/
 
 ```
+## 'cross-env' is not recognized as an internal or external command,
+执行 npm install -g cross-env
+参考 https://bobbyhadz.com/blog/not-recognized-as-internal-or-external-command-cross-env
+## npm WARN config global `--global`, `--local` are deprecated
+原因是 升级 node 版本后，npm 没有同步升级到对应版本，所以出现 WARN 。
+管理员身份打开powershell或gitbash
+
+npm install -g npm-windows-upgrade
+
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+
+npm-windows-upgrade
+
+参考 https://www.cnblogs.com/tive/p/16427126.html
 ## deepin深度npm安装问题 node-sass 下载不下来
 过程：试过npm换淘宝源，cnpm等。。。都不能解决
 解决：深度换 阿里的源
