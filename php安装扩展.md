@@ -1,3 +1,66 @@
+## 安装php-imagick win10
+下载 https://mlocati.github.io/articles/php-windows-imagick.html 参考版本，注意在phpinfo()查看vc版本
+```
+
+Version	Thread Safe	Architecture	Estension
+5.5	Yes	x86	php_imagick-3.4.3-5.5-ts-vc11-x86.zip
+5.5	Yes	x64	php_imagick-3.4.3-5.5-ts-vc11-x64.zip
+5.5	No	x86	php_imagick-3.4.3-5.5-nts-vc11-x86.zip
+5.5	No	x64	php_imagick-3.4.3-5.5-nts-vc11-x64.zip
+5.6	Yes	x86	php_imagick-3.4.3-5.6-ts-vc11-x86.zip
+5.6	Yes	x64	php_imagick-3.4.3-5.6-ts-vc11-x64.zip
+5.6	No	x86	php_imagick-3.4.3-5.6-nts-vc11-x86.zip
+5.6	No	x64	php_imagick-3.4.3-5.6-nts-vc11-x64.zip
+7.0	Yes	x86	php_imagick-3.4.3-7.0-ts-vc14-x86.zip
+7.0	Yes	x64	php_imagick-3.4.3-7.0-ts-vc14-x64.zip
+7.0	No	x86	php_imagick-3.4.3-7.0-nts-vc14-x86.zip
+7.0	No	x64	php_imagick-3.4.3-7.0-nts-vc14-x64.zip
+7.1	Yes	x86	php_imagick-3.4.4-7.1-ts-vc14-x86.zip
+7.1	Yes	x64	php_imagick-3.4.4-7.1-ts-vc14-x64.zip
+7.1	No	x86	php_imagick-3.4.4-7.1-nts-vc14-x86.zip
+7.1	No	x64	php_imagick-3.4.4-7.1-nts-vc14-x64.zip
+7.2	Yes	x86	php_imagick-3.4.4-7.2-ts-vc15-x86.zip
+7.2	Yes	x64	php_imagick-3.4.4-7.2-ts-vc15-x64.zip
+7.2	No	x86	php_imagick-3.4.4-7.2-nts-vc15-x86.zip
+7.2	No	x64	php_imagick-3.4.4-7.2-nts-vc15-x64.zip
+7.3	Yes	x86	php_imagick-3.6.0-7.3-ts-vc15-x86.zip
+7.3	Yes	x64	php_imagick-3.6.0-7.3-ts-vc15-x64.zip
+7.3	No	x86	php_imagick-3.6.0-7.3-nts-vc15-x86.zip
+7.3	No	x64	php_imagick-3.6.0-7.3-nts-vc15-x64.zip
+7.4	Yes	x86	php_imagick-3.7.0-7.4-ts-vc15-x86.zip
+7.4	Yes	x64	php_imagick-3.7.0-7.4-ts-vc15-x64.zip
+7.4	No	x86	php_imagick-3.7.0-7.4-nts-vc15-x86.zip
+7.4	No	x64	php_imagick-3.7.0-7.4-nts-vc15-x64.zip
+8.0	Yes	x86	php_imagick-3.7.0-8.0-ts-vs16-x86.zip
+8.0	Yes	x64	php_imagick-3.7.0-8.0-ts-vs16-x64.zip
+8.0	No	x86	php_imagick-3.7.0-8.0-nts-vs16-x86.zip
+8.0	No	x64	php_imagick-3.7.0-8.0-nts-vs16-x64.zip
+8.1	Yes	x86	php_imagick-3.7.0-8.1-ts-vs16-x86.zip
+8.1	Yes	x64	php_imagick-3.7.0-8.1-ts-vs16-x64.zip
+8.1	No	x86	php_imagick-3.7.0-8.1-nts-vs16-x86.zip
+8.1	No	x64	php_imagick-3.7.0-8.1-nts-vs16-x64.zip
+```
+Extract from php_imagick-….zip the php_imagick.dll file, and save it to the ext directory of your PHP installation
+Extract from php_imagick-….zip the other DLL files (they may start with CORE_RL, FILTER, IM_MOD_RL, or ImageMagickObject depending on the version), and save them to the PHP root directory (where you have php.exe), or to a directory in your PATH variable
+Add this line to your php.ini file:
+extension=php_imagick.dll
+Restart the Apache/NGINX Windows service (if applicable)
+提示 php-cgi.exe无法找到入口  php 无法定位程序输入点 于动态链接库
+  将解压的dll放到ext下面的新建的imagick文件，并且将这个文件加入环境变量
+
+参考 https://www.cnblogs.com/jinxiblog/p/8053008.html
+## 安装phpredis win10
+https://github.com/tporadowski/redis/releases
+https://objects.githubusercontent.com/github-production-release-asset-2e65be/108110706/fc45ed00-4094-11ea-83e8-1a926fca9d43?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20220716%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220716T052013Z&X-Amz-Expires=300&X-Amz-Signature=f30417073639525982f6d6167121b3631c92e0f7dbd5a003ff1018b1cad10388&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=108110706&response-content-disposition=attachment%3B%20filename%3DRedis-x64-4.0.14.2.msi&response-content-type=application%2Foctet-stream
+redis下载地址
+
+
+https://pecl.php.net/package/redis 下载对应的版本
+复制dll到对应的文件夹
+php.ini 添加  extension=php_redis.dll
+重启php-cgi
+
+参考https://zhuanlan.zhihu.com/p/109498347
 ## 安装sqlserver驱动 deepin15.11/debian9
 提示：执行下面命令时 如果提示依赖冲突，用sudo aptitude install unixodbc-dev,然后根据提示解决（备注操作经历：
 按提示删除相应依赖 如： 输入1 2  然后 a 1    a2  然后 y 

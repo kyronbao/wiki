@@ -1,3 +1,6 @@
+## 安装已有项目经验：
+先查看package-lock.json里的源的地址，npm的源设置为相同的
+如果有私有的包不能安装，直接npm install [remote-url] 这个url在package-lock.json也能找到
 ## nvm
 安装nvm  
 参考 - https://github.com/nvm-sh/nvm#git-install  
@@ -89,6 +92,20 @@ npmMirror --- https://skimdb.npmjs.com/registry/
 deunpm --- http://registry.enpmjs.org/
 
 ```
+## 'cross-env' is not recognized as an internal or external command,
+执行 npm install -g cross-env
+参考 https://bobbyhadz.com/blog/not-recognized-as-internal-or-external-command-cross-env
+## npm WARN config global `--global`, `--local` are deprecated
+原因是 升级 node 版本后，npm 没有同步升级到对应版本，所以出现 WARN 。
+管理员身份打开powershell或gitbash
+
+npm install -g npm-windows-upgrade
+
+Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force
+
+npm-windows-upgrade
+
+参考 https://www.cnblogs.com/tive/p/16427126.html
 ## deepin深度npm安装问题 node-sass 下载不下来
 过程：试过npm换淘宝源，cnpm等。。。都不能解决
 解决：深度换 阿里的源
