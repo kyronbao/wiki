@@ -28,7 +28,14 @@ sudo apt install virtualbox
 
 备注：　
 　虚拟主机窗口调整显示下（默认窗口小）
+
 　　　win7窗口->设备->安装增强功能
-　　　进入win7,桌面的计算机->点击可移动存储设备：Virtural Box Guest additions->点击安装：VBoxWindowsAdditions-amd64
+　　　进入win7,桌面的计算机->点击可移动存储设备：Virtural Box Guest additions
+        ->点击安装：VBoxWindowsAdditions-amd64
+  
+     win7->Devices->Insert guset additions CD image
+	 
+
+
 
 

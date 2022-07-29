@@ -1,3 +1,23 @@
+##  新增或更新 ON DUPLICATE KEY UPDATE
+在MySQL数据库中，如果在insert语句后面带上ON DUPLICATE KEY UPDATE 子句，而要插入的行与表中现有记录的惟一索引或主键中产生重复值，那么就会发生旧行的更新；如果插入的行数据与现有表中记录的唯一索引或者主键不重复，则执行新纪录插入操作。
+
+说通俗点就是数据库中存在某个记录时，执行这个语句会更新，而不存在这条记录时，就会插入。
+```
+INSERT INTO table (a,b,c) VALUES (1,2,3)  
+  ON DUPLICATE KEY UPDATE c=c+1;  
+  
+UPDATE table SET c=c+1 WHERE a=1;
+```
+https://www.cnblogs.com/better-farther-world2099/articles/11737376.html
+## mysql where in 子查询优化为inner join时会重复
+https://www.jianshu.com/p/3989222f7084
+where in改为inner join时,
+如果主查询是主表,会查出重复数据
+SELECT * FROM t1 WHERE t1.a IN (SELECT t2.a FROM t2 WHERE a < 10);
+SELECT t1.* FROM t1 right join t2 on t1.a=t2.a where t2.a<10;
+如果主查询是不是主表,不会查出重复数据
+SELECT * FROM t2 WHERE t2.a IN (SELECT t1.a FROM t1 WHERE a < 10);
+SELECT t2.* FROM t2 inner join t1 on t1.a=t2.a where t1.a<10;
 ## 设置自增id
 alter table knit_bd_fabrications AUTO_INCREMENT=100000001;
 ## group having

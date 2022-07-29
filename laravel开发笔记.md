@@ -2,6 +2,16 @@
 Laravel 速查表　https://learnku.com/docs/laravel-cheatsheet/7.x
 
 # 代码笔记
+## Excel导出图片 未实践
+"phpoffice/phpspreadsheet
+https://learnku.com/articles/26965
+https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#add-a-drawing-to-a-worksheet
+## saved()事件触发条件
+在 $model = $model->where()->first();
+$model->update(); $model->save();
+时会触发
+
+Model::query()->where()->update()时不会触发
 ## stdClass是什么？
 ```
 json_decode(json_encode($empInfo),true) 返回array()

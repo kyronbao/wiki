@@ -530,6 +530,9 @@ $result = preg_split('/[;\r\n]+/s', $value);   // 返回数据保存在$result�
 		
 ### 如果三个字段排序，其中一个字段按规定排序
 
+    array_multisort($sort_pid, SORT_ASC, SORT_NUMERIC, $sort_seq, SORT_ASC, SORT_NUMERIC, $sort_id, SORT_ASC, SORT_NUMERIC, $menus);
+
+
         $colorMap = [
             1	=> "紫色",
             2	=> "玫红",
