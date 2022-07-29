@@ -109,6 +109,11 @@ truncate table 表名;     清除表
 $v = str_replace(['_', '%'], ['\_', '\%'], $v);
 ```
 ## replace into语法,插入时覆盖旧数据
+replace into 跟 insert 功能类似，不同点在于：replace into 首先尝试插入数据到表中， 1. 如果发现表中已经有此行数据（根据主键或者唯一索引判断）则先删除此行数据，然后插入新的数据。 2. 否则，直接插入新数据。
+replace into tbl_name(col_name, ...) values(...)
+
+ https://www.cnblogs.com/c-961900940/p/6197878.html
+
 mysql 5.7:
   
 REPLACE works exactly like INSERT, except that if an old row  
@@ -172,21 +177,7 @@ This is due to the fact that, when run on test2, both the id and
 ts column values must match those of an existing row for the row to be replaced; otherwise, a row is inserted.  
   
   
-sphinx 增量索引创建时的疑问  
-```
-CREATE TABLE IF NOT EXISTS `sph_counter` (
-  `counter_id` int(11) NOT NULL,
-  `max_doc_id` int(11) NOT NULL,
-  PRIMARY KEY (`counter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='增量索引标示的计数表';
 
-INSERT INTO `sph_counter` VALUES (1, 11);
-INSERT INTO `sph_counter` VALUES (2, 12);
-
-
--- 以下语句执行一次时表里替换第一条，第二次创建时替换第二条，以后再执行时不会修改表里数据，为什么？
-REPLACE INTO sph_counter VALUES (1, 22);
-```
   
 ## 索引相关语句
 添加唯一索引  
