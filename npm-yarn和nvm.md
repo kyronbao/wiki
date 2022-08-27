@@ -1,3 +1,6 @@
+## 安装已有项目经验：
+先查看package-lock.json里的源的地址，npm的源设置为相同的
+如果有私有的包不能安装，直接npm install [remote-url] 这个url在package-lock.json也能找到
 ## nvm
 安装nvm  
 参考 - https://github.com/nvm-sh/nvm#git-install  
