@@ -1,7 +1,7 @@
+
 ## 使用指定版本php来composer安装
 php7.1 /usr/local/bin/composer install -vvv
-## composer install时提示svn的权限不足
-使用compoer update 可以，不报错
+
 ## composer安装laravel及初始化项目  
 下载安装  
 ```
@@ -63,23 +63,7 @@ php artisan make:auth
     - In Alias.php line 69:
     - Class App does not exist
 
-## yiisoft/yii2 2.0.25 requires bower-asset/inputmask ~3.2.2 | ~3.3.5 -> no matching package found.
-  
-通过在包原站中查找  
-https://packagist.org/providers/bower-asset/inputmask?query=bower-asset%2Finputmask  
-  
-最后在composer.json中安装  
-"yidas/yii2-bower-asset": "~2.0.5",  
-安装原因，上面这个包包含了需要的bower-asset/inputmask 包  
-  
-  
-## 当依赖PHP7.2而本地安装PHP7.1时，
-执行 composer update 可以对依赖进行降级  
-## 记录一次composer安装时依赖冲突的解决方法
-开发lumen的api应用时，发现test组件不支持cookie，github上有人开发了lumen-testing包可以使用，但是只支持5.7版本，而开发时使用的时lumen5.8版本，怎么临时处理版本冲突？  
-  
-首先fork该仓库，然后修改composer.json包名，修改里面的依赖关系  
-最后 composer update 安装才可以（composer require总是不成功，一直提示安装缓存的5.7的旧版本）  
+
 ## 管理命令
   
   
@@ -140,8 +124,31 @@ mv composer.phar /usr/local/bin/composer # 安装sudo权限的composer
 sudo mv  /usr/local/bin/composer /usr/bin/  # 安装为当前用户的全局
 ```
   
-## ubuntu版本composer的一个坑
+## 记录一次composer安装时依赖冲突的解决方法
+开发lumen的api应用时，发现test组件不支持cookie，github上有人开发了lumen-testing包可以使用，但是只支持5.7版本，而开发时使用的时lumen5.8版本，怎么临时处理版本冲突？  
   
+首先fork该仓库，然后修改composer.json包名，修改里面的依赖关系  
+最后 composer update 安装才可以（composer require总是不成功，一直提示安装缓存的5.7的旧版本）  
+## 当依赖PHP7.2而本地安装PHP7.1时，
+执行 composer update 可以对依赖进行降级  
+## composer install时提示svn的权限不足
+使用compoer update 可以，不报错
+## yiisoft/yii2 2.0.25 requires bower-asset/inputmask ~3.2.2 | ~3.3.5 -> no matching package found.
+  
+通过在包原站中查找  
+https://packagist.org/providers/bower-asset/inputmask?query=bower-asset%2Finputmask  
+  
+最后在composer.json中安装  
+"yidas/yii2-bower-asset": "~2.0.5",  
+安装原因，上面这个包包含了需要的bower-asset/inputmask 包  
+  
+  
+## Laravel Class ‘Facade\Ignition\IgnitionServiceProvider‘ not found 
+composer install
+## Your Composer dependencies require a PHP version ">= 7.3.0". You are running 7.1.33
+composer install
+## slince/composer-registry-manager 2.0.0 requires composer-plugin-api ^1.1 -> no matching package found
+ubuntu版本composer的一个坑  
 在安装 [YunhanPHP/overview](https://github.com/YunhanPHP/overview/blob/master/init/new-project.md) (lumen的一个开发环境扩展) 时报错  
 slince/composer-registry-manager 2.0.0 requires composer-plugin-api ^1.1 -> no matching package found  
 查资料  

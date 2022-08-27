@@ -27,3 +27,13 @@ Next, you can create a Kafka consumer using the kafka-console-consumer.sh script
 The following command consumes messages from TutorialTopic. Note the use of the  --from-beginning flag, which allows the consumption of messages that were published before the consumer was started:
 
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic TutorialTopic --from-beginning
+
+## 客户端offset Explorer
+https://www.cnblogs.com/frankdeng/p/9452982.html
+连接kafka
+just set 
+
+Cluster name
+Advanced -->Bootstraps servers
+
+Done

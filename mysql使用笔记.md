@@ -1,3 +1,23 @@
+##  新增或更新 ON DUPLICATE KEY UPDATE
+在MySQL数据库中，如果在insert语句后面带上ON DUPLICATE KEY UPDATE 子句，而要插入的行与表中现有记录的惟一索引或主键中产生重复值，那么就会发生旧行的更新；如果插入的行数据与现有表中记录的唯一索引或者主键不重复，则执行新纪录插入操作。
+
+说通俗点就是数据库中存在某个记录时，执行这个语句会更新，而不存在这条记录时，就会插入。
+```
+INSERT INTO table (a,b,c) VALUES (1,2,3)  
+  ON DUPLICATE KEY UPDATE c=c+1;  
+  
+UPDATE table SET c=c+1 WHERE a=1;
+```
+https://www.cnblogs.com/better-farther-world2099/articles/11737376.html
+## mysql where in 子查询优化为inner join时会重复
+https://www.jianshu.com/p/3989222f7084
+where in改为inner join时,
+如果主查询是主表,会查出重复数据
+SELECT * FROM t1 WHERE t1.a IN (SELECT t2.a FROM t2 WHERE a < 10);
+SELECT t1.* FROM t1 right join t2 on t1.a=t2.a where t2.a<10;
+如果主查询是不是主表,不会查出重复数据
+SELECT * FROM t2 WHERE t2.a IN (SELECT t1.a FROM t1 WHERE a < 10);
+SELECT t2.* FROM t2 inner join t1 on t1.a=t2.a where t1.a<10;
 ## 设置自增id
 alter table knit_bd_fabrications AUTO_INCREMENT=100000001;
 ## group having
@@ -89,6 +109,11 @@ truncate table 表名;     清除表
 $v = str_replace(['_', '%'], ['\_', '\%'], $v);
 ```
 ## replace into语法,插入时覆盖旧数据
+replace into 跟 insert 功能类似，不同点在于：replace into 首先尝试插入数据到表中， 1. 如果发现表中已经有此行数据（根据主键或者唯一索引判断）则先删除此行数据，然后插入新的数据。 2. 否则，直接插入新数据。
+replace into tbl_name(col_name, ...) values(...)
+
+ https://www.cnblogs.com/c-961900940/p/6197878.html
+
 mysql 5.7:
   
 REPLACE works exactly like INSERT, except that if an old row  
@@ -152,21 +177,7 @@ This is due to the fact that, when run on test2, both the id and
 ts column values must match those of an existing row for the row to be replaced; otherwise, a row is inserted.  
   
   
-sphinx 增量索引创建时的疑问  
-```
-CREATE TABLE IF NOT EXISTS `sph_counter` (
-  `counter_id` int(11) NOT NULL,
-  `max_doc_id` int(11) NOT NULL,
-  PRIMARY KEY (`counter_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='增量索引标示的计数表';
 
-INSERT INTO `sph_counter` VALUES (1, 11);
-INSERT INTO `sph_counter` VALUES (2, 12);
-
-
--- 以下语句执行一次时表里替换第一条，第二次创建时替换第二条，以后再执行时不会修改表里数据，为什么？
-REPLACE INTO sph_counter VALUES (1, 22);
-```
   
 ## 索引相关语句
 添加唯一索引  
