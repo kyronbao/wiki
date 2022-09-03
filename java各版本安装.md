@@ -1,3 +1,57 @@
+
+## win10安装1.8.0.271
+oracle账号 ky...@qq fl..._AA11
+oracle.com下载页面找Java archive->Java SE8(8u211...)
+https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html
+找到jdk-8u271-windows-x64下载
+安装到D:/java/
+
+一，配置环境变量步骤
+1.右击桌面上的“此电脑”图标，选择属性。
+
+2.选择高级系统设置
+
+3.单击环境变量
+
+4.单击系统变量中的新建
+
+5.在变量名中输入JAVA_HOME
+
+变量值中输入jdk安装路径，系统默认路径为
+
+C:\Program Files\Java\jdk1.8.0_221
+
+6.继续单击系统变量中的新建
+
+7.在变量名中输入CLASSPATH
+
+变量值为
+
+.;%JAVA_HOME%lib;%JAVA_HOME%\lib\tools.jar
+
+注意最前面的“.”不能忽略
+
+8.先选择Path然后点击编辑
+
+9.在编辑环境变量中点击新建
+
+10.将%JAVA_HOME%\bin
+
+%JAVA_HOME%\jre\bin
+
+分别添加进去，然后单击确定按钮。
+
+11.环境变量配置完成，单击确定保存。不点击确定直接退出，配置的环境变量没有保存就不会生效。
+
+
+二，验证环境变量是否配置成功。
+1.按住键盘的windows+R然后输入cmd
+
+2.在命令行窗口分别输入“java”回车,“javac”回车和“java -version”回车出现如下图效果，则环境变量配置成功。可以开始你的java之旅
+
+https://www.jb51.net/article/200295.htm
+
+
 ## debian9/deepin15.11 安装默认java版本
 
 在本机测试
@@ -186,7 +240,7 @@ Conclusion
 You have now installed Java and know how to manage different versions of it. You can now install software which runs on Java, such as Tomcat, Jetty, Glassfish, Cassandra, or Jenkins.
 ```
 
-## maven安装
+## linux maven安装
 在 https://maven.apache.org/download.cgi
 wget https://mirrors.gigenet.com/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
 
@@ -200,6 +254,25 @@ export MAVEN_OPTS=-Xmx512m
 export PATH=$M2:$PATH
 
 source .bashrc
+## win10配置maven
+maven包也可以用linux版下载的tar.gz的文件
+
+3.配置环境变量
+右键“此电脑->属性->高级系统设置->环境变量”
+
+在系统变量栏下点击新建
+变量名：M2_HOME 变量值：C:\Program Files\Apache Software Foundation\apache-maven-3.5.4(该路径为你的Maven安装目录)
+
+然后在系统变量栏下找到Path点击编辑
+
+点击新建，填入%M2_HOME%\bin
+
+4.检查Maven的环境变量是否配置成功
+WIN+R打开运行输入cmd打开控制台
+输入mvn -v
+
+
+
 ## idea配置maven国内源
 
   第一步：找到idea中maven中的“settings.xml”位置
@@ -222,3 +295,56 @@ sudo vim /opt/idea-IU-193.7288.26/plugins/maven/lib/maven3/conf/settings.xml
 mvn -version
 
 然后点击maven工具那边的刷新按钮，就可以安装依赖到 ~/.m2/ 目录下了
+
+## 修改Maven仓库地址为国内 
+修改远程中央仓库
+
+我们用Maven的时候，因为Maven自带的远程中央仓库在国外，所以经常会很慢。我们可以把远程中央仓库改为国内阿里的远程仓库。
+找到你的Maven安装位置，打开conf目录下的setting.xml
+
+将原文件红色方框处改为：
+
+<mirrors>
+<mirror>
+//该镜像的id
+<id>nexus-aliyun</id>
+//该镜像用来取代的远程仓库，central是中央仓库的id
+<mirrorOf>central</mirrorOf>
+<name>Nexus aliyun</name>
+//该镜像的仓库地址，这里是用的阿里的仓库
+<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+</mirror>
+</mirrors>
+
+修改本地仓库位置（如果不想修改本地仓库位置则这一步骤可省略）
+Maven会将下载的类库（jar包）放置到本地的一个目录下（一般默认情况下Maven在本机的仓库位于C:\Users\你的电脑用户账号\.m2\repository）
+创建你要作为本地仓库的文件夹，我所创建文件夹的路径为C:\Program Files\Apache Software Foundation\maven-repository
+在setting.xml里找到下图所示
+
+在红方框代码下加上一行代码：<localRepository>C:\Program Files\Apache Software Foundation\maven-repository</localRepository>
+
+检测以上关于仓库地修改是否成功
+打开控制台，输入命令mvn help:system
+下图代表远程中央仓库修改成功
+
+然后打开本地仓库
+
+如果出现下载文件，即本地仓库位置修改成功
+
+
+原文链接：https://blog.csdn.net/qq_37904780/article/details/81216179
+
+
+## idea配置修改
+项目不能run?
+  File->project structure->Project  选择sdk
+
+setting
+  Bulid,Execution,Deployment
+     Maven
+	   Importing
+	   
+  
+
+  
+Runner

@@ -1,5 +1,6 @@
 安装chrome
 打开shadowsocks 然后执行ChromeSetup.exe
+安装chrome后不用安装插件，使用shadowsocks系统代理全局模式就可以访问google了
 显示我的电脑
 桌面右击个性化，点主题，右边能看见桌面图标设置
 关闭Microsoft OneDrive
