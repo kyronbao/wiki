@@ -5,20 +5,9 @@ https://spring.io/projects/spring-framework#learn   -> Reference Doc.
 浏览器地址删到doc
 https://docs.spring.io/spring-boot/docs
 https://docs.spring.io/spring-framework/docs/
-选择java 和spring版本
-目前 
-java -version
-java version "1.8.0_271"
 
-mvn -version
-Apache Maven 3.6.3
-
-spring boot 2.2.5
-参考
-https://zhuanlan.zhihu.com/p/51228073 jdk版本的选择（推荐1.8）
-https://www.jianshu.com/p/9aad06d813e8 如何选择Spring Boot最稳定的版本，以及相应的Spring Cloud版本
-https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E
-
+## 怎么微服务查看pom.xml里各依赖的版本号
+点击引用关系(向上)
 ## 初始化多个listMap
 
 You can then populate the list in a for loop :
