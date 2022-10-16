@@ -26,6 +26,7 @@
 # 调试记录
   
 ## Segmentation fault (core dumped)
+
 最后发现，错误原因为未输入输入参数，如下  
 ```
 int main(int argc, char *argv[])

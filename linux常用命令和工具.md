@@ -1725,3 +1725,4 @@ useradd命令
 例如：  
 ```
 sudo  useradd  -d '/home/git' -m -s '/bin/bash' git
+

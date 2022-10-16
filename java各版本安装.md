@@ -132,8 +132,7 @@ export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
 export PATH=${JAVA_HOME}/bin:$PATH
 
 
-export MAVEN_HOME=${HOME}/java/apache-maven-3.6.3
-export PATH=${PATH}:${MAVEN_HOME}/bin
+
 ## ubuntu16.04 java安装 
 - https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
 
@@ -244,15 +243,24 @@ You have now installed Java and know how to manage different versions of it. You
 在 https://maven.apache.org/download.cgi
 wget https://mirrors.gigenet.com/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
 
+解压到HOME/java
+```
+vim .bashrc
+export MAVEN_HOME=${HOME}/java/apache-maven-3.6.3
+export PATH=${PATH}:${MAVEN_HOME}/bin
+```
+source .bashrc
+
+或
 解压到 /opt 目录
 
 vim .bashrc
-
+```
 export M2_HOME=/opt/apache-maven-3.6.3
 export M2=$M2_HOME/bin
 export MAVEN_OPTS=-Xmx512m
 export PATH=$M2:$PATH
-
+```
 source .bashrc
 ## win10配置maven
 maven包也可以用linux版下载的tar.gz的文件
@@ -272,6 +280,27 @@ WIN+R打开运行输入cmd打开控制台
 输入mvn -v
 
 
+
+
+## 修改Maven仓库地址为国内 
+修改远程中央仓库
+
+我们用Maven的时候，因为Maven自带的远程中央仓库在国外，所以经常会很慢。我们可以把远程中央仓库改为国内阿里的远程仓库。
+找到你的Maven安装位置，打开conf目录下的setting.xml
+
+将原文件红色方框处改为：
+
+<mirrors>
+<mirror>
+//该镜像的id
+<id>nexus-aliyun</id>
+//该镜像用来取代的远程仓库，central是中央仓库的id
+<mirrorOf>central</mirrorOf>
+<name>Nexus aliyun</name>
+//该镜像的仓库地址，这里是用的阿里的仓库
+<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+</mirror>
+</mirrors>
 
 ## idea配置maven国内源
 
@@ -296,27 +325,7 @@ mvn -version
 
 然后点击maven工具那边的刷新按钮，就可以安装依赖到 ~/.m2/ 目录下了
 
-## 修改Maven仓库地址为国内 
-修改远程中央仓库
-
-我们用Maven的时候，因为Maven自带的远程中央仓库在国外，所以经常会很慢。我们可以把远程中央仓库改为国内阿里的远程仓库。
-找到你的Maven安装位置，打开conf目录下的setting.xml
-
-将原文件红色方框处改为：
-
-<mirrors>
-<mirror>
-//该镜像的id
-<id>nexus-aliyun</id>
-//该镜像用来取代的远程仓库，central是中央仓库的id
-<mirrorOf>central</mirrorOf>
-<name>Nexus aliyun</name>
-//该镜像的仓库地址，这里是用的阿里的仓库
-<url>http://maven.aliyun.com/nexus/content/groups/public</url>
-</mirror>
-</mirrors>
-
-修改本地仓库位置（如果不想修改本地仓库位置则这一步骤可省略）
+## 修改本地仓库位置（如果不想修改本地仓库位置则这一步骤可省略）
 Maven会将下载的类库（jar包）放置到本地的一个目录下（一般默认情况下Maven在本机的仓库位于C:\Users\你的电脑用户账号\.m2\repository）
 创建你要作为本地仓库的文件夹，我所创建文件夹的路径为C:\Program Files\Apache Software Foundation\maven-repository
 在setting.xml里找到下图所示
@@ -348,3 +357,68 @@ setting
 
   
 Runner
+
+## 选择java 和spring版本
+目前 
+java -version
+java version "1.8.0_271"
+
+mvn -version
+Apache Maven 3.6.3
+
+spring boot 2.2.5
+参考
+https://zhuanlan.zhihu.com/p/51228073 jdk版本的选择（推荐1.8）
+https://www.jianshu.com/p/9aad06d813e8 如何选择Spring Boot最稳定的版本，以及相应的Spring Cloud版本
+https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E
+
+## 通过maven创建spring boot
+首先创建一个普通的 Maven 项目，以 IntelliJ IDEA 为例，创建步骤如下：
+
+new Project ->Maven
+
+注意这里不用选择项目骨架（如果大伙是做练习的话，也可以去尝试选择一下，这里大概有十来个 Spring Boot 相关的项目骨架），直接点击 Next ，下一步中填入一个 Maven 项目的基本信息，如下图：
+
+com.kyronbao
+mbj
+
+
+然后点击 Next 完成项目的创建。
+
+创建完成后，在 pom.xml 文件中，添加如下依赖：
+```
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.1.4.RELEASE</version>
+</parent>
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+</dependencies>
+```
+添加成功后，再在 java 目录下创建包，包中创建一个名为 App 的启动类，如下：
+```
+@EnableAutoConfiguration
+@RestController
+public class App {
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
+}
+```
+
+@EnableAutoConfiguration 注解表示开启自动化配置。
+
+然后执行这里的 main 方法就可以启动一个 Spring Boot 工程了。
+
+
+这样创建的spring boot直接在idea里可以启动了
+
+https://www.cnblogs.com/lenve/p/10694456.html
