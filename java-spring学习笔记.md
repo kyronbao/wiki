@@ -6,8 +6,28 @@ https://spring.io/projects/spring-framework#learn   -> Reference Doc.
 https://docs.spring.io/spring-boot/docs
 https://docs.spring.io/spring-framework/docs/
 
+公司学习文档
+1、JAVA基础知识系统学习
+https://github.com/CyC2018/CS-Notes
+主要看java部分，系统的介绍java语言；主要包括了Java基础、Java容器、Java并发、Java虚拟机、Java I/O
+留意附件哦
+
+2、spring boot学习
+https://github.com/ityouknow/spring-boot-examples
+以最简单、最实用为标准，此开源项目中的每个示例都以最小依赖，最简单为标准，帮助初学者快速掌握 Spring Boot 各组件的使用
+
+3、微服务学习
+https://www.cnblogs.com/xifengxiaoma/p/9474953.html
+
+个人建议：
+微服务学习可以马上进行；这个系列比较简单易懂；效果比较明显（有成就感）
 ## java 常用写法
 ## stream语法
+去重，逗号连接
+```
+String output = list.stream().distinct().collect(Collectors.joining(","));
+
+```
 过滤
 ```
 List<AssessSpecific> update = 
@@ -28,6 +48,10 @@ Map<String,List<Object>>
 ```
 Map<String, List<ProcessRequiredCombinationDetails>> combinationDyesMap =
 list.stream().collect(Collectors.groupingBy("UUID"));
+```
+Map<String,String>
+```
+Map<String,String> countryMap = countryInfo.stream().collect(Collectors.toMap(CountryInfo::getAbbr, CountryInfo::getName));
 ```
 ## wrapper sql写法
 insert
@@ -217,45 +241,80 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     List<UserInfo> getAll(@Param(Constants.WRAPPER) Wrapper wrapper);
 }
 ```
-## 比较list
-!compareList(supplierTypeIdList, data.getSupplierTypeIdList())
-## 调用feign
+## listMap添加多个,List遍历/初始化
+List初始化
 ```
-            BaseResponse resp = areasServiceApi.search(new JSONObject());
-            BaseResponse.checkResponseCode(resp);
-            List<AreaInfoDto> areaInfoDtos = JsonUtils.jsonToList(JsonUtils.objectToJson(resp.getData()), AreaInfoDto.class);
-			```
-			com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:1293
-## 数组和字符串转化join split
-String.join(",",list)
-list.split(",")
-## 时间转化
-String fileName = "供应商列表-" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
-## 遍历list
+ List<String>  list = Arrays.asList("bb", "cc");
+ 
+ List<Long> list = Lists.newArrayList(1L, 2L)
+```
+遍历list
 ```
 //方法一:
-        list.forEach(p -> p.setName(UUID.randomUUID().toString().replaceAll("-", "")));
+list.forEach(p -> p.setName(UUID.randomUUID().toString().replaceAll("-", "")));
 //方法三:
 list=list.stream().map(detailVo -> {
-            FiveDao detail = new FiveDao();
-            BeanUtils.copyProperties(detailVo, detail);
-            detail.setName(UUID.randomUUID().toString().replaceAll("-", ""));
-            return detail;
-        }).collect(Collectors.toList());
+    FiveDao detail = new FiveDao();
+    BeanUtils.copyProperties(detailVo, detail);
+    detail.setName(UUID.randomUUID().toString().replaceAll("-", ""));
+    return detail;
+}).collect(Collectors.toList());
 		
 //
 for list.size()
 list.get(i)
 
 ```
-## 对象等和json字符串转化
+添加元素到HashMap的ArrayList
+```
+Map<String, List<Item>> items = new HashMap<>();
+items.computeIfAbsent(key, k -> new ArrayList<>()).add(item);
+```
+https://stackoverflow.com/questions/12134687/how-to-add-element-into-arraylist-in-hashmap
+
+## 判断相等List　String
+List
+```
+!compareList(supplierTypeIdList, data.getSupplierTypeIdList())
+```
+String
+```
+roleName.equals(new String("系统管理员")
+```
+
+## 转化数组字符串/时间/对象等和json
+String->Long
+```
+String str;
+Long id = Long.valueOf(str);
+```
+数组和字符串join split
+```
+String string = String.join(",",list);
+List<String> list = Lists.newArrayList(string.split(StrUtil.COMMA))
+```
+时间
+```
+String fileName = "供应商列表-" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
+```
+对象等和json字符串
 ```
 e.setUserInfo(JsonUtils.objectToJson(e.getUser()));
 
 JsonUtils.jsonToList(assessSpecific.getUserInfo(), AssessSpecific.class)
+
+object->json string
+String str = JSON.toJSONString(messageDto)
+String str = JSONUtil.toJsonStr(messageDto)
+```
+object->list  object是接口返回的对象
+```
+Object country;
+
+List<CountryInfo> countryInfo = JSONUtil.toList(JSONUtil.parseArray(country), CountryInfo.class);
 ```
 
-## request response转化对象字段,时间
+## 转化spring request/response对象字段,时间
 FillRequestParam FillMethod相互配合
 ```
 
@@ -301,43 +360,11 @@ FillRequestParam FillMethod相互配合
     @PostMapping("/info")
     public BaseResponse<SupplierApplicationInfoResponse> info(@RequestBody @Validated SupplierApplicationInfoRequest supplierApplicationInfoReq) {	
 ```
-## listMap初始化多个
+## 公司java开发相关 获取用户/调用feign/开发流程/查看依赖版本
+获取uuid
 ```
-You can then populate the list in a for loop :
-
-for(int i=0;i<10;++i) {
-    lists.put("list"+(i+1),new ArrayList<Model>());
-}
-You can access the lists using :
-
-  lists.get("list1").add(new Model(...));
-  lists.get("list2").add(new Model(...));
+supplier.setUuid(IdUtil.fastSimpleUUID());
 ```
-  
-https://stackoverflow.com/questions/30097102/initializing-multiple-lists-in-java-simultaneously
-## 添加元素到HashMap的ArrayList
-```
-Map<String, List<Item>> items = new HashMap<>();
-items.computeIfAbsent(key, k -> new ArrayList<>()).add(item);
-```
-https://stackoverflow.com/questions/12134687/how-to-add-element-into-arraylist-in-hashmap
-## 公司学习文档
-1、JAVA基础知识系统学习
-https://github.com/CyC2018/CS-Notes
-主要看java部分，系统的介绍java语言；主要包括了Java基础、Java容器、Java并发、Java虚拟机、Java I/O
-留意附件哦
-
-2、spring boot学习
-https://github.com/ityouknow/spring-boot-examples
-以最简单、最实用为标准，此开源项目中的每个示例都以最小依赖，最简单为标准，帮助初学者快速掌握 Spring Boot 各组件的使用
-
-3、微服务学习
-https://www.cnblogs.com/xifengxiaoma/p/9474953.html
-
-个人建议：
-微服务学习可以马上进行；这个系列比较简单易懂；效果比较明显（有成就感）
-## 公司java开发流程
-
 获取登录用户信息
  ```
         UserHeader userHeader = RequestUtils.getUserHeader();
@@ -352,8 +379,39 @@ https://www.cnblogs.com/xifengxiaoma/p/9474953.html
  com/sfabric/cloud/srm/controller/api/ApiSupplierApplicationController.java:75
  
  ```
+ 调用feign获取,获取角色名
+ ```
+         UserHeader userHeader = RequestUtils.getUserHeader();
+        SysRoleListRequest sysRoleListRequest = new SysRoleListRequest();
+        sysRoleListRequest.setUserId(userHeader.getUserId());
+        sysRoleListRequest.setAppSystemIds(org.assertj.core.util.Lists.newArrayList(SystemIdEnum.SRM.getCode()));
+        BaseResponse<ListVo<List<SysRoleInfoResponse>>> listVoBaseResponse = sysRoleServiceApi.list(sysRoleListRequest);
+        BaseResponse.checkResponseCode(listVoBaseResponse);
+        List<SysRoleInfoResponse> rolesList = listVoBaseResponse.getData().getList();
+ ```
+ 调用feign校验，json转化
+```
+            BaseResponse resp = areasServiceApi.search(new JSONObject());
+            BaseResponse.checkResponseCode(resp);
+            List<AreaInfoDto> areaInfoDtos = JsonUtils.jsonToList(JsonUtils.objectToJson(resp.getData()), AreaInfoDto.class);
 
+com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:129
+```
+获取权限字符串
+```
+Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+List<String> list = new ArrayList<>();
+for (GrantedAuthority grantedAuthority : authorities) {
+     if (PermissionsConstant.SUPPLIER_PERMISSIONS.contains(grantedAuthority.getAuthority())) {
+           list.add(grantedAuthority.getAuthority());
+     }
+}
 
+com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:192
+```
+
+开发流程
+```
 修改生成代码的配置，执行GeneratorBasisCode
 
 修改basi-service的bootstrap.yml的灰度version
@@ -361,12 +419,82 @@ https://www.cnblogs.com/xifengxiaoma/p/9474953.html
 查看nacos服务管理第三页的 BASIS-SERVICE
 
 postman 配devurl 参数spathv
-
-cloud-common-core 这个包里包含了大部分基础的依赖
-如spring-boot-starter-validation spring-webmvc  lombok 等等
-
-## 怎么微服务查看pom.xml里各依赖的版本号
+```
+怎么微服务查看pom.xml里各依赖的版本号
+```
 点击引用关系(向上)
+```
+cloud-common-core 这个包里包含了大部分基础的依赖
+```
+如spring-boot-starter-validation spring-webmvc  lombok 等等
+```
+
+
+## java 组件
+
+## Hibernate Validator
+```
+
+@Max(value=)
+Checks whether the annotated value is less than or equal to the specified maximum
+
+Supported data types
+BigDecimal, BigInteger, byte, short, int, long  CharSequence, any sub-type of Number and javax.money.MonetaryAmount
+
+
+@Length(min=, max=)
+Validates that the annotated character sequence is between min and max included
+Supported data types
+CharSequence
+
+@Size(min=, max=)
+Checks if the annotated element’s size is between min and max (inclusive)
+Supported data types
+CharSequence, Collection, Map and arrays
+
+
+@Range(min=, max=)
+Checks whether the annotated value lies between (inclusive) the specified minimum and maximum
+
+Supported data types
+BigDecimal, BigInteger, CharSequence, byte, short, int, long and the respective wrappers of the primitive types
+
+
+@Size(max = 20, message = "统一社会信用代码长度不能超过20个字符")
+private String creditCode;
+
+@DecimalMin(value = "0.01",message = "plantCapacity min 0.01")
+@DecimalMax(value = "99999999.99",message = "plantCapacity max 99999999.99")
+private BigDecimal plantCapacity;
+
+
+@Range(max = 2,min = 0,message = "单位输入错误")
+private Integer registeredCapitalUnit;
+
+/**
+* srm.v1.0.5.1 实磅标识 Y, N, T
+*/
+@Pattern(regexp = "^|Y|N|T$" ,message = "reallyPoundFlag out of value")
+private String reallyPoundFlag;
+
+
+@Valid
+@FillNestedField("supplierEquipment")
+private SupplierEquipmentAddRequest supplierEquipment;
+
+
+@Valid：没有分组的功能。
+@Valid：可以用在方法、构造函数、方法参数和成员属性（字段）上
+@Validated：提供了一个分组功能，可以在入参验证时，根据不同的分组采用不同的验证机制
+@Validated：可以用在类型、方法和方法参数上。但是不能用在成员属性（字段）上
+
+两者是否能用于成员属性（字段）上直接影响能否提供嵌套验证的功能
+
+
+https://docs.jboss.org/hibernate/validator/5.4/reference/en-US/html_single/#section-builtin-method-constraints
+https://blog.csdn.net/sunnyzyq/article/details/103527380 基础,介绍很详细
+https://blog.csdn.net/qq_32352777/article/details/108424932 介绍深入
+```
 ## java 调试bug
 ### Failed to parse multipart servlet request; /opt/www/java/tmp/
 Failed to parse multipart servlet request; nested exception is java.lang.RuntimeException: java.nio.file.NoSuchFileException: /opt/www/java/tmp/undertow4854571290840549126upload

@@ -1,3 +1,7 @@
+## 时间查询
+```
+created_time >= date_format(now(),'%Y-%m-%d 00:00:00')
+```
 ##  新增或更新 ON DUPLICATE KEY UPDATE
 在MySQL数据库中，如果在insert语句后面带上ON DUPLICATE KEY UPDATE 子句，而要插入的行与表中现有记录的惟一索引或主键中产生重复值，那么就会发生旧行的更新；如果插入的行数据与现有表中记录的唯一索引或者主键不重复，则执行新纪录插入操作。
 
