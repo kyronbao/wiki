@@ -511,6 +511,9 @@ https://blog.csdn.net/qq_35971258/article/details/84867895
 http://www.51gjie.com/java/233.html
 https://www.runoob.com/java/java-string.html
 
+
+ http://www.mamicode.com/info-detail-2878823.html
+
 ## postman接口调不通, sit配置灰度环境 fallback网络出问题啦
 
 检查修改bootstrap.yml   dev  test
@@ -522,3 +525,4 @@ https://www.runoob.com/java/java-string.html
  Web server failed to start. Port 8895 was already in use.
  
  
+
