@@ -241,7 +241,8 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     List<UserInfo> getAll(@Param(Constants.WRAPPER) Wrapper wrapper);
 }
 ```
-## listMap添加多个,List遍历/初始化
+## listMap添加多个,List遍历/初始化,StringBuilder
+
 List初始化
 ```
  List<String>  list = Arrays.asList("bb", "cc");
@@ -272,6 +273,15 @@ items.computeIfAbsent(key, k -> new ArrayList<>()).add(item);
 ```
 https://stackoverflow.com/questions/12134687/how-to-add-element-into-arraylist-in-hashmap
 
+StringBuilder
+```
+StringBuilder builder = new StringBuilder();
+        extraBanks.stream().forEach(t -> {
+            builder.append(t.getBankName()).append("-").append(t.getAccountName()).append(",");
+        });
+        builder.deleteCharAt(builder.length() - 1);
+        return builder.toString();
+```
 ## 判断相等List　String
 List
 ```
@@ -287,6 +297,8 @@ String->Long
 ```
 String str;
 Long id = Long.valueOf(str);
+
+String str = String.valueOf(id);
 ```
 数组和字符串join split
 ```
@@ -296,6 +308,11 @@ List<String> list = Lists.newArrayList(string.split(StrUtil.COMMA))
 时间
 ```
 String fileName = "供应商列表-" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
+
+LocalDate nowDate = LocalDate.now();
+                    generator.setYear(nowDate.getYear());
+                    generator.setMonth(nowDate.getMonthValue());
+                    generator.setDay(nowDate.getDayOfMonth());
 ```
 对象等和json字符串
 ```
@@ -389,11 +406,23 @@ supplier.setUuid(IdUtil.fastSimpleUUID());
         BaseResponse.checkResponseCode(listVoBaseResponse);
         List<SysRoleInfoResponse> rolesList = listVoBaseResponse.getData().getList();
  ```
+ 批量保存
+ ```
+//供应商额外信息表(开户行)
+if (!CollectionUtils.isEmpty(supplierRequest.getSupplierExtra().getBank())) {
+    List<SupplierExtraBank> banks = Lists.newArrayList();
+    supplierRequest.getSupplierExtra().getBank().forEach(bankAddRequest -> {
+        bankAddRequest.setSupplierId(supplierId);
+        banks.add(BeanUtils.copyProperties(bankAddRequest, SupplierExtraBank.class));
+    });
+    bankService.saveBatch(banks);
+}
+ ```
  调用feign校验，json转化
 ```
-            BaseResponse resp = areasServiceApi.search(new JSONObject());
-            BaseResponse.checkResponseCode(resp);
-            List<AreaInfoDto> areaInfoDtos = JsonUtils.jsonToList(JsonUtils.objectToJson(resp.getData()), AreaInfoDto.class);
+BaseResponse resp = areasServiceApi.search(new JSONObject());
+BaseResponse.checkResponseCode(resp);
+List<AreaInfoDto> areaInfoDtos = JsonUtils.jsonToList(JsonUtils.objectToJson(resp.getData()), AreaInfoDto.class);
 
 com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:129
 ```
@@ -409,6 +438,24 @@ for (GrantedAuthority grantedAuthority : authorities) {
 
 com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:192
 ```
+
+redis锁,失误锁,当这个类型操作在处理中时 不同时处理这种类型
+```
+String lockKey = supplierNumber.getRediskeyPreFix() + year + StrUtil.COLON + supplierNumber.getBusinessType(); 
+String lockVal = IdUtil.fastSimpleUUID();
+
+try {
+    boolean lock = redisLock.tryLock(lockKey, lockVal, 60L, 20L);
+    if (lock) {
+		...
+    }
+} finally {
+    redisLock.release(lockKey, lockVal);
+}
+
+com/sfabric/cloud/srm/service/impl/KeygeneratorServiceImpl.java:199
+```
+
 
 开发流程
 ```
