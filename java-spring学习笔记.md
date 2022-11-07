@@ -23,21 +23,61 @@ https://www.cnblogs.com/xifengxiaoma/p/9474953.html
 微服务学习可以马上进行；这个系列比较简单易懂；效果比较明显（有成就感）
 ## java 常用写法
 ## stream语法
-去重，逗号连接
-```
-String output = list.stream().distinct().collect(Collectors.joining(","));
 
+
+获取一个字段的list
+```
+List<Long> collect =
+update.stream().map("id").collect(Collectors.toList());
+```
+获取其中一个
+```
+Optional<SyncOperationTypeEnum> first 
+= Arrays.stream(SyncOperationTypeEnum.values()).filter(e -> e.getCode().equals(code)).findFirst();
+return first.get();
 ```
 过滤
 ```
 List<AssessSpecific> update = 
 requests.stream().filter(e -> null != e.getId()).collect(Collectors.toList());
  
+ 
+filter(e->{
+       return Objects.nonNull(e.getSupplierTypeId());
+})
 ```
-获取一个字段的list
+排序
 ```
-List<Long> collect =
-update.stream().map("id").collect(Collectors.toList());
+List<Integer> transactionsIds = 
+widgets.stream()
+             .filter(b -> b.getColor() == RED)
+             .sorted((x,y) -> x.getWeight() - y.getWeight())
+             .mapToInt(Widget::getWeight)
+             .sum();
+```
+
+去重，逗号连接
+```
+String output = list.stream().distinct().collect(Collectors.joining(","));
+
+```
+判断集合里面的所有值符合条件
+```
+List<Integer> list = List.of(2,5,8,9,4,20,11,43,55);
+
+boolean bo = list.stream().allMatch(a -> a>1);
+System.out.println(bo);
+ 
+boolean bo2 = list.stream().allMatch(a -> a>10);
+System.out.println(bo2);
+
+运行结果：
+true
+false
+
+anyMatch：判断的条件里，任意一个元素成功，返回true
+allMatch：判断条件里的元素，所有的都是，返回true
+noneMatch：与allMatch相反，判断条件里的元素，所有的都不是，返回tru
 ```
 Map<String, Object>
 ```
@@ -57,8 +97,8 @@ Map<String,String> countryMap = countryInfo.stream().collect(Collectors.toMap(Co
 insert
 ```
 Area area = new Area();
-        area.setAreaName("成都");
-        areaMapper.insert(area);
+area.setAreaName("成都");
+areaMapper.insert(area);
 ```
 delete
 ```
@@ -68,9 +108,24 @@ columnMap.put("age", 22);
 // 返回删除的记录数
 int i = userInfoMapper.deleteByMap(columnMap);
 
+or
+
+customerBrandTemplateRelateService.lambdaUpdate()
+.eq(CustomerBrandTemplateRelate::getCustomerId, request.getCustomerId())
+.in(CustomerBrandTemplateRelate::getBrandId, idSet)
+.remove();
+
 ```
 update
 ```
+boolean flag = supplierDocumentService.lambdaUpdate()
+.set(SupplierDocument::getDocumentId, supplierDocumentUpdateRequest.getDocumentId())
+.set(Objects.nonNull(userHeader), InquirySupplier::getBidderName, userHeader.getRealName())
+.eq(SupplierDocument::getId, supplierDocumentUpdateRequest.getId())
+.update();
+
+or
+
 boolean success = new LambdaUpdateChainWrapper<>(userInfoMapper)
         .like(UserInfo::getUserName,"ha")
         .lt(UserInfo::getAge,40)
@@ -87,6 +142,8 @@ boolean success = new LambdaUpdateChainWrapper<>(userInfoMapper)
         .lt(UserInfo::getAge,40)
         .set(UserInfo::getAge, null)
         .update(userInfo);
+		
+
 ```
 listObjs 返回一个字段的list
 ```
@@ -96,37 +153,6 @@ listObjs 返回一个字段的list
                         .eq(AdUser::getStatus, 1), o -> Long.valueOf(o.toString()));
 
 参考 https://www.cnblogs.com/lyn8100/p/16574395.html
-    /**
-     * mybatis-plus的listObjs()原理演示
-     */
-    @Test
-    public void test2(){
-        List<Dto> list = new ArrayList<>();
-        Dto d1 = new Dto();
-        d1.setId(1);
-        d1.setName("java");
-        list.add(d1);
-        Dto d2 = new Dto();
-        d2.setName("php");
-        list.add(d2);
-
-        //相当于getBaseMapper().selectObjs(queryWrapper),
-        // 从数据源中查询id的集合,类型用Object,而不再用LambdaQueryWrapper中的泛型接收了
-        //select id from table;
-        List<Object> objects = list
-                .stream()
-                .map(Dto::getId)
-                .collect(Collectors.toList());
-
-        List<Integer> collect = objects
-                .stream()
-                .filter(Objects::nonNull)
-                //因为元素是Object,所以只能调用Object的方法
-                .map(o->Integer.valueOf(o.toString()))
-                .collect(Collectors.toList());
-        System.out.println(collect);
-        //[1]
-    }
 
 ```
 
@@ -169,6 +195,10 @@ List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper)
         .apply("user_name = {0}", "hangge") //无sql注入的风险
         .list();
 ```
+逗号分隔字段查询,find_in_set
+```
+customerQueryWrapper.apply(StringUtils.isNotBlank(customerPageRequest.getCustomerTypeId()), "find_in_set({0},CUSTOMER_TYPE_ID)", customerPageRequest.getCustomerTypeId());
+```
  子查询
  ```
 //uuid所属下级
@@ -181,30 +211,61 @@ if (StringUtils.isNotBlank(uuids)) {
  or查询
  ```
 // WHERE age IS NOT NULL AND ((id = 1 AND user_name = 'hangge') OR (id = 2 AND user_name = '航歌'))
-List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper)
-        .isNotNull(UserInfo::getAge)
-        .and(
-			i -> i.nested(j -> j.eq(UserInfo::getId,1).eq(UserInfo::getUserName,"hangge"))
-                .or(j -> j.eq(UserInfo::getId,2).eq(UserInfo::getUserName,"航歌"))
-        )
-        .list(); 
+List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper).isNotNull(UserInfo::getAge)
+.and(
+	i -> i.nested(j -> j.eq(UserInfo::getId,1).eq(UserInfo::getUserName,"hangge"))
+        .or(j -> j.eq(UserInfo::getId,2).eq(UserInfo::getUserName,"航歌"))
+)
+.list(); 
  
- //是否特殊处理搜索
- if (StringUtils.isNotBlank(request.getIsSpecial())) {
+//是否特殊处理搜索
+if (StringUtils.isNotBlank(request.getIsSpecial())) {
      queryWrapper.nested(
          query->query.or(q->q.eq("level",1).eq("special", "N"))
              .or(q->q.eq("level",2).eq("special","Y"))
      );
 }
 
-//第一个or待验证
-queryWrapper.or(
+
+queryWrapper.and(
     query->query.like(ProcessRequiredDyes::getName,names.get(0))
         .or()
     .like(ProcessRequiredDyes::getNameEn,names.get(0))
 );
  ```
- 附：自定义 SQL 语句使用 Wrapper
+ 联表查询
+ 询价单列表
+ com/sfabric/cloud/pms/service/impl/InquiryServiceImpl.java:100
+ com/sfabric/cloud/pms/mapper/xml/InquiryMapper.xml:51
+ 
+ 
+## wrapper xml自定义 SQL 语句使用 Wrapper
+传前端的参数
+```
+<if test="param.groupName != null and param.groupName != ''">
+      and cbg.GROUP_NAME like CONCAT('%', #{param.groupName}, '%')
+</if>
+
+com/sfabric/cloud/customer/mapper/xml/BrandInfoMapper.xml:78
+```
+
+传list数组,GROUP分组
+```
+<select id="queryBySummaryIds" resultType="com.sfabric.cloud.pms.response.PurchaseOrderBillDetailInfoResponse">
+    SELECT
+        detail.SUMMARY_ID,
+        GROUP_CONCAT(DISTINCT demand.DEMAND_NUMBER) as DEMAND_NUMBER,
+        GROUP_CONCAT(DISTINCT demand.TASK_NUMBER) as TASK_NUMBER
+    FROM pms_purchase_order_bill_detail detail
+             JOIN pms_purchase_demand demand ON demand.ID = detail.DEMAND_ID
+    WHERE detail.SUMMARY_ID IN
+    <foreach collection="summaryIds" open="(" close=")" separator="," item="summaryId">
+        #{summaryId}
+    </foreach>
+    GROUP BY detail.SUMMARY_ID
+</select>
+```
+基础
 ```
 
     mybatis-plus 在 3.0.7 版本之后，也支持自定义 SQL 语句使用 Wrapper，具体有如下两种方案。注意：使用 Wrapper 的话自定义 sql 中不能有 WHERE 语句。
@@ -240,9 +301,14 @@ List<UserInfo> userInfos = userInfoMapper.getAll(
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
     List<UserInfo> getAll(@Param(Constants.WRAPPER) Wrapper wrapper);
 }
+	```
+## listMap添加多个,List遍历/初始化,StringBuilder,随机
+随机数字串
 ```
-## listMap添加多个,List遍历/初始化,StringBuilder
+nextInt(int x)则会生成一个范围在0~x（不包含X）内的任意正整数
 
+String randomNum = String.format("%04d",new Random().nextInt(9999));
+```
 List初始化
 ```
  List<String>  list = Arrays.asList("bb", "cc");
@@ -282,11 +348,36 @@ StringBuilder builder = new StringBuilder();
         builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
 ```
-## 判断相等List　String
-List
+## 判断相等List,String,decimal
+Bigdecimal
 ```
-!compareList(supplierTypeIdList, data.getSupplierTypeIdList())
+BigDecimal weight = BigDecimal.ZERO;
+weight = weight.add(purchaseDemand.getDemandWeight());
+if (weight.compareTo(new BigDecimal("99999999.99")) > 0) {
+    throw new BaseException("采购需求的重量相加不能超过99999999.99");
+}
 ```
+
+1、基本变量的比较方式我就用“==”
+2、如果要比较实际内存中的内容，我们就要用“equals”方法
+
+a.equals(b)：如果此时a为null，则在程序运行的时候，会发生空指针异常
+
+
+Object
+```
+Integer a; Integer b;
+Objects.equals(a, b)
+
+注:
+a和b必须类型相同,a或b为null时不报错
+a，b两个参数都为 null， 返回 true 
+其中一个参数为 null ，返回 false 
+两个参数都不为 null， 则调用 a.equals(b)
+
+https://blog.csdn.net/lisu061714112/article/details/123647907
+```
+
 String
 ```
 roleName.equals(new String("系统管理员")
@@ -299,6 +390,12 @@ String str;
 Long id = Long.valueOf(str);
 
 String str = String.valueOf(id);
+```
+
+保存时间
+```
+Date date = new Date();
+multiType.setCreatedTime(date);
 ```
 数组和字符串join split
 ```
@@ -331,6 +428,7 @@ Object country;
 List<CountryInfo> countryInfo = JSONUtil.toList(JSONUtil.parseArray(country), CountryInfo.class);
 ```
 
+## spring 常用
 ## 转化spring request/response对象字段,时间
 FillRequestParam FillMethod相互配合
 ```
@@ -377,7 +475,47 @@ FillRequestParam FillMethod相互配合
     @PostMapping("/info")
     public BaseResponse<SupplierApplicationInfoResponse> info(@RequestBody @Validated SupplierApplicationInfoRequest supplierApplicationInfoReq) {	
 ```
-## 公司java开发相关 获取用户/调用feign/开发流程/查看依赖版本
+## spring异步
+```
+事件
+    @Resource
+    private ApplicationEventPublisher applicationEventPublisher;
+	
+	@Override
+    public void register() {
+        Student student = new Student();
+        student.setId(1);
+        student.setName("tom");
+        applicationEventPublisher.publishEvent(student);
+        System.out.println("结束了");
+    }
+	
+	
+监听	
+@Component
+public class StudentEventListener {
+    @EventListener(condition = "#student.id != null")
+    public void handleEvent(Student student){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(student);
+    }
+}
+```
+com/sfabric/cloud/pms/service/impl/PurchaseDemandServiceImpl.java:222
+
+https://blog.csdn.net/u012843873/article/details/113364753 spring异步
+## 配置多数据库
+spring nacos mybatis配置多数据库
+查看mapper的xml的namespace
+
+https://juejin.cn/post/6844904086593077256
+https://blog.csdn.net/qq_34972627/article/details/121655441
+## 公司java开发相关
+## 获取uuid/用户/获取权限字段/调用feign/批量保存/redis锁
 获取uuid
 ```
 supplier.setUuid(IdUtil.fastSimpleUUID());
@@ -396,37 +534,7 @@ supplier.setUuid(IdUtil.fastSimpleUUID());
  com/sfabric/cloud/srm/controller/api/ApiSupplierApplicationController.java:75
  
  ```
- 调用feign获取,获取角色名
- ```
-         UserHeader userHeader = RequestUtils.getUserHeader();
-        SysRoleListRequest sysRoleListRequest = new SysRoleListRequest();
-        sysRoleListRequest.setUserId(userHeader.getUserId());
-        sysRoleListRequest.setAppSystemIds(org.assertj.core.util.Lists.newArrayList(SystemIdEnum.SRM.getCode()));
-        BaseResponse<ListVo<List<SysRoleInfoResponse>>> listVoBaseResponse = sysRoleServiceApi.list(sysRoleListRequest);
-        BaseResponse.checkResponseCode(listVoBaseResponse);
-        List<SysRoleInfoResponse> rolesList = listVoBaseResponse.getData().getList();
- ```
- 批量保存
- ```
-//供应商额外信息表(开户行)
-if (!CollectionUtils.isEmpty(supplierRequest.getSupplierExtra().getBank())) {
-    List<SupplierExtraBank> banks = Lists.newArrayList();
-    supplierRequest.getSupplierExtra().getBank().forEach(bankAddRequest -> {
-        bankAddRequest.setSupplierId(supplierId);
-        banks.add(BeanUtils.copyProperties(bankAddRequest, SupplierExtraBank.class));
-    });
-    bankService.saveBatch(banks);
-}
- ```
- 调用feign校验，json转化
-```
-BaseResponse resp = areasServiceApi.search(new JSONObject());
-BaseResponse.checkResponseCode(resp);
-List<AreaInfoDto> areaInfoDtos = JsonUtils.jsonToList(JsonUtils.objectToJson(resp.getData()), AreaInfoDto.class);
-
-com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:129
-```
-获取权限字符串
+ 获取权限字符串
 ```
 Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 List<String> list = new ArrayList<>();
@@ -438,6 +546,49 @@ for (GrantedAuthority grantedAuthority : authorities) {
 
 com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:192
 ```
+ 调用feign获取,获取角色名
+ ```
+         UserHeader userHeader = RequestUtils.getUserHeader();
+        SysRoleListRequest sysRoleListRequest = new SysRoleListRequest();
+        sysRoleListRequest.setUserId(userHeader.getUserId());
+        sysRoleListRequest.setAppSystemIds(org.assertj.core.util.Lists.newArrayList(SystemIdEnum.SRM.getCode()));
+        BaseResponse<ListVo<List<SysRoleInfoResponse>>> listVoBaseResponse = sysRoleServiceApi.list(sysRoleListRequest);
+        BaseResponse.checkResponseCode(listVoBaseResponse);
+        List<SysRoleInfoResponse> rolesList = listVoBaseResponse.getData().getList();
+ ```
+
+批量保存
+ ```
+//供应商额外信息表(开户行)
+if (!CollectionUtils.isEmpty(supplierRequest.getSupplierExtra().getBank())) {
+    List<SupplierExtraBank> banks = Lists.newArrayList();
+    supplierRequest.getSupplierExtra().getBank().forEach(bankAddRequest -> {
+        bankAddRequest.setSupplierId(supplierId);
+        banks.add(BeanUtils.copyProperties(bankAddRequest, SupplierExtraBank.class));
+    });
+    bankService.saveBatch(banks);
+}
+ ```
+ 调用php feign,转化 objectMapper.convertValue()  new TypeReference
+ ```
+BaseResponse<BasicGenericGetResponse> result =
+         objectMapper.convertValue(productResponse, new TypeReference<BaseResponse<BasicGenericGetResponse>>() {
+});
+
+com/sfabric/cloud/product/component/GenericProductComponent.java:73
+
+https://www.cnblogs.com/qingmuchuanqi48/p/13224173.html ObjectMapper处理从远程获取的Object对象
+https://blog.csdn.net/zhuzj12345/article/details/102914545 Java中TypeReference用法说明
+ ```
+ 调用feign校验，json转化
+```
+BaseResponse resp = areasServiceApi.search(new JSONObject());
+BaseResponse.checkResponseCode(resp);
+List<AreaInfoDto> areaInfoDtos = JsonUtils.jsonToList(JsonUtils.objectToJson(resp.getData()), AreaInfoDto.class);
+
+com/sfabric/cloud/srm/controller/api/ApiSupplierController.java:129
+```
+
 
 redis锁,失误锁,当这个类型操作在处理中时 不同时处理这种类型
 ```
@@ -455,7 +606,7 @@ try {
 
 com/sfabric/cloud/srm/service/impl/KeygeneratorServiceImpl.java:199
 ```
-
+## 开发流程/调用服务调试/查看依赖版本/接口时好时坏
 
 开发流程
 ```
@@ -467,10 +618,36 @@ com/sfabric/cloud/srm/service/impl/KeygeneratorServiceImpl.java:199
 
 postman 配devurl 参数spathv
 ```
+调用服务调试
+```
+supplier-portal 调用srm
+
+本地配置门户和srm环境灰度qianyong nacos配置 和对应的修改bootstrap 的version
+修改srm bug
+postman调试或浏览器灰度qianyong测试
+  修改srm 4个 pom.xml version 为1.8.1.SNAPSHOT
+  修改门户-service和srm-service 文件加下面pom.xml的srm-service-api为1.8.1.SNAPSHOT
+  (当门户service引用srm-service-api的response对象时,需要修改依赖的版本号)
+  完了记得刷新maven
+  直接localhost:9988 这样调用本地feign调试,
+  
+发布
+
+nacos配置 和对应的修改bootstrap 的version 
+
+编辑发布门户和srm的jenkins
+```
+
+
 怎么微服务查看pom.xml里各依赖的版本号
 ```
 点击引用关系(向上)
 ```
+接口时好时坏
+```
+检查nacos配置
+```
+
 cloud-common-core 这个包里包含了大部分基础的依赖
 ```
 如spring-boot-starter-validation spring-webmvc  lombok 等等
@@ -542,6 +719,62 @@ https://docs.jboss.org/hibernate/validator/5.4/reference/en-US/html_single/#sect
 https://blog.csdn.net/sunnyzyq/article/details/103527380 基础,介绍很详细
 https://blog.csdn.net/qq_32352777/article/details/108424932 介绍深入
 ```
+## 汉字转拼音
+```
+ <dependency>
+     <groupId>com.belerweb</groupId>
+     <artifactId>pinyin4j</artifactId>
+     <version>2.5.0</version>
+</dependency>
+
+
+    public static void main(String[] args) throws Exception {
+        System.out.println(getPinyin("haha你笑起来真好看", " "));
+        System.out.println(getPinyinInitials("你笑起来真好看"));
+    }
+
+    /**
+     * 将汉字转换为全拼
+     *
+     * @param text 文本
+     * @param separator 分隔符
+     * @return {@link String}
+     */
+    public static String getPinyin(String text, String separator) {
+        char[] chars = text.toCharArray();
+        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+        // 设置大小写
+        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        // 设置声调表示方法
+        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        // 设置字母u表示方法
+        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+        String[] s;
+        String rs = StringUtils.EMPTY;
+        try {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < chars.length; i++) {
+                // 判断是否为汉字字符
+                if (String.valueOf(chars[i]).matches("[\\u4E00-\\u9FA5]+")) {
+                    s = PinyinHelper.toHanyuPinyinStringArray(chars[i], format);
+                    if (s != null) {
+                        sb.append(s[0]).append(separator);
+                        continue;
+                    }
+                }
+                sb.append(String.valueOf(chars[i]));
+                if ((i + 1 >= chars.length) || String.valueOf(chars[i + 1]).matches("[\\u4E00-\\u9FA5]+")) {
+                    sb.append(separator);
+                }
+            }
+            rs = sb.substring(0, sb.length() - 1);
+        } catch (BadHanyuPinyinOutputFormatCombination e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+```
+https://www.cnblogs.com/pcheng/p/12871373.html
 ## java 调试bug
 ### Failed to parse multipart servlet request; /opt/www/java/tmp/
 Failed to parse multipart servlet request; nested exception is java.lang.RuntimeException: java.nio.file.NoSuchFileException: /opt/www/java/tmp/undertow4854571290840549126upload
