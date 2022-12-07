@@ -21,7 +21,146 @@ https://www.cnblogs.com/xifengxiaoma/p/9474953.html
 
 个人建议：
 微服务学习可以马上进行；这个系列比较简单易懂；效果比较明显（有成就感）
-## java 常用写法
+## java基础
+## List初始化/遍历,listMap添加元素,StringBuilder添加删除
+
+List初始化
+```
+ List<String>  list = Arrays.asList("bb", "cc");
+ 
+ List<Long> list = Lists.newArrayList(1L, 2L)
+```
+List遍历
+```
+//方法一:
+list.forEach(p -> p.setName(UUID.randomUUID().toString().replaceAll("-", "")));
+//方法三:
+list=list.stream().map(detailVo -> {
+    FiveDao detail = new FiveDao();
+    BeanUtils.copyProperties(detailVo, detail);
+    detail.setName(UUID.randomUUID().toString().replaceAll("-", ""));
+    return detail;
+}).collect(Collectors.toList());
+		
+//
+for list.size()
+list.get(i)
+
+```
+ListMap添加元素
+```
+Map<String, List<Item>> items = new HashMap<>();
+items.computeIfAbsent(key, k -> new ArrayList<>()).add(item);
+```
+https://stackoverflow.com/questions/12134687/how-to-add-element-into-arraylist-in-hashmap
+
+StringBuilder添加删除
+```
+StringBuilder builder = new StringBuilder();
+
+extraBanks.stream().forEach(t -> {
+   builder.append(t.getBankName()).append("-").append(t.getAccountName()).append(",");
+});
+builder.deleteCharAt(builder.length() - 1);
+return builder.toString();
+```
+
+## 判断相等List,String,decimal
+Bigdecimal
+```
+BigDecimal weight = BigDecimal.ZERO;
+weight = weight.add(purchaseDemand.getDemandWeight());
+if (weight.compareTo(new BigDecimal("99999999.99")) > 0) {
+    throw new BaseException("采购需求的重量相加不能超过99999999.99");
+}
+```
+
+1、基本变量的比较方式我就用“==”
+2、如果要比较实际内存中的内容，我们就要用“equals”方法
+
+a.equals(b)：如果此时a为null，则在程序运行的时候，会发生空指针异常
+
+
+Object
+```
+Integer a; Integer b;
+Objects.equals(a, b)
+
+注:
+a和b必须类型相同,a或b为null时不报错
+a，b两个参数都为 null， 返回 true 
+其中一个参数为 null ，返回 false 
+两个参数都不为 null， 则调用 a.equals(b)
+
+https://blog.csdn.net/lisu061714112/article/details/123647907
+```
+
+String
+```
+roleName.equals(new String("系统管理员")
+```
+
+## 各种类型转化如：数组-字符串,对象-json/时间/随机数字串
+String->Long
+```
+String str;
+Long id = Long.valueOf(str);
+
+String str = String.valueOf(id);
+```
+数组和字符串join split
+```
+String string = String.join(",",list);
+
+List<String> list = Lists.newArrayList(string.split(StrUtil.COMMA))
+```
+
+对象等和json字符串
+```
+
+object->json string
+String str = JSON.toJSONString(messageDto)
+String str = JSONUtil.toJsonStr(messageDto)
+String str = JsonUtils.objectToJson(e.getUser())
+
+json->list
+List<OptionResponse> optionResponses = JSON.parseArray(brandDockingSystemBase.getGoodsContrast(), OptionResponse.class);
+JsonUtils.jsonToList(assessSpecific.getUserInfo(), AssessSpecific.class);
+
+object->list  object是接口返回的对象
+Object country;
+List<CountryInfo> countryInfo = JSONUtil.toList(JSONUtil.parseArray(country), CountryInfo.class);
+
+object->json->object
+CoOrderInfoToColorManageResponseVo colorManageOrderVo = JsonUtils.jsonToObject(JsonUtils.objectToJson(coOrderInfoToColorManageResponse), 
+    CoOrderInfoToColorManageResponseVo.class);
+```
+保存时间
+```
+Date date = new Date();
+multiType.setCreatedTime(date);
+```
+时间
+```
+String fileName = "供应商列表-" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
+
+LocalDate nowDate = LocalDate.now();
+generator.setYear(nowDate.getYear());
+generator.setMonth(nowDate.getMonthValue());
+generator.setDay(nowDate.getDayOfMonth());
+```
+查询日期
+```
+lambdaQueryWrapper.ge(BrandDockingSystemProduct::getQuotationTime, DateUtil.today());
+```
+
+
+随机数字串
+```
+nextInt(int x)则会生成一个范围在0~x（不包含X）内的任意正整数
+
+String randomNum = String.format("%04d",new Random().nextInt(9999));
+```
 ## stream语法
 
 
@@ -38,6 +177,9 @@ return first.get();
 ```
 过滤
 ```
+//过滤null和"" " "
+.filter(StringUtils::isNoneBlank)
+
 List<AssessSpecific> update = 
 requests.stream().filter(e -> null != e.getId()).collect(Collectors.toList());
  
@@ -45,6 +187,11 @@ requests.stream().filter(e -> null != e.getId()).collect(Collectors.toList());
 filter(e->{
        return Objects.nonNull(e.getSupplierTypeId());
 })
+```
+累加
+```
+boms.stream().map(InquiryBomBillInfoResponse::getDemandWeight)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 ```
 排序
 ```
@@ -94,6 +241,130 @@ Map<String,String>
 Map<String,String> countryMap = countryInfo.stream().collect(Collectors.toMap(CountryInfo::getAbbr, CountryInfo::getName));
 ```
 ## wrapper sql写法
+查询
+```
+List<AssessSpecific> bb = assessSpecificService.list(
+     new LambdaQueryWrapper<AssessSpecific>().eq(AssessSpecific::getAssessDimension, "bb")
+);
+
+// 返回一条，不报错
+AssessSpecific bb = assessSpecificService.getOne(
+     new LambdaQueryWrapper<AssessSpecific>().eq(AssessSpecific::getAssessDimension, "bb")
+);
+
+// 查询条件：名字为'hangge'并且年龄为22
+UserInfo userInfo = new UserInfo();
+userInfo.setUserName("hangge");
+userInfo.setAge(22);
+QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>(userInfo);
+// 开始查询
+UserInfo user = userInfoMapper.selectOne(queryWrapper);
+System.out.println(user);
+
+--如果数据库中符合传入条件的记录有多条，这个方法会返回第一条数据，不会报错。
+UserInfo user= new UserInfo().selectOne(queryWrapper);
+```
+--链式查询
+
+```
+List<UserInfo> users = userInfoService.lambdaQuery()
+        .like(UserInfo::getUserName,"ha")
+        .lt(UserInfo::getAge,40)
+        .list();
+
+UserInfo userInfo = new LambdaQueryChainWrapper<>(userInfoMapper)
+        .like(UserInfo::getUserName,"ha")
+        .lt(UserInfo::getAge,40)
+		.last("limit 1")
+        .one();
+```
+listObjs 返回一个字段的list
+```
+ List<Long> ids = this.listObjs(
+       new LambdaQueryWrapper<AdUser>()
+           .select(AdUser::getId)
+           .eq(AdUser::getStatus, 1), o -> Long.valueOf(o.toString())
+);
+
+参考 https://www.cnblogs.com/lyn8100/p/16574395.html
+
+```
+
+分组、筛选
+下面是 groupBy 和 having 的用法
+```
+List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper)
+        .groupBy(UserInfo::getUserName, UserInfo::getAge) // group by user_name,age
+        .having("sum(age) > 20") // HAVING sum(age) > 20
+        .having("sum(age) > {0}", 30) // HAVING sum(age) > 30
+        .select(UserInfo::getUserName, UserInfo::getAge)
+        .list();
+```
+拼接 sql（sql 注入） 原生sql
+```
+// WHERE age IS NOT NULL AND id = 3 AND user_name = 'hangge'
+List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper)
+        .isNotNull(UserInfo::getAge)
+        .apply("id = 3") // 有sql注入的风险
+        .apply("user_name = {0}", "hangge") //无sql注入的风险
+        .list();
+```
+逗号分隔字段查询,find_in_set
+```
+customerQueryWrapper.apply(StringUtils.isNotBlank(customerPageRequest.getCustomerTypeId()), "find_in_set({0},CUSTOMER_TYPE_ID)", customerPageRequest.getCustomerTypeId());
+```
+ 子查询
+ ```
+//uuid所属下级
+String uuids = request.getParentUuid();
+if (StringUtils.isNotBlank(uuids)) {
+   queryWrapper.inSql(ProcessRequiredDyes::getParentId,
+       "select ID from process_required_dyes where LEVEL = 1 and UUID = '" + uuids + "'");
+        }
+ ```
+ or查询
+ ```
+ queryWrapper.and(
+    query->query.like(ProcessRequiredDyes::getName,names.get(0))
+        .or()
+    .like(ProcessRequiredDyes::getNameEn,names.get(0))
+);
+
+//是否特殊处理搜索
+if (StringUtils.isNotBlank(request.getIsSpecial())) {
+     queryWrapper.nested(
+         query->query.or(q->q.eq("level",1).eq("special", "N"))
+             .or(q->q.eq("level",2).eq("special","Y"))
+     );
+}
+
+//待确定
+// WHERE age IS NOT NULL AND ((id = 1 AND user_name = 'hangge') OR (id = 2 AND user_name = '航歌'))
+List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper).isNotNull(UserInfo::getAge)
+.and(
+	i -> i.nested(j -> j.eq(UserInfo::getId,1).eq(UserInfo::getUserName,"hangge"))
+        .or(j -> j.eq(UserInfo::getId,2).eq(UserInfo::getUserName,"航歌"))
+)
+.list(); 
+ 
+//待确定
+ LambdaQueryWrapper<UserInfo> queryWrapper = new LambdaQueryWrapper<>();
+// AND a.id <> 1 
+queryWrapper.ne(UserInfo::getId, "1");
+// AND ( (a.`name` = 'jack' AND a.category = 1) OR (a.phone = '13888888888' OR a.category = 2) )
+queryWrapper.and(
+	i -> (i.and(j -> j.eq(UserInfo::getName, "jack").eq(UserInfo::getCategory, 1)))
+	.or(j -> j.eq(UserInfo::getPhone, "13888888888").eq(UserInfo::getCategory, 2))
+);
+// 查询结果
+List<UserInfo> list = userInfoMapper.selectList(queryWrapper);
+ ```
+ 联表查询
+ 询价单列表
+ com/sfabric/cloud/pms/service/impl/InquiryServiceImpl.java:100
+ com/sfabric/cloud/pms/mapper/xml/InquiryMapper.xml:51
+ 
+ 
 insert
 ```
 Area area = new Area();
@@ -145,99 +416,6 @@ boolean success = new LambdaUpdateChainWrapper<>(userInfoMapper)
 		
 
 ```
-listObjs 返回一个字段的list
-```
- List<Long> ids = this.listObjs(
-                new LambdaQueryWrapper<AdUser>()
-                        .select(AdUser::getId)
-                        .eq(AdUser::getStatus, 1), o -> Long.valueOf(o.toString()));
-
-参考 https://www.cnblogs.com/lyn8100/p/16574395.html
-
-```
-
-分组、筛选
-下面是 groupBy 和 having 的用法
-```
-List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper)
-        .groupBy(UserInfo::getUserName, UserInfo::getAge) // group by user_name,age
-        .having("sum(age) > 20") // HAVING sum(age) > 20
-        .having("sum(age) > {0}", 30) // HAVING sum(age) > 30
-        .select(UserInfo::getUserName, UserInfo::getAge)
-        .list();
-```
-查询
-```
-如果数据库中符合传入条件的记录有多条，这个方法会返回第一条数据，不会报错。
-
-UserInfo user= new UserInfo().selectOne(queryWrapper);
-```
-链式查询
-
-```
-List<UserInfo> users = userInfoService.lambdaQuery()
-        .like(UserInfo::getUserName,"ha")
-        .lt(UserInfo::getAge,40)
-        .list();
-
-UserInfo userInfo = new LambdaQueryChainWrapper<>(userInfoMapper)
-        .like(UserInfo::getUserName,"ha")
-        .lt(UserInfo::getAge,40)
-		.last("limit 1")
-        .one();
-```
-拼接 sql（sql 注入） 原生sql
-```
-// WHERE age IS NOT NULL AND id = 3 AND user_name = 'hangge'
-List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper)
-        .isNotNull(UserInfo::getAge)
-        .apply("id = 3") // 有sql注入的风险
-        .apply("user_name = {0}", "hangge") //无sql注入的风险
-        .list();
-```
-逗号分隔字段查询,find_in_set
-```
-customerQueryWrapper.apply(StringUtils.isNotBlank(customerPageRequest.getCustomerTypeId()), "find_in_set({0},CUSTOMER_TYPE_ID)", customerPageRequest.getCustomerTypeId());
-```
- 子查询
- ```
-//uuid所属下级
-String uuids = request.getParentUuid();
-if (StringUtils.isNotBlank(uuids)) {
-   queryWrapper.inSql(ProcessRequiredDyes::getParentId,
-       "select ID from process_required_dyes where LEVEL = 1 and UUID = '" + uuids + "'");
-        }
- ```
- or查询
- ```
-// WHERE age IS NOT NULL AND ((id = 1 AND user_name = 'hangge') OR (id = 2 AND user_name = '航歌'))
-List<UserInfo> userInfos = new LambdaQueryChainWrapper<>(userInfoMapper).isNotNull(UserInfo::getAge)
-.and(
-	i -> i.nested(j -> j.eq(UserInfo::getId,1).eq(UserInfo::getUserName,"hangge"))
-        .or(j -> j.eq(UserInfo::getId,2).eq(UserInfo::getUserName,"航歌"))
-)
-.list(); 
- 
-//是否特殊处理搜索
-if (StringUtils.isNotBlank(request.getIsSpecial())) {
-     queryWrapper.nested(
-         query->query.or(q->q.eq("level",1).eq("special", "N"))
-             .or(q->q.eq("level",2).eq("special","Y"))
-     );
-}
-
-
-queryWrapper.and(
-    query->query.like(ProcessRequiredDyes::getName,names.get(0))
-        .or()
-    .like(ProcessRequiredDyes::getNameEn,names.get(0))
-);
- ```
- 联表查询
- 询价单列表
- com/sfabric/cloud/pms/service/impl/InquiryServiceImpl.java:100
- com/sfabric/cloud/pms/mapper/xml/InquiryMapper.xml:51
- 
  
 ## wrapper xml自定义 SQL 语句使用 Wrapper
 传前端的参数
@@ -302,131 +480,6 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     List<UserInfo> getAll(@Param(Constants.WRAPPER) Wrapper wrapper);
 }
 	```
-## listMap添加多个,List遍历/初始化,StringBuilder,随机
-随机数字串
-```
-nextInt(int x)则会生成一个范围在0~x（不包含X）内的任意正整数
-
-String randomNum = String.format("%04d",new Random().nextInt(9999));
-```
-List初始化
-```
- List<String>  list = Arrays.asList("bb", "cc");
- 
- List<Long> list = Lists.newArrayList(1L, 2L)
-```
-遍历list
-```
-//方法一:
-list.forEach(p -> p.setName(UUID.randomUUID().toString().replaceAll("-", "")));
-//方法三:
-list=list.stream().map(detailVo -> {
-    FiveDao detail = new FiveDao();
-    BeanUtils.copyProperties(detailVo, detail);
-    detail.setName(UUID.randomUUID().toString().replaceAll("-", ""));
-    return detail;
-}).collect(Collectors.toList());
-		
-//
-for list.size()
-list.get(i)
-
-```
-添加元素到HashMap的ArrayList
-```
-Map<String, List<Item>> items = new HashMap<>();
-items.computeIfAbsent(key, k -> new ArrayList<>()).add(item);
-```
-https://stackoverflow.com/questions/12134687/how-to-add-element-into-arraylist-in-hashmap
-
-StringBuilder
-```
-StringBuilder builder = new StringBuilder();
-        extraBanks.stream().forEach(t -> {
-            builder.append(t.getBankName()).append("-").append(t.getAccountName()).append(",");
-        });
-        builder.deleteCharAt(builder.length() - 1);
-        return builder.toString();
-```
-## 判断相等List,String,decimal
-Bigdecimal
-```
-BigDecimal weight = BigDecimal.ZERO;
-weight = weight.add(purchaseDemand.getDemandWeight());
-if (weight.compareTo(new BigDecimal("99999999.99")) > 0) {
-    throw new BaseException("采购需求的重量相加不能超过99999999.99");
-}
-```
-
-1、基本变量的比较方式我就用“==”
-2、如果要比较实际内存中的内容，我们就要用“equals”方法
-
-a.equals(b)：如果此时a为null，则在程序运行的时候，会发生空指针异常
-
-
-Object
-```
-Integer a; Integer b;
-Objects.equals(a, b)
-
-注:
-a和b必须类型相同,a或b为null时不报错
-a，b两个参数都为 null， 返回 true 
-其中一个参数为 null ，返回 false 
-两个参数都不为 null， 则调用 a.equals(b)
-
-https://blog.csdn.net/lisu061714112/article/details/123647907
-```
-
-String
-```
-roleName.equals(new String("系统管理员")
-```
-
-## 转化数组字符串/时间/对象等和json
-String->Long
-```
-String str;
-Long id = Long.valueOf(str);
-
-String str = String.valueOf(id);
-```
-
-保存时间
-```
-Date date = new Date();
-multiType.setCreatedTime(date);
-```
-数组和字符串join split
-```
-String string = String.join(",",list);
-List<String> list = Lists.newArrayList(string.split(StrUtil.COMMA))
-```
-时间
-```
-String fileName = "供应商列表-" + DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
-
-LocalDate nowDate = LocalDate.now();
-                    generator.setYear(nowDate.getYear());
-                    generator.setMonth(nowDate.getMonthValue());
-                    generator.setDay(nowDate.getDayOfMonth());
-```
-对象等和json字符串
-```
-e.setUserInfo(JsonUtils.objectToJson(e.getUser()));
-
-JsonUtils.jsonToList(assessSpecific.getUserInfo(), AssessSpecific.class)
-
-object->json string
-String str = JSON.toJSONString(messageDto)
-String str = JSONUtil.toJsonStr(messageDto)
-```
-object->list  object是接口返回的对象
-```
-Object country;
-
-List<CountryInfo> countryInfo = JSONUtil.toList(JSONUtil.parseArray(country), CountryInfo.class);
-```
 
 ## spring 常用
 ## 转化spring request/response对象字段,时间
@@ -515,7 +568,22 @@ spring nacos mybatis配置多数据库
 https://juejin.cn/post/6844904086593077256
 https://blog.csdn.net/qq_34972627/article/details/121655441
 ## 公司java开发相关
-## 获取uuid/用户/获取权限字段/调用feign/批量保存/redis锁
+## request
+```
+字符串 正则规则
+    /**
+     * 物料分类(纱：1，布：2)
+     */
+    @NotBlank(message = "classification not blank")
+    @Pattern(regexp = "1|2" , message = "classification out of value ")
+    private String classification;
+	
+list	
+    @Valid
+    @NotEmpty(message = "detailList not empty")
+    private List<DeliveryNoteDetailAddRequest> detailList;
+```
+## 获取uuid/用户/获取权限字段/调用feign/批量保存/redis锁/配置常量
 获取uuid
 ```
 supplier.setUuid(IdUtil.fastSimpleUUID());
@@ -606,6 +674,16 @@ try {
 
 com/sfabric/cloud/srm/service/impl/KeygeneratorServiceImpl.java:199
 ```
+配置常量brandId
+```
+
+@Value("${thirdParty.brandId}")
+private Long brandId;
+
+nacos CRM-SERVICE-test.yml里面找brandId
+	
+com/sfabric/cloud/customer/service/impl/BrandDockingSystemProductServiceImpl.java:97
+```
 ## 开发流程/调用服务调试/查看依赖版本/接口时好时坏
 
 开发流程
@@ -617,6 +695,7 @@ com/sfabric/cloud/srm/service/impl/KeygeneratorServiceImpl.java:199
 查看nacos服务管理第三页的 BASIS-SERVICE
 
 postman 配devurl 参数spathv
+
 ```
 调用服务调试
 ```
@@ -632,7 +711,7 @@ postman调试或浏览器灰度qianyong测试
   直接localhost:9988 这样调用本地feign调试,
   
 发布
-
+更新了api的request等时，需要在idea 的maven deploy一下
 nacos配置 和对应的修改bootstrap 的version 
 
 编辑发布门户和srm的jenkins
@@ -655,7 +734,6 @@ cloud-common-core 这个包里包含了大部分基础的依赖
 
 
 ## java 组件
-
 ## Hibernate Validator
 ```
 
@@ -775,7 +853,7 @@ https://blog.csdn.net/qq_32352777/article/details/108424932 介绍深入
     }
 ```
 https://www.cnblogs.com/pcheng/p/12871373.html
-## java 调试bug
+## BUG
 ### Failed to parse multipart servlet request; /opt/www/java/tmp/
 Failed to parse multipart servlet request; nested exception is java.lang.RuntimeException: java.nio.file.NoSuchFileException: /opt/www/java/tmp/undertow4854571290840549126upload
 

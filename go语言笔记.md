@@ -17,7 +17,29 @@
 - [Go语言圣经（中文版）](https://yar999.gitbooks.io/gopl-zh/content/)
 - https://github.com/astaxie/build-web-application-with-golang
 - [web.go源码学习笔记](https://samael65535.github.io/2017-05-24/webgo/)
-  
+ goinaction  《Go语言实践》  
+  https://bitbucket.org/bearpher/goinaction.git  
+
+ codewalk  < Go文档 代码漫步>  
+  https://bitbucket.org/bearpher/codewalk.git  
+
+ gopl.io  《Go语言圣经》
+  https://bitbucket.org/bearpher/gopl.io.git
+
+ advanced-go 《Go语言高级编程》
+  https://bitbucket.org/bearpher/advanced-go
+
+ rpc 
+  https://bitbucket.org/bearpher/rpc
+
+ shippy Golang微服务教程
+  https://bitbucket.org/bearpher/shippy
+
+ context 
+  https://bitbucket.org/bearpher/context
+
+ Go网络编程
+  https://bitbucket.org/bearpher/network-programming-with-go  
   
 包  
 Route  

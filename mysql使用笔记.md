@@ -191,17 +191,37 @@ ts column values must match those of an existing row for the row to be replaced;
   
 删除索引  
 alter table platform_trade_log drop index request_no;  
-  
-alter table platform_trade_log add index request_no(request_no, result_status);  
-  
-UPDATE platform_trade_log set platform='yeepay';  
-UPDATE diff_log set platform='yeepay';  
-  
-alter table trade_statistics drop index platform;  
-UPDATE trade_statistics set platform='yeepay';  
+
+
+
   
 - http://www.10tiao.com/html/283/201704/2650862624/1.html
-  
+
+1.2 在已建表中添加索引
+① 普通索引
+
+create index index_name
+             on t_dept(name);
+ 
+
+② 唯一索引
+
+create unique index index_name
+              on t_dept(name);
+ 
+
+③ 全文索引
+
+create fulltext index index_name
+              on t_dept(name);
+ 
+
+④ 多列索引
+
+create index index_name_no
+               on t_dept(name,no)
+
+https://www.cnblogs.com/bruce1992/p/13958166.html  
 ## 修改列｜删除列｜新增列
 
 https://stackoverflow.com/questions/14767174/modify-column-vs-change-column
