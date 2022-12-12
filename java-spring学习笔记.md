@@ -482,52 +482,6 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 	```
 
 ## spring 常用
-## 转化spring request/response对象字段,时间
-FillRequestParam FillMethod相互配合
-```
-
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    private Date createdAt;
-	
-    /**
-     * 申请人部门id
-     */
-    @FillRequestParam(value = "department",type = FillRequestField.VALUE)
-    private Long applicantDepartmentId;
-
-    /**
-     * 申请人部门
-     */
-    @FillRequestParam(value = "department",type = FillRequestField.LABEL)
-    private String applicantDepartment;
-
-
-    /**
-     * 申请人部门id
-     */
-    @NotNull(message = "申请人部门不能为空")
-    @FillRequestParam(value = "department",type = FillRequestField.VALUE)
-    private Long applicantDepartmentId;
-	
-	
-    /**
-     * 修改
-     */
-    @FillMethod(request = true)
-    @PreAuthorize("hasAnyAuthority('srm:supplierApplication:modify')")
-    @PostMapping("/modify")
-    public BaseResponse<Boolean> update(@RequestBody @Validated SupplierApplicationUpdateRequest supplierApplicationUpdateReq) {
-	
-    /**
-     * 详情信息
-     */
-    @FillMethod(response = true)
-    @PostMapping("/info")
-    public BaseResponse<SupplierApplicationInfoResponse> info(@RequestBody @Validated SupplierApplicationInfoRequest supplierApplicationInfoReq) {	
-```
 ## spring异步
 ```
 事件
@@ -568,8 +522,26 @@ spring nacos mybatis配置多数据库
 https://juejin.cn/post/6844904086593077256
 https://blog.csdn.net/qq_34972627/article/details/121655441
 ## 公司java开发相关
-## request
+## request规则,request/response对象字段转化
+request
 ```
+
+时间
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private Date createdAt;
+
+@Size(max = 20, message = "统一社会信用代码长度不能超过20个字符")
+private String creditCode;
+
+@DecimalMin(value = "0.01",message = "plantCapacity min 0.01")
+@DecimalMax(value = "99999999.99",message = "plantCapacity max 99999999.99")
+private BigDecimal plantCapacity;
+
+
+@Range(max = 2,min = 0,message = "单位输入错误")
+private Integer registeredCapitalUnit;
+
+
 字符串 正则规则
     /**
      * 物料分类(纱：1，布：2)
@@ -577,11 +549,103 @@ https://blog.csdn.net/qq_34972627/article/details/121655441
     @NotBlank(message = "classification not blank")
     @Pattern(regexp = "1|2" , message = "classification out of value ")
     private String classification;
-	
+
+@Pattern(regexp = "^|Y|N|T$" ,message = "reallyPoundFlag out of value")
+private String reallyPoundFlag;
+
+
 list	
     @Valid
     @NotEmpty(message = "detailList not empty")
     private List<DeliveryNoteDetailAddRequest> detailList;
+
+
+
+@Valid
+@FillNestedField("supplierEquipment")
+private SupplierEquipmentAddRequest supplierEquipment;
+```
+request 规则 Hibernate Validator
+```
+
+@Max(value=)
+Checks whether the annotated value is less than or equal to the specified maximum
+
+Supported data types
+BigDecimal, BigInteger, byte, short, int, long  CharSequence, any sub-type of Number and javax.money.MonetaryAmount
+
+
+@Length(min=, max=)
+Validates that the annotated character sequence is between min and max included
+Supported data types
+CharSequence
+
+@Size(min=, max=)
+Checks if the annotated element’s size is between min and max (inclusive)
+Supported data types
+CharSequence, Collection, Map and arrays
+
+
+@Range(min=, max=)
+Checks whether the annotated value lies between (inclusive) the specified minimum and maximum
+
+Supported data types
+BigDecimal, BigInteger, CharSequence, byte, short, int, long and the respective wrappers of the primitive types
+
+
+
+
+
+@Valid：没有分组的功能。
+@Valid：可以用在方法、构造函数、方法参数和成员属性（字段）上
+@Validated：提供了一个分组功能，可以在入参验证时，根据不同的分组采用不同的验证机制
+@Validated：可以用在类型、方法和方法参数上。但是不能用在成员属性（字段）上
+
+两者是否能用于成员属性（字段）上直接影响能否提供嵌套验证的功能
+
+
+https://docs.jboss.org/hibernate/validator/5.4/reference/en-US/html_single/#section-builtin-method-constraints
+https://blog.csdn.net/sunnyzyq/article/details/103527380 基础,介绍很详细
+https://blog.csdn.net/qq_32352777/article/details/108424932 介绍深入
+```
+
+FillRequestParam FillMethod相互配合
+```
+
+    /**
+     * 申请人部门
+     */
+    @FillRequestParam(value = "department",type = FillRequestField.LABEL)
+    private String applicantDepartment;
+
+
+    /**
+     * 申请人部门id
+     */
+    @NotNull(message = "申请人部门不能为空")
+    @FillRequestParam(value = "department",type = FillRequestField.VALUE)
+    private Long applicantDepartmentId;
+	
+	
+
+```
+controller
+```
+    /**
+     * 修改
+     */
+    @FillMethod(request = true)
+    @PreAuthorize("hasAnyAuthority('srm:supplierApplication:modify')")
+    @PostMapping("/modify")
+    public BaseResponse<Boolean> update(@RequestBody @Validated SupplierApplicationUpdateRequest supplierApplicationUpdateReq) {
+	
+	
+    /**
+     * 详情信息
+     */
+    @FillMethod(response = true)
+    @PostMapping("/info")
+    public BaseResponse<SupplierApplicationInfoResponse> info(@RequestBody @Validated SupplierApplicationInfoRequest supplierApplicationInfoReq) {	
 ```
 ## 获取uuid/用户/获取权限字段/调用feign/批量保存/redis锁/配置常量
 获取uuid
@@ -734,69 +798,6 @@ cloud-common-core 这个包里包含了大部分基础的依赖
 
 
 ## java 组件
-## Hibernate Validator
-```
-
-@Max(value=)
-Checks whether the annotated value is less than or equal to the specified maximum
-
-Supported data types
-BigDecimal, BigInteger, byte, short, int, long  CharSequence, any sub-type of Number and javax.money.MonetaryAmount
-
-
-@Length(min=, max=)
-Validates that the annotated character sequence is between min and max included
-Supported data types
-CharSequence
-
-@Size(min=, max=)
-Checks if the annotated element’s size is between min and max (inclusive)
-Supported data types
-CharSequence, Collection, Map and arrays
-
-
-@Range(min=, max=)
-Checks whether the annotated value lies between (inclusive) the specified minimum and maximum
-
-Supported data types
-BigDecimal, BigInteger, CharSequence, byte, short, int, long and the respective wrappers of the primitive types
-
-
-@Size(max = 20, message = "统一社会信用代码长度不能超过20个字符")
-private String creditCode;
-
-@DecimalMin(value = "0.01",message = "plantCapacity min 0.01")
-@DecimalMax(value = "99999999.99",message = "plantCapacity max 99999999.99")
-private BigDecimal plantCapacity;
-
-
-@Range(max = 2,min = 0,message = "单位输入错误")
-private Integer registeredCapitalUnit;
-
-/**
-* srm.v1.0.5.1 实磅标识 Y, N, T
-*/
-@Pattern(regexp = "^|Y|N|T$" ,message = "reallyPoundFlag out of value")
-private String reallyPoundFlag;
-
-
-@Valid
-@FillNestedField("supplierEquipment")
-private SupplierEquipmentAddRequest supplierEquipment;
-
-
-@Valid：没有分组的功能。
-@Valid：可以用在方法、构造函数、方法参数和成员属性（字段）上
-@Validated：提供了一个分组功能，可以在入参验证时，根据不同的分组采用不同的验证机制
-@Validated：可以用在类型、方法和方法参数上。但是不能用在成员属性（字段）上
-
-两者是否能用于成员属性（字段）上直接影响能否提供嵌套验证的功能
-
-
-https://docs.jboss.org/hibernate/validator/5.4/reference/en-US/html_single/#section-builtin-method-constraints
-https://blog.csdn.net/sunnyzyq/article/details/103527380 基础,介绍很详细
-https://blog.csdn.net/qq_32352777/article/details/108424932 介绍深入
-```
 ## 汉字转拼音
 ```
  <dependency>
