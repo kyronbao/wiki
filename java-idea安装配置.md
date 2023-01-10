@@ -325,6 +325,65 @@ mvn -version
 
 然后点击maven工具那边的刷新按钮，就可以安装依赖到 ~/.m2/ 目录下了
 
+## idea设置service,方便查看是否启动了服务
+1.点击菜单栏：Views -> Tool Windows -> Services；中文对应：视图 -> 工具窗口 -> 服务
+2.刚创建好的窗口是空白的，需要我们把服务加进去。也是比较简单：点击最右侧加号Add Service，选择Run Configuration Type，最后选择SpringBoot，IDEA就会把所有项目加进来了
+
+设置好之后启动debug后看到服务的 端口有了就证明启动成功了
+https://blog.csdn.net/csdn_mrsongyang/article/details/108254206
+
+## idea设置
+公司文档：将Bean提示错误勾选去掉
+ 去掉勾选
+Editor->Inspections->Spring Core->Code->Autowire for Bean class
+## idea插件
+
+easyYapi 生成yapi 文档
+  配置token shift+alt+e 生成
+
+
+MyBatis Log Free
+
+Alibaba Java Coding Guidelines plugin support	阿里JAVA编码检测
+GenerateSerialVersionUID	自动生成序列化的ID
+Lombok	简化java代码工具
+Mybatis-log-plugin	Mybatis日志查看
+
+## idea中maven刷新不了依赖更新? 
+设置拉代码时更新maven
+刷新代码时更新不了对应snapshot的依赖
+设置
+  setting->build,Execution,Deployment->Maven->勾选 Always update snapshots
+  
+  比如依赖的snapshot版本写在properties里时就不能拉依赖下来，写在dependencies里
+```
+    <properties>
+        <sfabric-crm.version>2.1.2.1-SNAPSHOT</sfabric-crm.version>
+        <sfabric-mrp-service.version>1.0.1.24-123-SNAPSHOT</sfabric-mrp-service.version>
+    </properties>
+	
+	<dependencies>
+	        <dependency>
+            <groupId>com.sfabric</groupId>
+            <artifactId>mrp-service-api</artifactId>
+            <version>${sfabric-mrp-service.version}</version>
+        </dependency>
+	</dependencies>
+```
+## idea项目不能run?
+
+  File->project structure->Project  选择sdk
+
+setting
+  Bulid,Execution,Deployment
+     Maven
+	   Importing
+	   
+  
+
+  
+Runner
+
 ## 修改本地仓库位置（如果不想修改本地仓库位置则这一步骤可省略）
 Maven会将下载的类库（jar包）放置到本地的一个目录下（一般默认情况下Maven在本机的仓库位于C:\Users\你的电脑用户账号\.m2\repository）
 创建你要作为本地仓库的文件夹，我所创建文件夹的路径为C:\Program Files\Apache Software Foundation\maven-repository
@@ -344,19 +403,6 @@ Maven会将下载的类库（jar包）放置到本地的一个目录下（一般
 原文链接：https://blog.csdn.net/qq_37904780/article/details/81216179
 
 
-## idea配置修改
-项目不能run?
-  File->project structure->Project  选择sdk
-
-setting
-  Bulid,Execution,Deployment
-     Maven
-	   Importing
-	   
-  
-
-  
-Runner
 
 ## 选择java 和spring版本
 目前 

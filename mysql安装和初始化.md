@@ -363,11 +363,16 @@ SELECT character_set_name FROM information_schema.`COLUMNS`
 WHERE table_schema = "schemaname"　AND table_name = "tablename"　AND column_name = "columnname";
 ### 创建数据库和修改编码utf8mb4
 CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;  
+
+
 CREATE DATABASE mydatabase;
 
 DROP DATABASE mydatabase;
 
 ALTER DATABASE DBNAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+公司
+CREATE DATABASE IF NOT EXISTS db_wms DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;
 ### 导入导出
 
 导入  

@@ -784,6 +784,7 @@ nacos配置 和对应的修改bootstrap 的version
 
 怎么微服务查看pom.xml里各依赖的版本号
 ```
+ctrl+artifactId的值
 点击引用关系(向上)
 ```
 接口时好时坏
@@ -855,6 +856,19 @@ cloud-common-core 这个包里包含了大部分基础的依赖
 ```
 https://www.cnblogs.com/pcheng/p/12871373.html
 ## BUG
+### javax.mail.MessagingException: Could not convert socket to TLS
+https://blog.csdn.net/weixin_45467631/article/details/125545946
+          starttls:
+            enable: false
+            required: false
+### 连接数据库报错：Caused by: javax.net.ssl.SSLHandshakeException
+https://huaweicloud.csdn.net/63356f0bd3efff3090b56c4b.html
+  datasource:
+    driver-class-name:  com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.1.173:13306/db_supplier_portal?useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: dev_sfabric
+    password: OgL3F1miCvyrC
+    type: com.alibaba.druid.pool.DruidDataSource
 ### Failed to parse multipart servlet request; /opt/www/java/tmp/
 Failed to parse multipart servlet request; nested exception is java.lang.RuntimeException: java.nio.file.NoSuchFileException: /opt/www/java/tmp/undertow4854571290840549126upload
 
