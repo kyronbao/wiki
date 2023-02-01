@@ -88,7 +88,7 @@ Objects.equals(a, b)
 
 注:
 a和b必须类型相同,a或b为null时不报错
-a，b两个参数都为 null， 返回 true 
+	a，b两个参数都为 null， 返回 true 
 其中一个参数为 null ，返回 false 
 两个参数都不为 null， 则调用 a.equals(b)
 
@@ -768,7 +768,7 @@ supplier-portal 调用srm
 本地配置门户和srm环境灰度qianyong nacos配置 和对应的修改bootstrap 的version
 修改srm bug
 postman调试或浏览器灰度qianyong测试
-  修改srm 4个 pom.xml version 为1.8.1.SNAPSHOT
+  修改srm 4个pom.xml(service,service-api,pool-api,最外面的)version 为1.8.1.SNAPSHOT
   修改门户-service和srm-service 文件加下面pom.xml的srm-service-api为1.8.1.SNAPSHOT
   (当门户service引用srm-service-api的response对象时,需要修改依赖的版本号)
   完了记得刷新maven
@@ -777,20 +777,47 @@ postman调试或浏览器灰度qianyong测试
 发布
 更新了api的request等时，需要在idea 的maven deploy一下
 nacos配置 和对应的修改bootstrap 的version 
-
+```
 编辑发布门户和srm的jenkins
+ Failed to execute goal on project？
+``` 
+   对应的服务maven那边combile一下试试能不能通过
+   
+   依赖的项目deploy一下
+```   
+
+网络出问题啦？
+接口时好时坏
+```
+检查nacos配置
+
+
+如果是feign调用其他服务的接口，要在resource 下面加rule.xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- xxl-job 接口调用时，需要此配置才能走灰度 -->
+<rule>
+    <strategy>
+        <version>
+            {
+            "mrp-service":"qianyong",
+            "mms-service":"qianyong"
+            }
+        </version>
+    </strategy>
+</rule>
 ```
 
+nginx 405
+```
+openFeign开头的被nginx那边限制了，要直接调 没有openFeign的接口
+```
 
 怎么微服务查看pom.xml里各依赖的版本号
 ```
 ctrl+artifactId的值
 点击引用关系(向上)
 ```
-接口时好时坏
-```
-检查nacos配置
-```
+
 
 cloud-common-core 这个包里包含了大部分基础的依赖
 ```
@@ -856,6 +883,8 @@ cloud-common-core 这个包里包含了大部分基础的依赖
 ```
 https://www.cnblogs.com/pcheng/p/12871373.html
 ## BUG
+### 能启动debug成功，但compile不行
+有可能执行的是缓存：已编译的tagert,所以要重新compile
 ### javax.mail.MessagingException: Could not convert socket to TLS
 https://blog.csdn.net/weixin_45467631/article/details/125545946
           starttls:
