@@ -785,7 +785,11 @@ nacos配置 和对应的修改bootstrap 的version
    
    依赖的项目deploy一下
 ```   
-
+经验 debug启动失败时
+```
+idea 先 maven clean
+再 debug启动
+```
 网络出问题啦？
 接口时好时坏
 ```
